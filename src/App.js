@@ -65,6 +65,7 @@ class App extends Component{
       <div className="App container">
         <form 
           onSubmit={this.handleSubmit}
+          className="mbm"
         >
           {/* TODO add an onselect so it resets the value when a user taps into it? */}
           <input 
@@ -96,23 +97,28 @@ class App extends Component{
         </form>
 
         {recentExpenses.length ? (
-          <table className="table card mvm">
-            {recentExpenses.slice(0,numberOfRecentShown).map((expense, i) =>
-              <tr key={i}>
-                <td>
-                  {expense.datetime.getMonth() + 1}/                  
-                  {expense.datetime.getDate()}/
-                  {expense.datetime.getFullYear().toString().slice(-2)}
-                </td>
-                <td className="text-right">
-                  {expense.amount}
-                </td>
-                <td>
-                  {expense.category}
-                </td>
-              </tr>
-            )}
-          </table>
+          <div>
+            <div className="label mbs">
+              Recent Expenses
+            </div>
+            <table className="table card mbm">
+              {recentExpenses.slice(0,numberOfRecentShown).map((expense, i) =>
+                <tr key={i}>
+                  <td>
+                    {expense.datetime.getMonth() + 1}/                  
+                    {expense.datetime.getDate()}/
+                    {expense.datetime.getFullYear().toString().slice(-2)}
+                  </td>
+                  <td className="text-right">
+                    {expense.amount}
+                  </td>
+                  <td>
+                    {expense.category}
+                  </td>
+                </tr>
+              )}
+            </table>
+          </div>
         ) : null}
         {recentExpenses.length > numberOfRecentShown ? (
           <div>See all expenses</div> 

@@ -16,7 +16,6 @@ body {
 }
 
 form {
-  margin: 1rem;
   margin-top: 25%; /* TODO: temporary value */
 }
 
@@ -56,6 +55,13 @@ form {
   margin-bottom: 1.6rem;
 }
 
+.mtm {
+  margin-top: 1.6rem;
+}
+
+.mbl {
+  margin-bottom: 3.2rem;
+}
 .mbm {
   margin-bottom: 1.6rem;
 }

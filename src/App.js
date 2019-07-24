@@ -62,13 +62,13 @@ class App extends Component{
     const numberOfRecentShown = 10; 
 
     return (
-      <div className="App">
+      <div className="App container">
         <form 
           onSubmit={this.handleSubmit}
         >
           {/* TODO add an onselect so it resets the value when a user taps into it? */}
           <input 
-            className="input font-25 mhl mvm"
+            className="input font-25 mvm"
             type="number" 
             placeholder="$0.00" 
             min="0.01" 
@@ -83,34 +83,36 @@ class App extends Component{
           </label>
 
           <input 
-            className="input font-25 mhl mbm"
+            className="input font-25 mbm"
             type="button" 
             onChange={this.handleCategoryChange}
             value={this.state.category} 
           />
           <input 
-            className="input font-25 mhl mvm"
+            className="input font-25 mvm"
             type="submit" 
             value="Save" 
           />
         </form>
 
         {recentExpenses.length ? (
-          <ol className="card mhl mvm">
+          <table className="table card mvm">
             {recentExpenses.slice(0,numberOfRecentShown).map((expense, i) =>
-              <li key={i}>
-                <div>
-                  {expense.datetime.getTime()}
-                </div>
-                <div>
+              <tr key={i}>
+                <td>
+                  {expense.datetime.getMonth() + 1}/                  
+                  {expense.datetime.getDate()}/
+                  {expense.datetime.getFullYear().toString().slice(-2)}
+                </td>
+                <td className="text-right">
                   {expense.amount}
-                </div>
-                <div>
+                </td>
+                <td>
                   {expense.category}
-                </div>
-              </li>
+                </td>
+              </tr>
             )}
-          </ol>
+          </table>
         ) : null}
         {recentExpenses.length > numberOfRecentShown ? (
           <div>See all expenses</div> 

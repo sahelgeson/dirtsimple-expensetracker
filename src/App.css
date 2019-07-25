@@ -21,7 +21,7 @@ form {
 
 .table {  
   table-layout : fixed; 
-  text-align: center;
+  text-align: right;
 }
 
 .input {
@@ -33,6 +33,13 @@ form {
 }
   .input[type="submit"]{
     text-transform: uppercase;
+    font-weight: bold;
+    color: white;
+    background: #4285F4;
+  }
+  .input-secondary {
+    border: 1px solid #ccc;
+    background: none;
   }
 
 /* give one style for spacing, another for "buttons" */
@@ -40,13 +47,22 @@ form {
 .label {
   display: block;
   text-align: center;
-  color: #777;
 }
 
 .card {
   border: 1px solid #ccc;
   padding: 1rem;
   width: 100%;
+}
+
+.dollar {
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  color: #777;
+}
+
+.inline-block {
+  display: inline-block !important;
 }
 
 /* Margins */
@@ -75,6 +91,6 @@ form {
   font-size: 25px;
 }
 
-.text-right {
-  text-align: right;
+.gray-777 {
+  color: #777;
 }

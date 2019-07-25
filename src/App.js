@@ -65,7 +65,7 @@ class App extends Component{
       <div className="App container">
         <form 
           onSubmit={this.handleSubmit}
-          className="mbm"
+          className="mbl"
         >
           {/* TODO add an onselect so it resets the value when a user taps into it? */}
           <input 
@@ -84,7 +84,7 @@ class App extends Component{
           </label>
 
           <input 
-            className="input font-25 mbm"
+            className="input input-secondary font-25 mbm"
             type="button" 
             onChange={this.handleCategoryChange}
             value={this.state.category} 
@@ -98,22 +98,25 @@ class App extends Component{
 
         {recentExpenses.length ? (
           <div>
-            <div className="label mbs">
+            <div className="label gray-777 mbs">
               Recent Expenses
             </div>
             <table className="table card mbm">
               {recentExpenses.slice(0,numberOfRecentShown).map((expense, i) =>
                 <tr key={i}>
                   <td>
-                    {expense.datetime.getMonth() + 1}/                  
-                    {expense.datetime.getDate()}/
-                    {expense.datetime.getFullYear().toString().slice(-2)}
-                  </td>
-                  <td className="text-right">
-                    {expense.amount}
+                    <span className="dollar inline-block">$</span>
+                    <span  className="inline-block">
+                      {expense.amount}
+                    </span>
                   </td>
                   <td>
                     {expense.category}
+                  </td>
+                  <td>
+                    {expense.datetime.getMonth() + 1}/                  
+                    {expense.datetime.getDate()}/
+                    {expense.datetime.getFullYear().toString().slice(-2)}
                   </td>
                 </tr>
               )}

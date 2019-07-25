@@ -75,7 +75,13 @@ class App extends Component{
           className="mbl"
         >
           {/* TODO add an onselect so it resets the value when a user taps into it? */}
+          <label 
+            className="sr-only"
+            htmlFor="amount">
+            Enter amount of this expense  
+          </label>
           <input 
+            id="amount"
             className="input font-25 mvm"
             type="number" 
             placeholder="$0.00" 

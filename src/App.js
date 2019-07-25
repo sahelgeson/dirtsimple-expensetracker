@@ -1,6 +1,8 @@
 import React, { Component} from "react";
 import './App.css';
 import Form from "./Form/Form.jsx";
+import History from "./History/History.jsx";
+import { Route } from "react-router-dom";
 
 class App extends Component{
   constructor(props) {
@@ -26,7 +28,10 @@ class App extends Component{
     const recentExpenses = this.state.recentExpenses;
 
     return (
-      <Form recentExpenses={this.state.recentExpenses} />
+      <div>
+        <Route exact path="/" component={Form} />
+        <Route exact path="/history" component={History} />
+      </div>
     );
   }
 }

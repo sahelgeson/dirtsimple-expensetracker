@@ -1,6 +1,6 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-import Edit from "./Edit.jsx";
+import { Route, Link } from "react-router-dom";
 
 /* TODO: make this a function -- stateless */
 function History(props) {
@@ -9,7 +9,7 @@ function History(props) {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     return(
-      <div className="container card">
+      <div className="container">
         <div className="center gray-777 mbs">
           All Expenses
         </div>
@@ -34,8 +34,7 @@ function History(props) {
                   {new Date(expense.datetime).getFullYear().toString().slice(-2)}
                 </td>
                 <td>
-                  {/* TODO this needs to change the state of the parent, eithe HOC or render props */}
-                  <Edit recentExpenses={recentExpenses} />
+                  <Link to="/history">Edit this expense</Link>
                 </td>
               </tr>                  
             )}

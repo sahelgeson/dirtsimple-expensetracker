@@ -26,6 +26,7 @@ body {
 
 .container {
   margin: 0 auto;
+  /* TODO: change this */
   width: 70%;
 }
 

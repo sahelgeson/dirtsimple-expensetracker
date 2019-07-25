@@ -29,8 +29,14 @@ class App extends Component{
 
     return (
       <div>
-        <Route exact path="/" component={Form} />
-        <Route exact path="/history" component={History} />
+        <Route
+          exact path="/"
+          render={(props) => <Form {...props} recentExpenses={recentExpenses} />}
+        />
+        <Route
+          exact path="/history"
+          render={(props) => <History {...props} recentExpenses={recentExpenses} />}
+        />
       </div>
     );
   }

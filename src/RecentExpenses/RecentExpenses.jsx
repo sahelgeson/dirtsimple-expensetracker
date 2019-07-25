@@ -1,5 +1,6 @@
 import React, { Component} from "react";
 import { PropTypes } from "prop-types";
+import { Route, Link } from "react-router-dom";
 
 /* TODO: make this a function -- stateless */
 class RecentExpenses extends Component{
@@ -40,7 +41,9 @@ class RecentExpenses extends Component{
         </table>
 
         {recentExpenses.length >= numberOfRecentShown ? 
-          <div className="center">See all expenses</div> 
+          <div className="center">
+            <Link exact to="/history">See all expenses</Link>              
+          </div> 
         : null}
       </div>
     );

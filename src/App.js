@@ -1,5 +1,6 @@
 import React, { Component} from "react";
 import './App.css';
+import RecentExpenses from "./RecentExpenses/RecentExpenses.jsx";
 
 class App extends Component{
   constructor(props) {
@@ -13,10 +14,13 @@ class App extends Component{
       }
     */
 
+    const recentExpenses = JSON.parse(localStorage.getItem('myExpenses')) || [];
+
+    /* TODO: change this to get recentExpenses from localStorage */
     this.state = {
       amount: '',
       category: 'Food',
-      recentExpenses: [],
+      recentExpenses: recentExpenses,
     }
 
     this.handleAmountChange = this.handleAmountChange.bind(this);
@@ -52,14 +56,17 @@ class App extends Component{
       category
     }
 
+    const recentExpenses = [newExpense, ...this.state.recentExpenses]
+
     this.setState({
-      recentExpenses: [newExpense, ...this.state.recentExpenses]
+      recentExpenses
     })
+
+    localStorage.setItem('myExpenses', JSON.stringify(recentExpenses));
   }  
   
   render(){
     const recentExpenses = this.state.recentExpenses;
-    const numberOfRecentShown = 10; 
 
     return (
       <div className="App container">
@@ -78,7 +85,7 @@ class App extends Component{
             value={this.state.amount}
           />
           <label
-            className="label mbs"
+            className="center gray-777 mbs"
           >
             Category
           </label>
@@ -96,36 +103,9 @@ class App extends Component{
           />
         </form>
 
-        {recentExpenses.length ? (
-          <div>
-            <div className="label gray-777 mbs">
-              Recent Expenses
-            </div>
-            <table className="table card mbm">
-              {recentExpenses.slice(0,numberOfRecentShown).map((expense, i) =>
-                <tr key={i}>
-                  <td>
-                    <span className="dollar inline-block">$</span>
-                    <span  className="inline-block">
-                      {expense.amount}
-                    </span>
-                  </td>
-                  <td>
-                    {expense.category}
-                  </td>
-                  <td>
-                    {expense.datetime.getMonth() + 1}/                  
-                    {expense.datetime.getDate()}/
-                    {expense.datetime.getFullYear().toString().slice(-2)}
-                  </td>
-                </tr>
-              )}
-            </table>
-          </div>
-        ) : null}
-        {recentExpenses.length > numberOfRecentShown ? (
-          <div>See all expenses</div> 
-        ) : null}
+        {recentExpenses.length ? 
+          <RecentExpenses recentExpenses={recentExpenses} /> 
+        : null}
       </div>
     );
   }

@@ -22,6 +22,7 @@ form {
 .table {  
   table-layout : fixed; 
   text-align: right;
+  width: 100%;
 }
 
 .input {
@@ -44,7 +45,7 @@ form {
 
 /* give one style for spacing, another for "buttons" */
 
-.label {
+.center {
   display: block;
   text-align: center;
 }

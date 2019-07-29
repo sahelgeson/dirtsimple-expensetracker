@@ -17,7 +17,6 @@ class Form extends Component{
     /* TODO: here or in parent App? */
     const recentExpenses = this.props.recentExpenses || [];
 
-    /* TODO: change this to get recentExpenses from localStorage */
     this.state = {
       amount: '',
       category: 'Food',

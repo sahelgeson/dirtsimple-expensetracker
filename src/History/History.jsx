@@ -1,10 +1,41 @@
-import React from "react";
+import React, { Component} from "react";
 import { PropTypes } from "prop-types";
-import Edit from "./Edit.jsx";
 
-/* TODO: make this a function -- stateless */
-function History(props) {
-    const recentExpenses = props.recentExpenses; 
+class History extends Component{
+  constructor(props) {
+    super(props);
+  
+    this.state = {
+      isBeingEdited: null,    /* this is the id of the expense being edited, only allow one at a time */
+    }
+
+    this.handleClick = this.handleClick.bind(this);
+    this.handleAmountChange = this.handleAmountChange.bind(this);
+    this.handleCategoryChange = this.handleCategoryChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleClick(event) {
+    console.log('id: ' + event.target.value)
+    this.setState({isBeingEdited: event.target.value});
+  }
+
+  handleAmountChange(event) {
+    console.log('amount change')
+    //this.setState({amount: event.target.value});
+  }
+
+  handleCategoryChange(event) {
+    console.log('Category was changed');
+    //console.log('Category was changed to: ' + this.state.category);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+  }  
+
+  render(){
+    const recentExpenses = this.props.recentExpenses; 
     /* TODO: use a js date library instead of this */
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -13,36 +44,97 @@ function History(props) {
         <div className="center gray-777 mbs">
           All Expenses
         </div>
-        <table className="table mbm">
-          <tbody>
-            {/* TODO consider a limit on this with a "View more" button */}
-            {recentExpenses.map((expense, i) =>
-              <tr key={i}>
-                <td>
+        <div>
+
+          {/* TODO consider a limit on this with a "View more" button */}
+          {recentExpenses.map((expense, i) =>
+
+            (this.state.isBeingEdited == null || this.state.isBeingEdited !== i.toString()) ?
+              <div 
+                className="row" 
+                key={i}
+              >
+                <div className="cell">
                   <span className="dollar inline-block">$</span>
-                  <span  className="inline-block">
+                  <span className="inline-block">
                     {expense.amount}
                   </span>
-                </td>
-                <td>
+                </div>
+                <div className="cell">
                   {expense.category}
-                </td>
-                <td>
+                </div>
+                <div className="cell">
                   {days[new Date(expense.datetime).getDay()]},&nbsp; 
                   {new Date(expense.datetime).getMonth() + 1}/                  
                   {new Date(expense.datetime).getDate()}/
                   {new Date(expense.datetime).getFullYear().toString().slice(-2)}
-                </td>
-                <td>
-                  {/* TODO this needs to change the state of the parent, eithe HOC or render props */}
-                  <Edit recentExpenses={recentExpenses} />
-                </td>
-              </tr>                  
-            )}
-          </tbody>             
-        </table>
+                </div>
+                <div className="cell">
+                  {/* TODO this needs to change the state of the parent, either HOC or render props or React Hooks */}
+                  <button
+                    onClick={this.handleClick}                  
+                    value={i} 
+                  >
+                    Edit this expense
+                  </button>
+                </div>
+              </div> : 
+              <form 
+                key={i}
+              >
+                <div className="row">
+                  <div className="cell">
+                    <input 
+                      id="amount"
+                      className="xxx"
+                      type="number" 
+                      placeholder={expense.amount} 
+                      min="0.01" 
+                      step="0.01"
+                      onChange={this.handleAmountChange}
+                      value={expense.amount}
+                    />
+                  </div>
+                  <div className="cell">
+                    <input 
+                      id="category"
+                      className="xxx"
+                      type="button" 
+                      onChange={this.handleCategoryChange}
+                      value={expense.category} 
+                    />
+                  </div>
+                  <div className="cell">
+                    {days[new Date(expense.datetime).getDay()]},&nbsp; 
+                    {new Date(expense.datetime).getMonth() + 1}/                  
+                    {new Date(expense.datetime).getDate()}/
+                    {new Date(expense.datetime).getFullYear().toString().slice(-2)}
+                  </div>
+                  <div className="cell">
+                    {/* TODO this needs to change the state of the parent, either HOC or render props or React Hooks */}
+                    <button
+                      onClick={this.handleClick}                  
+                      value="null"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+                <div className="row">
+                  <button
+                    onClick={this.handleSubmit}                  
+                  >
+                    Save
+                  </button>
+                </div>
+              </form>
+
+          )}
+        
+        </div>
       </div>
     );
+  }
 }
 
 History.propTypes = {

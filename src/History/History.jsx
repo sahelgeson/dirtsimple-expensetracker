@@ -139,7 +139,8 @@ class History extends Component{
 }
 
 History.propTypes = {
-  recentExpenses: PropTypes.object
+  recentExpenses: PropTypes.object,
+  categories: PropTypes.object,
 };
 
 export default History;

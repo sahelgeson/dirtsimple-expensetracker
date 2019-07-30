@@ -1,6 +1,7 @@
 import React, { Component} from "react";
 import { PropTypes } from "prop-types";
 import RecentExpenses from "../RecentExpenses/RecentExpenses.jsx";
+import DefaultCategories from "./DefaultCategories.js";
 
 class Form extends Component{
   constructor(props) {
@@ -16,10 +17,12 @@ class Form extends Component{
 
     /* TODO: here or in parent App? */
     const recentExpenses = this.props.recentExpenses || [];
+    /* TODO: change this eventually so user can set default category */
+    const defaultCategory = this.props.categories[0] || [];
 
     this.state = {
       amount: '',
-      category: 'Food',
+      category: defaultCategory,
       recentExpenses: recentExpenses,
     }
 
@@ -33,7 +36,8 @@ class Form extends Component{
   }
 
   handleCategoryChange(event) {
-    console.log('Category was changed to: ' + this.state.category);
+    console.log('Category was changed to: ' + event.target.value);
+    this.setState({category: event.target.value});
   }
 
   handleSubmit(event) {
@@ -97,13 +101,23 @@ class Form extends Component{
           >
             Category
           </label>
-          <input 
+
+          <select
             id="category"
             className="input input-secondary font-25 mbm"
-            type="button" 
-            onChange={this.handleCategoryChange}
             value={this.state.category} 
-          />
+            onChange={this.handleCategoryChange}
+          >
+            {DefaultCategories.map((category, i) =>
+                <option 
+                  key={i}
+                  value={category}
+                >
+                  {category}
+                </option>
+            )}
+          </select>
+
           <input 
             className="input font-25 mvm"
             type="submit" 
@@ -120,7 +134,8 @@ class Form extends Component{
 }
 
 Form.propTypes = {
-  recentExpenses: PropTypes.object
+  recentExpenses: PropTypes.object,
+  categories: PropTypes.object,
 };
 
 export default Form;

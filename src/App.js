@@ -17,25 +17,27 @@ class App extends Component{
     */
 
     const recentExpenses = JSON.parse(localStorage.getItem('myExpenses')) || [];
+    const categories =     JSON.parse(localStorage.getItem('myCategories')) || [];
 
-    /* TODO: change this to get recentExpenses from localStorage */
     this.state = {
-      recentExpenses: recentExpenses,
+      recentExpenses,
+      categories,
     }
   }
   
   render(){
     const recentExpenses = this.state.recentExpenses;
+    const categories = this.state.categories;
 
     return (
       <div>
         <Route
           exact path="/"
-          render={(props) => <Form {...props} recentExpenses={recentExpenses} />}
+          render={(props) => <Form {...props} recentExpenses={recentExpenses} categories={categories} />}
         />
         <Route
           exact path="/history"
-          render={(props) => <History {...props} recentExpenses={recentExpenses} />}
+          render={(props) => <History {...props} recentExpenses={recentExpenses} categories={categories} />}
         />
       </div>
     );

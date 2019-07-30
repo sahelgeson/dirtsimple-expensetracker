@@ -35,6 +35,7 @@ class History extends Component{
   }  
 
   render(){
+    {/* TODO this is not hydrating properly first time */}
     const recentExpenses = this.props.recentExpenses; 
     /* TODO: use a js date library instead of this */
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

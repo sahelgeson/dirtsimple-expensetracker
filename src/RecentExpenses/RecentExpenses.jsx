@@ -36,7 +36,7 @@ function RecentExpenses(props){
       </table>
 
       {recentExpenses.length >= numberOfRecentShown ? 
-        <div className="center">
+        <div className="text-center">
           <Link exact to="/history">See all expenses</Link>              
         </div> 
       : null}

@@ -41,49 +41,49 @@ class History extends Component{
 
     return(
       <div className="container card">
-        <div className="center gray-777 mbs">
+        <div className="text-center gray-777 mbs">
           All Expenses
         </div>
-        <div>
+        <div className="ftable">
 
           {/* TODO consider a limit on this with a "View more" button */}
           {recentExpenses.map((expense, i) =>
 
             (this.state.isBeingEdited == null || this.state.isBeingEdited !== i.toString()) ?
               <div 
-                className="row" 
+                className="ftable-row" 
                 key={i}
               >
-                <div className="cell">
+                <div className="ftable-cell pam">
                   <span className="dollar inline-block">$</span>
                   <span className="inline-block">
                     {expense.amount}
                   </span>
                 </div>
-                <div className="cell">
+                <div className="ftable-cell pam">
                   {expense.category}
                 </div>
-                <div className="cell">
+                <div className="ftable-cell pam">
                   {days[new Date(expense.datetime).getDay()]},&nbsp; 
                   {new Date(expense.datetime).getMonth() + 1}/                  
                   {new Date(expense.datetime).getDate()}/
                   {new Date(expense.datetime).getFullYear().toString().slice(-2)}
                 </div>
-                <div className="cell">
+                <div className="ftable-cell pam text-right">
                   {/* TODO this needs to change the state of the parent, either HOC or render props or React Hooks */}
                   <button
                     onClick={this.handleClick}                  
                     value={i} 
                   >
-                    Edit this expense
+                    Edit 
                   </button>
                 </div>
               </div> : 
               <form 
                 key={i}
               >
-                <div className="row">
-                  <div className="cell">
+                <div className="ftable-row">
+                  <div className="ftable-cell pam">
                     <input 
                       id="amount"
                       className="xxx"
@@ -95,7 +95,7 @@ class History extends Component{
                       value={expense.amount}
                     />
                   </div>
-                  <div className="cell">
+                  <div className="ftable-cell pam">
                     <input 
                       id="category"
                       className="xxx"
@@ -104,13 +104,13 @@ class History extends Component{
                       value={expense.category} 
                     />
                   </div>
-                  <div className="cell">
+                  <div className="ftable-cell pam">
                     {days[new Date(expense.datetime).getDay()]},&nbsp; 
                     {new Date(expense.datetime).getMonth() + 1}/                  
                     {new Date(expense.datetime).getDate()}/
                     {new Date(expense.datetime).getFullYear().toString().slice(-2)}
                   </div>
-                  <div className="cell">
+                  <div className="ftable-cell pam text-right">
                     {/* TODO this needs to change the state of the parent, either HOC or render props or React Hooks */}
                     <button
                       onClick={this.handleClick}                  
@@ -120,7 +120,7 @@ class History extends Component{
                     </button>
                   </div>
                 </div>
-                <div className="row">
+                <div className="ftable-row">
                   <button
                     onClick={this.handleSubmit}                  
                   >

@@ -10,7 +10,7 @@ function History(props) {
 
     return(
       <div className="container">
-        <div className="center gray-777 mbs">
+        <div className="text-center gray-777 mbs">
           All Expenses
         </div>
         <table className="table mbm">

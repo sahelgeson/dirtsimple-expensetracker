@@ -30,14 +30,24 @@ body {
   width: 70%;
 }
 
-form {
+.main-form {
   margin-top: 25%; /* TODO: temporary value */
 }
 
-.table {  
-  table-layout : fixed; 
-  text-align: right;
+.ftable {
+    display: flex;
+    flex-wrap: wrap;
+}
+.ftable-row {
+  display: flex;
+  flex-wrap: wrap;
   width: 100%;
+}
+.ftable-cell {
+  flex-grow: 1;
+  width: 25%;  
+  overflow: hidden; /* Or flex might break */
+  outline: 1px solid aquamarine;
 }
 
 .input {
@@ -63,6 +73,15 @@ form {
 .center {
   display: block;
   text-align: center;
+}
+.block {
+  display: block !important;
+}
+.text-center {
+  text-align: center !important;
+}
+.text-right {
+  text-align: right !important;
 }
 
 .card {
@@ -99,6 +118,9 @@ form {
 }
 .mbs {
   margin-bottom: 0.8rem;
+}
+.pam {
+  padding: 15px;
 }
 
 

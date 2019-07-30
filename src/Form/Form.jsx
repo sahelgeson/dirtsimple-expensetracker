@@ -72,7 +72,7 @@ class Form extends Component{
       <div className="App container">
         <form 
           onSubmit={this.handleSubmit}
-          className="mbl"
+          className="main-form mbl"
         >
           {/* TODO add an onselect so it resets the value when a user taps into it? */}
           <label 
@@ -93,7 +93,7 @@ class Form extends Component{
           />
           <label
             htmlFor="category"
-            className="center gray-777 mbs"
+            className="block text-center gray-777 mbs"
           >
             Category
           </label>

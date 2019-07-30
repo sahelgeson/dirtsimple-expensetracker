@@ -55,7 +55,7 @@ class History extends Component{
                 className="ftable__row" 
                 key={i}
               >
-                <div className="ftable__cell ftable__cell--amount pvm phs">
+                <div className="ftable__cell ftable__cell--amount text-right pvm pls prm">
                   <span className="dollar inline-block">$</span>
                   <span className="inline-block">
                     {expense.amount}
@@ -64,14 +64,15 @@ class History extends Component{
                 <div className="ftable__cell pvm phs">
                   {expense.category}
                 </div>
-                <div className="ftable__cell ftable__cell--date text-right pvm phs"> 
+                <div className="ftable__cell ftable__cell--date pvm prxs"> 
                   {days[new Date(expense.datetime).getDay()]},&nbsp; 
                   {new Date(expense.datetime).getMonth() + 1}/                  
                   {new Date(expense.datetime).getDate()}
                 </div>
-                <div className="ftable__cell ftable__cell--edit pvm phs text-right">
+                <div className="ftable__cell ftable__cell--edit text-right">
                   {/* TODO this needs to change the state of the parent, either HOC or render props or React Hooks */}
                   <button
+                    className="btn btn--outline phxs pvs"
                     onClick={this.handleClick}                  
                     value={i} 
                   >
@@ -112,6 +113,7 @@ class History extends Component{
                   <div className="ftable__cell ftable__cell--edit pvm phs text-right">
                     {/* TODO this needs to change the state of the parent, either HOC or render props or React Hooks */}
                     <button
+                      className="btn btn--outline"
                       onClick={this.handleClick}                  
                       value="null"
                     >

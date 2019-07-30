@@ -48,6 +48,9 @@ body {
   flex-wrap: wrap;
   width: 100%;
 }
+  .ftable__row--center {
+    justify-content: center;
+  }
 .ftable__cell {
   display: flex;
   flex-grow: 1;
@@ -66,7 +69,6 @@ body {
     width: 6%;
     align-items: center;
     justify-content: flex-end;
-    padding: 3px;
   }
 
 .input {
@@ -74,7 +76,7 @@ body {
   display: block;
   padding: 1rem;
   border-radius: 10px;
-  width: 100%
+  width: 100%;
 }
   .input[type="submit"]{
     text-transform: uppercase;
@@ -85,6 +87,9 @@ body {
   .input-secondary {
     border: 1px solid #ccc;
     background: none;
+  }
+  .input-number {
+    width: auto;
   }
 
 /* give one style for spacing, another for "buttons" */
@@ -136,6 +141,13 @@ body {
 }
 .mbs {
   margin-bottom: 0.8rem;
+}
+/* TODO: ditch the rems and go back to px */
+.mrl {
+  margin-right: 3.2rem;
+}
+.mrm {
+  margin-right: 15px;
 }
 .pam {
   padding: 15px;
@@ -207,8 +219,14 @@ body {
 
 .btn {
   border-radius: 5px;
-  padding: 5px;
+  -webkit-appearance: none;
 }
+  .btn--blue {
+    font-weight: bold;
+    font-size: 16px;
+    background: #0078e7;
+    color: white;
+  }
   .btn--outline {
     //font-weight: bold;
     font-size: 16px;

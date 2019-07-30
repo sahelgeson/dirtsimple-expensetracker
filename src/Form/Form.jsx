@@ -91,6 +91,7 @@ class Form extends Component{
             placeholder="$0.00" 
             min="0.01" 
             step="0.01"
+            pattern="\d*"
             onChange={this.handleAmountChange}
             value={this.state.amount}
           />

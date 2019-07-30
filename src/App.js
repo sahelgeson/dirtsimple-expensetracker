@@ -3,6 +3,7 @@ import './App.css';
 import Form from "./Form/Form.jsx";
 import History from "./History/History.jsx";
 import { Route } from "react-router-dom";
+import DefaultCategories from "./DefaultCategories.js";
 
 class App extends Component{
   constructor(props) {
@@ -17,7 +18,7 @@ class App extends Component{
     */
 
     const recentExpenses = JSON.parse(localStorage.getItem('myExpenses')) || [];
-    const categories =     JSON.parse(localStorage.getItem('myCategories')) || [];
+    const categories     = JSON.parse(localStorage.getItem('myCategories')) || DefaultCategories;
 
     this.state = {
       recentExpenses,

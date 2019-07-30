@@ -1,7 +1,6 @@
 import React, { Component} from "react";
 import { PropTypes } from "prop-types";
 import RecentExpenses from "../RecentExpenses/RecentExpenses.jsx";
-import DefaultCategories from "./DefaultCategories.js";
 
 class Form extends Component{
   constructor(props) {
@@ -108,7 +107,7 @@ class Form extends Component{
             value={this.state.category} 
             onChange={this.handleCategoryChange}
           >
-            {DefaultCategories.map((category, i) =>
+            {this.props.categories.map((category, i) =>
                 <option 
                   key={i}
                   value={category}

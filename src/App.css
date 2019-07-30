@@ -25,15 +25,17 @@ body {
 }
 
 .container {
-  margin: 0 auto;
-  /* TODO: change this */
-  width: 70%;
+  margin: 0 30px;
 }
 
 .main-form {
   margin-top: 25%; /* TODO: temporary value */
 }
 
+.table {  
+  width: 100%;
+}
+   
 .ftable {
     display: flex;
     flex-wrap: wrap;
@@ -86,8 +88,7 @@ body {
 
 .card {
   border: 1px solid #ccc;
-  padding: 1rem;
-  width: 100%;
+  padding: 30px;
 }
 
 .dollar {
@@ -122,12 +123,34 @@ body {
 .pam {
   padding: 15px;
 }
-
+.phm {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.pvm {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.pas {
+  padding: 7.5px;
+}
+.phs {
+  padding-left: 7.5px;
+  padding-right: 7.5px;
+}
+.pvs {
+  padding-top: 7.5px;
+  padding-bottom: 7.5px;
+}
 
 /* Text and Fonts */
 .font-25 {
   font-size: 25px;
 }
+.font-14 {
+  font-size: 14px;
+}
+
 
 .gray-777 {
   color: #777;

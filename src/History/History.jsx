@@ -38,14 +38,14 @@ class History extends Component{
     {/* TODO this is not hydrating properly first time */}
     const recentExpenses = this.props.recentExpenses; 
     /* TODO: use a js date library instead of this */
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
     return(
-      <div className="container card">
-        <div className="text-center gray-777 mbs">
+      <div className="container">
+        <div className="text-center gray-777 mtm mbs">
           All Expenses
         </div>
-        <div className="ftable">
+        <div className="ftable font-14">
 
           {/* TODO consider a limit on this with a "View more" button */}
           {recentExpenses.map((expense, i) =>
@@ -55,22 +55,21 @@ class History extends Component{
                 className="ftable-row" 
                 key={i}
               >
-                <div className="ftable-cell pam">
+                <div className="ftable-cell pvm phs">
                   <span className="dollar inline-block">$</span>
                   <span className="inline-block">
                     {expense.amount}
                   </span>
                 </div>
-                <div className="ftable-cell pam">
+                <div className="ftable-cell pvm phs">
                   {expense.category}
                 </div>
-                <div className="ftable-cell pam">
+                <div className="ftable-cell pvm phs">
                   {days[new Date(expense.datetime).getDay()]},&nbsp; 
                   {new Date(expense.datetime).getMonth() + 1}/                  
-                  {new Date(expense.datetime).getDate()}/
-                  {new Date(expense.datetime).getFullYear().toString().slice(-2)}
+                  {new Date(expense.datetime).getDate()}
                 </div>
-                <div className="ftable-cell pam text-right">
+                <div className="ftable-cell pvm phs text-right">
                   {/* TODO this needs to change the state of the parent, either HOC or render props or React Hooks */}
                   <button
                     onClick={this.handleClick}                  
@@ -84,7 +83,7 @@ class History extends Component{
                 key={i}
               >
                 <div className="ftable-row">
-                  <div className="ftable-cell pam">
+                  <div className="ftable-cell pvm phs">
                     <input 
                       id="amount"
                       className="xxx"
@@ -96,7 +95,7 @@ class History extends Component{
                       value={expense.amount}
                     />
                   </div>
-                  <div className="ftable-cell pam">
+                  <div className="ftable-cell pvm phs">
                     <input 
                       id="category"
                       className="xxx"
@@ -105,13 +104,13 @@ class History extends Component{
                       value={expense.category} 
                     />
                   </div>
-                  <div className="ftable-cell pam">
+                  <div className="ftable-cell pvm phs">
                     {days[new Date(expense.datetime).getDay()]},&nbsp; 
                     {new Date(expense.datetime).getMonth() + 1}/                  
                     {new Date(expense.datetime).getDate()}/
                     {new Date(expense.datetime).getFullYear().toString().slice(-2)}
                   </div>
-                  <div className="ftable-cell pam text-right">
+                  <div className="ftable-cell pvm phs text-right">
                     {/* TODO this needs to change the state of the parent, either HOC or render props or React Hooks */}
                     <button
                       onClick={this.handleClick}                  

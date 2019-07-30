@@ -41,7 +41,7 @@ class History extends Component{
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
     return(
-      <div className="container">
+      <div className="container-smaller">
         <div className="text-center gray-777 mtm mbs">
           All Expenses
         </div>
@@ -52,24 +52,24 @@ class History extends Component{
 
             (this.state.isBeingEdited == null || this.state.isBeingEdited !== i.toString()) ?
               <div 
-                className="ftable-row" 
+                className="ftable__row" 
                 key={i}
               >
-                <div className="ftable-cell pvm phs">
+                <div className="ftable__cell ftable__cell--amount pvm phs">
                   <span className="dollar inline-block">$</span>
                   <span className="inline-block">
                     {expense.amount}
                   </span>
                 </div>
-                <div className="ftable-cell pvm phs">
+                <div className="ftable__cell pvm phs">
                   {expense.category}
                 </div>
-                <div className="ftable-cell pvm phs">
+                <div className="ftable__cell ftable__cell--date text-right pvm phs"> 
                   {days[new Date(expense.datetime).getDay()]},&nbsp; 
                   {new Date(expense.datetime).getMonth() + 1}/                  
                   {new Date(expense.datetime).getDate()}
                 </div>
-                <div className="ftable-cell pvm phs text-right">
+                <div className="ftable__cell ftable__cell--edit pvm phs text-right">
                   {/* TODO this needs to change the state of the parent, either HOC or render props or React Hooks */}
                   <button
                     onClick={this.handleClick}                  
@@ -82,8 +82,8 @@ class History extends Component{
               <form 
                 key={i}
               >
-                <div className="ftable-row">
-                  <div className="ftable-cell pvm phs">
+                <div className="ftable__row">
+                  <div className="ftable__cell ftable__cell--amount pvm phs">
                     <input 
                       id="amount"
                       className="xxx"
@@ -95,7 +95,7 @@ class History extends Component{
                       value={expense.amount}
                     />
                   </div>
-                  <div className="ftable-cell pvm phs">
+                  <div className="ftable__cell pvm phs">
                     <input 
                       id="category"
                       className="xxx"
@@ -104,13 +104,12 @@ class History extends Component{
                       value={expense.category} 
                     />
                   </div>
-                  <div className="ftable-cell pvm phs">
+                  <div className="ftable__cell ftable__cell--date text-right pvm phs">
                     {days[new Date(expense.datetime).getDay()]},&nbsp; 
                     {new Date(expense.datetime).getMonth() + 1}/                  
-                    {new Date(expense.datetime).getDate()}/
-                    {new Date(expense.datetime).getFullYear().toString().slice(-2)}
+                    {new Date(expense.datetime).getDate()}
                   </div>
-                  <div className="ftable-cell pvm phs text-right">
+                  <div className="ftable__cell ftable__cell--edit pvm phs text-right">
                     {/* TODO this needs to change the state of the parent, either HOC or render props or React Hooks */}
                     <button
                       onClick={this.handleClick}                  
@@ -120,7 +119,7 @@ class History extends Component{
                     </button>
                   </div>
                 </div>
-                <div className="ftable-row">
+                <div className="ftable__row">
                   <button
                     onClick={this.handleSubmit}                  
                   >

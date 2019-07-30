@@ -27,12 +27,15 @@ body {
 .container {
   margin: 0 30px;
 }
+.container-smaller {
+  margin: 0 15px;
+}
 
 .main-form {
   margin-top: 25%; /* TODO: temporary value */
 }
 
-.table {  
+.full-width {  
   width: 100%;
 }
    
@@ -40,17 +43,26 @@ body {
     display: flex;
     flex-wrap: wrap;
 }
-.ftable-row {
+.ftable__row {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
 }
-.ftable-cell {
+.ftable__cell {
   flex-grow: 1;
   width: 25%;  
   overflow: hidden; /* Or flex might break */
   outline: 1px solid aquamarine;
 }
+  .ftable__cell--amount {
+    width: 6%;  
+  }
+  .ftable__cell--date {
+    width: 12%;  
+  }
+  .ftable__cell--edit {
+    width: 8%;
+  }
 
 .input {
   text-align: center;
@@ -150,7 +162,9 @@ body {
 .font-14 {
   font-size: 14px;
 }
-
+.font-12 {
+  font-size: 12px;
+}
 
 .gray-777 {
   color: #777;

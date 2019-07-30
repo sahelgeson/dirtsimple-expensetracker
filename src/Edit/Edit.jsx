@@ -13,7 +13,7 @@ function History(props) {
         <div className="text-center gray-777 mbs">
           All Expenses
         </div>
-        <table className="table mbm">
+        <table className="full-width mbm">
           <tbody>
             {/* TODO consider a limit on this with a "View more" button */}
             {recentExpenses.map((expense, i) =>

@@ -12,7 +12,7 @@ function RecentExpenses(props){
       <div className="center gray-777 mbs">
         Recent Expenses
       </div>
-      <table className="table mbm">
+      <table className="full-width mbm">
         <tbody>
           {recentExpenses.slice(0,numberOfRecentShown).map((expense, i) =>
             <tr key={i}>

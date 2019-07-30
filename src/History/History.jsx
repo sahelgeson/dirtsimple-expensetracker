@@ -61,7 +61,7 @@ class History extends Component{
                 className="ftable__row" 
                 key={i}
               >
-                <div className="ftable__cell ftable__cell--amount text-right pvm pls prm">
+                <div className="ftable__cell ftable__cell--amount text-right pvm phxs">
                   <span className="dollar inline-block">$</span>
                   <span className="inline-block">
                     {expense.amount}
@@ -90,7 +90,7 @@ class History extends Component{
                 key={i}
               >
                 <div className="ftable__row">
-                  <div className="ftable__cell ftable__cell--amount pvm phs">
+                  <div className="ftable__cell ftable__cell--amount pvm phxs">
                     <input 
                       id="amount"
                       className="full-width phxs pvs"
@@ -103,7 +103,7 @@ class History extends Component{
                       value={expense.amount}
                     />
                   </div>
-                  <div className="ftable__cell pvm phs">
+                  <div className="ftable__cell pvm phxs">
                     <input 
                       id="category"
                       className="btn btn--outline phxs pvs"

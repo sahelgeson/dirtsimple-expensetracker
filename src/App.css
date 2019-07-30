@@ -64,6 +64,7 @@ body {
   .ftable__cell--date {
     width: 12%;  
     justify-content: flex-end;
+    align-items: center;
   }
   .ftable__cell--edit {
     width: 6%;

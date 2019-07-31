@@ -48,8 +48,8 @@ body {
   flex-wrap: wrap;
   width: 100%;
 }
-  .ftable__row--center {
-    justify-content: center;
+  .ftable__row--between {
+    justify-content: space-between;
   }
 .ftable__cell {
   display: flex;
@@ -111,7 +111,6 @@ body {
 
 .card {
   border: 1px solid #ccc;
-  padding: 30px;
 }
 
 .dollar {
@@ -149,6 +148,9 @@ body {
 }
 .mrm {
   margin-right: 15px;
+}
+.pal {
+  padding: 30px;
 }
 .pam {
   padding: 15px;

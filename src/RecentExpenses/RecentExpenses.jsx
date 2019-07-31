@@ -8,7 +8,7 @@ function RecentExpenses(props){
   const numberOfRecentShown = 7; 
 
   return(
-    <div className="card">
+    <div className="card pal">
       <div className="center gray-777 mbs">
         Recent Expenses
       </div>

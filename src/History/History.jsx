@@ -55,8 +55,6 @@ class History extends Component{
 
           {/* TODO consider a limit on this with a "View more" button */}
           {recentExpenses.map((expense, i) =>
-
-            (this.state.isBeingEdited == null || this.state.isBeingEdited !== i.toString()) ?
               <div 
                 className="ftable__row" 
                 key={i}
@@ -85,65 +83,66 @@ class History extends Component{
                     Edit 
                   </button>
                 </div>
-              </div> : 
-              <form 
-                key={i}
-              >
-                <div className="ftable__row">
-                  <div className="ftable__cell ftable__cell--amount pvm phxs">
-                    <input 
-                      id="amount"
-                      className="full-width phxs pvs"
-                      type="number" 
-                      placeholder={expense.amount} 
-                      min="0.01" 
-                      step="0.01"
-                      pattern="\d*"
-                      onChange={this.handleAmountChange}
-                      value={expense.amount}
-                    />
-                  </div>
-                  <div className="ftable__cell pvm phxs">
-                    <input 
-                      id="category"
-                      className="btn btn--outline phxs pvs"
-                      type="button" 
-                      onChange={this.handleCategoryChange}
-                      value={expense.category} 
-                    />
-                  </div>
-                  <div className="ftable__cell ftable__cell--date pvm prxs">
-                    {days[new Date(expense.datetime).getDay()]},&nbsp; 
-                    {new Date(expense.datetime).getMonth() + 1}/                  
-                    {new Date(expense.datetime).getDate()}
-                  </div>
-                  <div className="ftable__cell ftable__cell--edit text-right">
-                    {/* TODO this needs to change the state of the parent, either HOC or render props or React Hooks */}
-                    <button
-                      className="btn btn--outline phxs pvs"
-                      onClick={this.handleClick}                  
-                      value="null"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-                <div className="ftable__row ftable__row--center">
-                  <button
-                    className="btn btn--outline mrl"
-                    onClick={this.handleDelete}                  
-                  >
-                    Delete this entry
-                  </button>
-                  <button
-                    className="btn btn--blue pvs phm"
-                    onClick={this.handleSubmit}                  
-                  >
-                    Save
-                  </button>
-                </div>
-              </form>
 
+                {(this.state.isBeingEdited !== null && this.state.isBeingEdited === i.toString()) ?
+                  <form  
+                    className="ftable__row card pam"
+                    key={i}
+                  >
+                    <div className="pvm">
+                      <div className="">
+                        <input 
+                          id="amount"
+                          className="full-width phxs pvs"
+                          type="number" 
+                          placeholder={expense.amount} 
+                          min="0.01" 
+                          step="0.01"
+                          pattern="\d*"
+                          onChange={this.handleAmountChange}
+                          value={expense.amount}
+                        />
+                      </div>
+                      <div className="">
+                        <input 
+                          id="category"
+                          className="btn btn--outline phxs pvs"
+                          type="button" 
+                          onChange={this.handleCategoryChange}
+                          value={expense.category} 
+                        />
+                      </div>
+                      <div className="">
+                        {days[new Date(expense.datetime).getDay()]},&nbsp; 
+                        {new Date(expense.datetime).getMonth() + 1}/                  
+                        {new Date(expense.datetime).getDate()}
+                      </div>
+                    </div>
+                    <div className="ftable__row ftable__row--between">
+                      <button
+                        className="btn btn--outline mrxs"
+                        onClick={this.handleDelete}                  
+                      >
+                        Delete
+                      </button>
+                      {/* TODO this needs to change the state of the parent, either HOC or render props or React Hooks */}
+                      <button
+                          className="btn btn--outline phxs pvs mrxs"
+                          onClick={this.handleClick}                  
+                          value="null"
+                        >
+                          Cancel
+                        </button>
+                      <button
+                        className="btn btn--blue pvs phm"
+                        onClick={this.handleSubmit}                  
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </form>
+                  : null }
+              </div>
           )}
         
         </div>

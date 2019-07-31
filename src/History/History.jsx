@@ -86,14 +86,20 @@ class History extends Component{
 
                 {(this.state.isBeingEdited !== null && this.state.isBeingEdited === i.toString()) ?
                   <form  
-                    className="ftable__row card pam"
+                    className="ftable__row card phm pbm pts mbs"
                     key={i}
                   >
-                    <div className="pvm">
-                      <div className="">
+                    <div className="full-width pbm">
+                      <div>
+                        <label 
+                          htmlFor="amount"   
+                          className="edit-label pvm"        
+                        >
+                          Change amount  
+                        </label>
                         <input 
                           id="amount"
-                          className="full-width phxs pvs"
+                          className="phxs pvs"
                           type="number" 
                           placeholder={expense.amount} 
                           min="0.01" 
@@ -103,7 +109,13 @@ class History extends Component{
                           value={expense.amount}
                         />
                       </div>
-                      <div className="">
+                      <div>
+                        <label 
+                          htmlFor="category" 
+                          className="edit-label pvm"          
+                        >
+                          Change category  
+                        </label>
                         <input 
                           id="category"
                           className="btn btn--outline phxs pvs"
@@ -112,10 +124,20 @@ class History extends Component{
                           value={expense.category} 
                         />
                       </div>
-                      <div className="">
-                        {days[new Date(expense.datetime).getDay()]},&nbsp; 
-                        {new Date(expense.datetime).getMonth() + 1}/                  
-                        {new Date(expense.datetime).getDate()}
+                      <div>
+                        <label 
+                          htmlFor="datetime"
+                          className="edit-label pvm"           
+                        >
+                          Change date   
+                        </label>
+                        {/* using date input to get the native iOS datepicker, hacky implementation
+                            until I add a proper js date library */}
+                        <input 
+                          type="date" 
+                          id="datetime"
+                          value={expense.datetime.slice(0,10)}
+                        ></input>
                       </div>
                     </div>
                     <div className="ftable__row ftable__row--between">

@@ -71,6 +71,10 @@ body {
     align-items: center;
     justify-content: flex-end;
   }
+.edit-label {
+  width: 40%;
+  display: inline-block;
+}
 
 .input {
   text-align: center;
@@ -169,6 +173,9 @@ body {
   padding-top: 15px;
   padding-bottom: 15px;
 }
+.pbm {
+  padding-bottom: 15px;
+}
 .pas {
   padding: 7.5px;
 }
@@ -185,6 +192,9 @@ body {
 .pvs {
   padding-top: 7.5px;
   padding-bottom: 7.5px;
+}
+.pts {
+  padding-top: 7.5px;
 }
 .paxs {
   padding: 5px;

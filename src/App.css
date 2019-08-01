@@ -35,6 +35,23 @@ body {
   margin-top: 25%; /* TODO: temporary value */
 }
 
+.input {
+  text-align: center;
+  display: block;
+  padding: 1rem;
+  border-radius: 10px;
+  width: auto;
+}
+  .input[type="submit"]{
+    text-transform: uppercase;
+    font-weight: bold;
+    color: white;
+    background: #4285F4;
+  }
+  .input-secondary {
+    border: 1px solid #ccc;
+    background: none;
+  }
 .full-width {  
   width: 100%;
 }
@@ -75,27 +92,11 @@ body {
   width: 40%;
   display: inline-block;
 }
-
-.input {
-  text-align: center;
-  display: block;
-  padding: 1rem;
-  border-radius: 10px;
-  width: 100%;
+.edit-input-number {
+  width: 45%;
 }
-  .input[type="submit"]{
-    text-transform: uppercase;
-    font-weight: bold;
-    color: white;
-    background: #4285F4;
-  }
-  .input-secondary {
-    border: 1px solid #ccc;
-    background: none;
-  }
-  .input-number {
-    width: auto;
-  }
+
+
 
 /* give one style for spacing, another for "buttons" */
 
@@ -218,6 +219,9 @@ body {
 /* Text and Fonts */
 .font-25 {
   font-size: 25px;
+}
+.font-16 {
+  font-size: 16px;
 }
 .font-14 {
   font-size: 14px;

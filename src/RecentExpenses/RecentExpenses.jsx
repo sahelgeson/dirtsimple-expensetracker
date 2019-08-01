@@ -18,7 +18,7 @@ function RecentExpenses(props){
             <tr key={i}>
               <td>
                 <span className="dollar inline-block">$</span>
-                <span  className="inline-block">
+                <span className="inline-block">
                   {expense.amount}
                 </span>
               </td>
@@ -35,11 +35,9 @@ function RecentExpenses(props){
         </tbody>             
       </table>
 
-      {recentExpenses.length >= numberOfRecentShown ? 
-        <div className="text-center">
-          <Link exact to="/history">See all expenses</Link>              
-        </div> 
-      : null}
+      <div className="text-center">
+        <Link exact to="/history">See all expenses</Link>              
+      </div> 
     </div>
   );
 }

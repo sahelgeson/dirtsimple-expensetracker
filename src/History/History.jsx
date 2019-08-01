@@ -99,7 +99,7 @@ class History extends Component{
                         </label>
                         <input 
                           id="amount"
-                          className="phxs pvs"
+                          className="input edit-input-number inline-block font-16 phxs pvs"
                           type="number" 
                           placeholder={expense.amount} 
                           min="0.01" 
@@ -136,6 +136,7 @@ class History extends Component{
                         <input 
                           type="date" 
                           id="datetime"
+                          className="font-16"
                           value={expense.datetime.slice(0,10)}
                         ></input>
                       </div>

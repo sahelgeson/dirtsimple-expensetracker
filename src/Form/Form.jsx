@@ -86,7 +86,7 @@ class Form extends Component{
           </label>
           <input 
             id="amount"
-            className="input font-25 mvm"
+            className="input full-width font-25 mvm"
             type="number" 
             placeholder="$0.00" 
             min="0.01" 
@@ -104,7 +104,7 @@ class Form extends Component{
 
           <select
             id="category"
-            className="input input-secondary font-25 mbm"
+            className="input input-secondary full-width font-25 mbm"
             value={this.state.category} 
             onChange={this.handleCategoryChange}
           >

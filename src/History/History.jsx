@@ -17,8 +17,10 @@ class History extends Component{
   }
 
   handleClick(event) {
-    console.log('id: ' + event.target.value)
-    this.setState({isBeingEdited: event.target.value});
+    console.log('id: ' + event.target.value);
+    (this.state.isBeingEdited === null) 
+      ? this.setState({isBeingEdited: event.target.value})
+      : this.setState({isBeingEdited: null})
   }
 
   handleAmountChange(event) {

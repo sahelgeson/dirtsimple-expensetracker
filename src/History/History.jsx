@@ -12,15 +12,15 @@ class History extends Component{
     this.handleClick = this.handleClick.bind(this);
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleClick(event) {
-    console.log('id: ' + event.target.value);
-    (this.state.isBeingEdited === null) 
-      ? this.setState({isBeingEdited: event.target.value})
-      : this.setState({isBeingEdited: null})
+    (this.state.isBeingEdited === event.target.value)
+      ? this.setState({isBeingEdited: null})
+      : this.setState({isBeingEdited: event.target.value})
   }
 
   handleAmountChange(event) {
@@ -31,6 +31,11 @@ class History extends Component{
   handleCategoryChange(event) {
     console.log('Category was changed');
     //console.log('Category was changed to: ' + this.state.category);
+  }
+
+  handleDateChange(event) {
+    console.log('Date was changed');
+    //console.log('Date was changed to: ' + this.state.datetime);
   }
 
   handleDelete(event) {
@@ -118,13 +123,21 @@ class History extends Component{
                         >
                           Change category  
                         </label>
-                        <input 
+                        <select
                           id="category"
-                          className="btn btn--outline phxs pvs"
-                          type="button" 
-                          onChange={this.handleCategoryChange}
+                          className="input input-secondary inline-block font-16 phxs pvs"
                           value={expense.category} 
-                        />
+                          onChange={this.handleCategoryChange}
+                        >
+                          {this.props.categories.map((category, i) =>
+                              <option 
+                                key={i}
+                                value={category}
+                              >
+                                {category}
+                              </option>
+                          )}
+                        </select>
                       </div>
                       <div>
                         <label 
@@ -139,13 +152,14 @@ class History extends Component{
                           type="date" 
                           id="datetime"
                           className="font-16"
+                          onChange={this.handleDateChange}
                           value={expense.datetime.slice(0,10)}
                         ></input>
                       </div>
                     </div>
                     <div className="ftable__row ftable__row--between">
                       <button
-                        className="btn btn--outline mrxs"
+                        className="btn btn--red mrxs"
                         onClick={this.handleDelete}                  
                       >
                         Delete
@@ -177,8 +191,8 @@ class History extends Component{
 }
 
 History.propTypes = {
-  recentExpenses: PropTypes.object,
-  categories: PropTypes.object,
+  recentExpenses: PropTypes.array,
+  categories: PropTypes.array,
 };
 
 export default History;

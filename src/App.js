@@ -9,7 +9,7 @@ class App extends Component{
   constructor(props) {
     super(props);
   
-    /* Format for expenses (used in recentExpenses): 
+    /* Format for expenses (used in allExpenses): 
       {
         datetime,
         amount,
@@ -17,28 +17,28 @@ class App extends Component{
       }
     */
 
-    const recentExpenses = JSON.parse(localStorage.getItem('myExpenses')) || [];
-    const categories     = JSON.parse(localStorage.getItem('myCategories')) || DefaultCategories;
+    const allExpenses = JSON.parse(localStorage.getItem('myExpenses')) || [];
+    const categories  = JSON.parse(localStorage.getItem('myCategories')) || DefaultCategories;
 
     this.state = {
-      recentExpenses,
+      allExpenses,
       categories,
     }
   }
   
   render(){
-    const recentExpenses = this.state.recentExpenses;
+    const allExpenses = this.state.allExpenses;
     const categories = this.state.categories;
 
     return (
       <div>
         <Route
           exact path="/"
-          render={(props) => <Form {...props} recentExpenses={recentExpenses} categories={categories} />}
+          render={(props) => <Form {...props} allExpenses={allExpenses} categories={categories} />}
         />
         <Route
           exact path="/history"
-          render={(props) => <History {...props} recentExpenses={recentExpenses} categories={categories} />}
+          render={(props) => <History {...props} allExpenses={allExpenses} categories={categories} />}
         />
       </div>
     );

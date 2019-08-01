@@ -6,7 +6,7 @@ class Form extends Component{
   constructor(props) {
     super(props);
   
-    /* Format for expenses (used in recentExpenses): 
+    /* Format for expenses: 
       {
         datetime,
         amount,
@@ -15,14 +15,14 @@ class Form extends Component{
     */
 
     /* TODO: here or in parent App? */
-    const recentExpenses = this.props.recentExpenses || [];
+    const allExpenses = this.props.allExpenses || [];
     /* TODO: change this eventually so user can set default category */
     const defaultCategory = this.props.categories[0] || [];
 
     this.state = {
       amount: '',
       category: defaultCategory,
-      recentExpenses: recentExpenses,
+      allExpenses: allExpenses,
     }
 
     this.handleAmountChange = this.handleAmountChange.bind(this);
@@ -59,17 +59,17 @@ class Form extends Component{
       category
     }
 
-    const recentExpenses = [newExpense, ...this.state.recentExpenses]
+    const allExpenses = [newExpense, ...this.state.allExpenses]
 
     this.setState({
-      recentExpenses
+      allExpenses
     })
 
-    localStorage.setItem('myExpenses', JSON.stringify(recentExpenses));
+    localStorage.setItem('myExpenses', JSON.stringify(allExpenses));
   }  
   
   render(){
-    const recentExpenses = this.state.recentExpenses;
+    const allExpenses = this.state.allExpenses;
 
     return (
       <div className="App container">
@@ -119,14 +119,14 @@ class Form extends Component{
           </select>
 
           <input 
-            className="input font-25 mvm"
+            className="input full-width font-25 mvm"
             type="submit" 
             value="Save" 
           />
         </form>
 
-        {recentExpenses.length ? 
-          <RecentExpenses recentExpenses={recentExpenses} /> 
+        {allExpenses.length ? 
+          <RecentExpenses recentExpenses={allExpenses} /> 
         : null}
       </div>
     );
@@ -134,7 +134,7 @@ class Form extends Component{
 }
 
 Form.propTypes = {
-  recentExpenses: PropTypes.object,
+  allExpenses: PropTypes.object,
   categories: PropTypes.object,
 };
 

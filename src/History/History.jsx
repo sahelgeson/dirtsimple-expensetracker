@@ -1,5 +1,6 @@
 import React, { Component} from "react";
 import { PropTypes } from "prop-types";
+import HistoryEditForm from "./HistoryEditForm.jsx";
 
 class History extends Component{
   constructor(props) {
@@ -10,11 +11,6 @@ class History extends Component{
     }
 
     this.handleClick = this.handleClick.bind(this);
-    this.handleAmountChange = this.handleAmountChange.bind(this);
-    this.handleCategoryChange = this.handleCategoryChange.bind(this);
-    this.handleDateChange = this.handleDateChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleClick(event) {
@@ -23,33 +19,9 @@ class History extends Component{
       : this.setState({isBeingEdited: event.target.value})
   }
 
-  handleAmountChange(event) {
-    console.log('amount change')
-    //this.setState({amount: event.target.value});
-  }
-
-  handleCategoryChange(event) {
-    console.log('Category was changed');
-    //console.log('Category was changed to: ' + this.state.category);
-  }
-
-  handleDateChange(event) {
-    console.log('Date was changed');
-    //console.log('Date was changed to: ' + this.state.datetime);
-  }
-
-  handleDelete(event) {
-    event.preventDefault();
-    alert("Are you sure you want to delete this? This can't be undone.")
-  }  
-
-  handleSubmit(event) {
-    event.preventDefault();
-  }  
-
   render(){
     {/* TODO this is not hydrating properly first time */}
-    const recentExpenses = this.props.recentExpenses; 
+    const allExpenses = this.props.allExpenses; 
     /* TODO: use a js date library instead of this */
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -61,7 +33,7 @@ class History extends Component{
         <div className="ftable font-14">
 
           {/* TODO consider a limit on this with a "View more" button */}
-          {recentExpenses.map((expense, i) =>
+          {allExpenses.map((expense, i) =>
               <div 
                 className="ftable__row" 
                 key={i}
@@ -92,94 +64,11 @@ class History extends Component{
                 </div>
 
                 {(this.state.isBeingEdited !== null && this.state.isBeingEdited === i.toString()) ?
-                  <form  
-                    className="ftable__row card phm pbm pts mbs"
-                    key={i}
-                  >
-                    <div className="full-width pbm">
-                      <div>
-                        <label 
-                          htmlFor="amount"   
-                          className="edit-label pvm"        
-                        >
-                          Change amount  
-                        </label>
-                        <input 
-                          id="amount"
-                          className="input edit-input-number inline-block font-16 phxs pvs"
-                          type="number" 
-                          placeholder={expense.amount} 
-                          min="0.01" 
-                          step="0.01"
-                          pattern="\d*"
-                          onChange={this.handleAmountChange}
-                          value={expense.amount}
-                        />
-                      </div>
-                      <div>
-                        <label 
-                          htmlFor="category" 
-                          className="edit-label pvm"          
-                        >
-                          Change category  
-                        </label>
-                        <select
-                          id="category"
-                          className="input input-secondary inline-block font-16 phxs pvs"
-                          value={expense.category} 
-                          onChange={this.handleCategoryChange}
-                        >
-                          {this.props.categories.map((category, i) =>
-                              <option 
-                                key={i}
-                                value={category}
-                              >
-                                {category}
-                              </option>
-                          )}
-                        </select>
-                      </div>
-                      <div>
-                        <label 
-                          htmlFor="datetime"
-                          className="edit-label pvm"           
-                        >
-                          Change date   
-                        </label>
-                        {/* using date input to get the native iOS datepicker, hacky implementation
-                            until I add a proper js date library */}
-                        <input 
-                          type="date" 
-                          id="datetime"
-                          className="font-16"
-                          onChange={this.handleDateChange}
-                          value={expense.datetime.slice(0,10)}
-                        ></input>
-                      </div>
-                    </div>
-                    <div className="ftable__row ftable__row--between">
-                      <button
-                        className="btn btn--red mrxs"
-                        onClick={this.handleDelete}                  
-                      >
-                        Delete
-                      </button>
-                      {/* TODO this needs to change the state of the parent, either HOC or render props or React Hooks */}
-                      <button
-                          className="btn btn--outline phxs pvs mrxs"
-                          onClick={this.handleClick}                  
-                          value="null"
-                        >
-                          Cancel
-                        </button>
-                      <button
-                        className="btn btn--blue pvs phm"
-                        onClick={this.handleSubmit}                  
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </form>
+                  <HistoryEditForm 
+                    expense={expense} 
+                    categories={this.props.categories} 
+                    handleClick={this.handleClick}
+                  />
                   : null }
               </div>
           )}
@@ -191,7 +80,7 @@ class History extends Component{
 }
 
 History.propTypes = {
-  recentExpenses: PropTypes.array,
+  allExpenses: PropTypes.array,
   categories: PropTypes.array,
 };
 

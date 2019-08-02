@@ -30,7 +30,14 @@ class App extends Component{
   handleHoistedExpenseChange(allExpenses) {
     /* This function is passed down to the child components that need to update global state of expenses */
 
-    /* TODO add sorting by datetime here */
+    /* Sort expenses by date in case datetime was edited. 
+       Not sorting in edit form because we don't want state to update and rerender which could
+       yoink stuff around */
+    allExpenses.sort(function(a, b) {
+      var dateA = new Date(a.datetime), dateB = new Date(b.datetime);
+      return dateA - dateB;
+    });
+
     this.setState({
       allExpenses
     })

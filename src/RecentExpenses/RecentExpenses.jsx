@@ -1,8 +1,7 @@
-import React, { Component} from "react";
+import React from "react";
 import { PropTypes } from "prop-types";
-import { Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-/* TODO: make this a function -- stateless */
 function RecentExpenses(props){
   const recentExpenses = props.recentExpenses;
   const numberOfRecentShown = 7; 

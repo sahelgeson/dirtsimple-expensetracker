@@ -5,7 +5,7 @@ class HistoryEditForm extends Component{
   constructor(props) {
     super(props);
   
-    const thisExpense = this.props.expense; 
+    const thisExpense = this.props.thisExpense; 
 
     this.state = {
       isBeingEdited: null,    /* this is the id of the expense being edited, only allow one at a time */
@@ -28,13 +28,14 @@ class HistoryEditForm extends Component{
   }
 
   handleCategoryChange(event) {
-    console.log('Category was changed');
-    //console.log('Category was changed to: ' + this.state.category);
+    console.log('Category was changed to ' + event.target.value);
+    //this.setState({category: event.target.value});
   }
 
   handleDateChange(event) {
-    console.log('Date was changed');
-    //console.log('Date was changed to: ' + this.state.datetime);
+    console.log('Date was changed to: ' + event.target.value);
+    
+    //this.setState({datetime: event.target.value});
   }
 
   handleDelete(event) {
@@ -43,15 +44,11 @@ class HistoryEditForm extends Component{
   }  
 
   handleSubmit(event) {
-    /* TODO use react context api to handle this or possibly a Hook */
     event.preventDefault();
 
     if (!this.state.amount) { return false; }  /* TODO change this to an error message */
 
     console.log('An expense was edited: ' + this.state.amount);
-    
-    // TODO change this
-    //const datetime = new Date();
 
     const {amount, category, datetime} = this.state;
 
@@ -65,24 +62,20 @@ class HistoryEditForm extends Component{
       category
     }
 
-    /* TODO, this doesn't work because it's only sent one expense and not all */
-    const allExpenses = [editedExpense, ...this.state.allExpenses]
-
-    /* Sort expenses by date in case datetime was edited */
-    allExpenses.sort(function(a, b) {
-      var dateA = new Date(a.datetime), dateB = new Date(b.datetime);
-      return dateA - dateB;
-    });
+    /* TODO: change in place instead of adding */
+    const allExpensesUnsorted = [editedExpense, ...this.state.allExpenses]
 
     this.setState({
-      allExpenses
+      allExpensesUnsorted
     })
 
-    this.props.handleHoistedExpenseChange(allExpenses);
+    this.props.handleHoistedExpenseChange(allExpensesUnsorted);
   }  
 
   render(){
-    const expense = this.props.expense; 
+
+    /* destructure this from state */
+    const expense = this.props.thisExpense; 
 
     return( 
       <form  
@@ -177,8 +170,9 @@ class HistoryEditForm extends Component{
 }
 
 HistoryEditForm.propTypes = {
-  expense: PropTypes.array.isRequired,
+  thisExpense: PropTypes.object.isRequired,
   categories: PropTypes.array.isRequired,
+  allExpenses: PropTypes.array.isRequired,
   handleClick: PropTypes.func.isRequired,
   handleHoistedExpenseChange: PropTypes.func.isRequired,
 };

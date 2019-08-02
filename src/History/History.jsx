@@ -20,7 +20,6 @@ class History extends Component{
   }
 
   render(){
-    {/* TODO this is not hydrating properly first time */}
     const allExpenses = this.props.allExpenses; 
     /* TODO: use a js date library instead of this */
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -53,7 +52,6 @@ class History extends Component{
                   {new Date(expense.datetime).getDate()}
                 </div>
                 <div className="ftable__cell ftable__cell--edit text-right">
-                  {/* TODO this needs to change the state of the parent, either HOC or render props or React Hooks */}
                   <button
                     className="btn btn--outline phxs pvs"
                     onClick={this.handleClick}                  
@@ -65,8 +63,9 @@ class History extends Component{
 
                 {(this.state.isBeingEdited !== null && this.state.isBeingEdited === i.toString()) ?
                   <HistoryEditForm 
-                    expense={expense} 
+                    thisExpense={expense} 
                     categories={this.props.categories} 
+                    allExpenses={this.props.allExpenses}
                     handleClick={this.handleClick}
                     handleHoistedExpenseChange={this.props.handleHoistedExpenseChange}
                   />

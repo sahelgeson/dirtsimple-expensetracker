@@ -43,16 +43,16 @@ class Form extends Component{
     event.preventDefault();
     if (!this.state.amount) { return false; }  /* TODO change this to an error message */
       
-    console.log('An expense was submitted: ' + this.state.amount);
+   // console.log('An expense was submitted: ' + this.state.amount);
     
     const datetime = new Date();
 
     const {amount, category} = this.state;
-
+/*
     console.log('datetime: ' + datetime);
     console.log('amount: ' + amount);
     console.log('category: ' + category);
-
+*/
     const newExpense = {
       datetime,
       amount,
@@ -65,7 +65,7 @@ class Form extends Component{
       allExpenses
     })
 
-    localStorage.setItem('myExpenses', JSON.stringify(allExpenses));
+    this.props.handleHoistedExpenseChange(allExpenses);
   }  
   
   render(){
@@ -134,8 +134,9 @@ class Form extends Component{
 }
 
 Form.propTypes = {
-  allExpenses: PropTypes.object,
-  categories: PropTypes.object,
+  allExpenses: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired,
+  handleHoistedExpenseChange: PropTypes.func.isRequired,
 };
 
 export default Form;

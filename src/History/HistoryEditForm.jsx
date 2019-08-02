@@ -5,8 +5,13 @@ class HistoryEditForm extends Component{
   constructor(props) {
     super(props);
   
+    const thisExpense = this.props.expense; 
+
     this.state = {
       isBeingEdited: null,    /* this is the id of the expense being edited, only allow one at a time */
+      amount: thisExpense.amount,
+      category: thisExpense.category,
+      datetime: thisExpense.datetime,
     }
 
     //this.handleClick = this.handleClick.bind(this);
@@ -19,8 +24,7 @@ class HistoryEditForm extends Component{
 
  
   handleAmountChange(event) {
-    console.log('amount change')
-    //this.setState({amount: event.target.value});
+    this.setState({amount: event.target.value});
   }
 
   handleCategoryChange(event) {
@@ -41,6 +45,40 @@ class HistoryEditForm extends Component{
   handleSubmit(event) {
     /* TODO use react context api to handle this or possibly a Hook */
     event.preventDefault();
+
+    if (!this.state.amount) { return false; }  /* TODO change this to an error message */
+
+    console.log('An expense was edited: ' + this.state.amount);
+    
+    // TODO change this
+    //const datetime = new Date();
+
+    const {amount, category, datetime} = this.state;
+
+    console.log('datetime: ' + datetime);
+    console.log('amount: ' + amount);
+    console.log('category: ' + category);
+
+    const editedExpense = {
+      datetime,
+      amount,
+      category
+    }
+
+    /* TODO, this doesn't work because it's only sent one expense and not all */
+    const allExpenses = [editedExpense, ...this.state.allExpenses]
+
+    /* Sort expenses by date in case datetime was edited */
+    allExpenses.sort(function(a, b) {
+      var dateA = new Date(a.datetime), dateB = new Date(b.datetime);
+      return dateA - dateB;
+    });
+
+    this.setState({
+      allExpenses
+    })
+
+    this.props.handleHoistedExpenseChange(allExpenses);
   }  
 
   render(){
@@ -139,9 +177,10 @@ class HistoryEditForm extends Component{
 }
 
 HistoryEditForm.propTypes = {
-  expense: PropTypes.array,
-  categories: PropTypes.array,
-  handleClick: PropTypes.func,
+  expense: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  handleHoistedExpenseChange: PropTypes.func.isRequired,
 };
 
 export default HistoryEditForm;

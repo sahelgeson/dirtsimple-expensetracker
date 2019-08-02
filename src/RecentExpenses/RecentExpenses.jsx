@@ -36,7 +36,7 @@ function RecentExpenses(props){
       </table>
 
       <div className="text-center">
-        <Link exact to="/history">See all expenses</Link>              
+        <Link to="/history">See all expenses</Link>              
       </div> 
     </div>
   );
@@ -44,7 +44,7 @@ function RecentExpenses(props){
 
 
 RecentExpenses.propTypes = {
-  recentExpenses: PropTypes.object
+  recentExpenses: PropTypes.array.isRequired
 };
 
 export default RecentExpenses;

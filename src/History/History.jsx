@@ -68,6 +68,7 @@ class History extends Component{
                     expense={expense} 
                     categories={this.props.categories} 
                     handleClick={this.handleClick}
+                    handleHoistedExpenseChange={this.props.handleHoistedExpenseChange}
                   />
                   : null }
               </div>
@@ -80,8 +81,9 @@ class History extends Component{
 }
 
 History.propTypes = {
-  allExpenses: PropTypes.array,
-  categories: PropTypes.array,
+  allExpenses: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired,
+  handleHoistedExpenseChange: PropTypes.func.isRequired,
 };
 
 export default History;

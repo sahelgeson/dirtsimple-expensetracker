@@ -1,5 +1,8 @@
 import React, { Component} from "react";
 import { PropTypes } from "prop-types";
+import parse from "date-fns/parse";
+const { format } = require('date-fns');
+
 
 class HistoryEditForm extends Component{
   constructor(props) {
@@ -34,8 +37,17 @@ class HistoryEditForm extends Component{
 
   handleDateChange(event) {
     console.log('Date was changed to: ' + event.target.value);
+
+    /* event.target.value is 2019-07-11T00:00:00.000Z set at GMT time zone, needs to adjust for
+      local time zone before going any further */
+    const adjustedDate = new Date(event.target.value)
     
-    //this.setState({datetime: event.target.value});
+    console.log('Date was parsed to: ' + parse(adjustedDate));
+
+    const newDatetime = JSON.stringify(adjustedDate);
+    console.log('newDatetime: ' + newDatetime);
+    // need to format this back to ISO  
+    //this.setState({datetime: newDatetime});
   }
 
   handleDelete(event) {
@@ -75,7 +87,12 @@ class HistoryEditForm extends Component{
   render(){
 
     /* destructure this from state */
-    const expense = this.props.thisExpense; 
+    //const expense = this.props.thisExpense; 
+    const { amount, category, datetime } = this.state;
+    const formattedDatetime = format(
+      new Date(datetime),
+      'YYYY-MM-DD'
+    );
 
     return( 
       <form  
@@ -93,12 +110,12 @@ class HistoryEditForm extends Component{
               id="amount"
               className="input edit-input-number inline-block font-16 phxs pvs"
               type="number" 
-              placeholder={expense.amount} 
+              placeholder={amount} 
               min="0.01" 
               step="0.01"
               pattern="\d*"
               onChange={this.handleAmountChange}
-              value={expense.amount}
+              value={amount}
             />
           </div>
           <div>
@@ -111,7 +128,7 @@ class HistoryEditForm extends Component{
             <select
               id="category"
               className="input input-secondary inline-block font-16 phxs pvs"
-              value={expense.category} 
+              value={category} 
               onChange={this.handleCategoryChange}
             >
               {this.props.categories.map((category, i) =>
@@ -138,7 +155,7 @@ class HistoryEditForm extends Component{
               id="datetime"
               className="font-16"
               onChange={this.handleDateChange}
-              value={expense.datetime.slice(0,10)}
+              value={formattedDatetime}
             ></input>
           </div>
         </div>

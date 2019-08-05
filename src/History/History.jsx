@@ -7,16 +7,16 @@ class History extends Component{
     super(props);
   
     this.state = {
-      isBeingEdited: null,    /* this is the id of the expense being edited, only allow one at a time */
+      isBeingEditedIndex: null,    /* this is the id of the expense being edited, only allow one at a time */
     }
 
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(event) {
-    (this.state.isBeingEdited === event.target.value)
-      ? this.setState({isBeingEdited: null})
-      : this.setState({isBeingEdited: event.target.value})
+    (this.state.isBeingEditedIndex === event.target.value)
+      ? this.setState({isBeingEditedIndex: null})
+      : this.setState({isBeingEditedIndex: event.target.value})
   }
 
   render(){
@@ -61,7 +61,7 @@ class History extends Component{
                   </button>
                 </div>
 
-                {(this.state.isBeingEdited !== null && this.state.isBeingEdited === i.toString()) ?
+                {(this.state.isBeingEditedIndex !== null && this.state.isBeingEditedIndex === i.toString()) ?
                   <HistoryEditForm 
                     thisExpense={expense} 
                     categories={this.props.categories} 

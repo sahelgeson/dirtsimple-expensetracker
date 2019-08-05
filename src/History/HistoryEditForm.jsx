@@ -1,8 +1,5 @@
 import React, { Component} from "react";
 import { PropTypes } from "prop-types";
-import parse from "date-fns/parse";
-const { format } = require('date-fns');
-
 
 class HistoryEditForm extends Component{
   constructor(props) {
@@ -11,7 +8,7 @@ class HistoryEditForm extends Component{
     const thisExpense = this.props.thisExpense; 
 
     this.state = {
-      isBeingEdited: null,    /* this is the id of the expense being edited, only allow one at a time */
+      isBeingEditedIndex: null,    /* this is the id of the expense being edited, only allow one at a time */
       amount: thisExpense.amount,
       category: thisExpense.category,
       datetime: thisExpense.datetime,
@@ -36,18 +33,8 @@ class HistoryEditForm extends Component{
   }
 
   handleDateChange(event) {
-    console.log('Date was changed to: ' + event.target.value);
-
-    /* event.target.value is 2019-07-11T00:00:00.000Z set at GMT time zone, needs to adjust for
-      local time zone before going any further */
-    const adjustedDate = new Date(event.target.value)
-    
-    console.log('Date was parsed to: ' + parse(adjustedDate));
-
-    const newDatetime = JSON.stringify(adjustedDate);
-    console.log('newDatetime: ' + newDatetime);
-    // need to format this back to ISO  
-    //this.setState({datetime: newDatetime});
+    const ISODate = new Date(event.target.value).toISOString();
+    this.setState({datetime: ISODate});
   }
 
   handleDelete(event) {
@@ -74,8 +61,8 @@ class HistoryEditForm extends Component{
       category
     }
 
-    /* TODO: change in place instead of adding */
-    const allExpensesUnsorted = [editedExpense, ...this.state.allExpenses]
+    /* TODO: change in place instead of adding otherwise it creates a duplicate entry */
+    const allExpensesUnsorted = [editedExpense, ...this.props.allExpenses]
 
     this.setState({
       allExpensesUnsorted
@@ -85,14 +72,9 @@ class HistoryEditForm extends Component{
   }  
 
   render(){
-
-    /* destructure this from state */
-    //const expense = this.props.thisExpense; 
     const { amount, category, datetime } = this.state;
-    const formattedDatetime = format(
-      new Date(datetime),
-      'YYYY-MM-DD'
-    );
+    /* The HTML input type="datetime-local" takes a custom format that is only part of the standard ISO format */
+    const formattedDatetime = new Date(datetime).toISOString().slice(0,16);
 
     return( 
       <form  
@@ -148,10 +130,9 @@ class HistoryEditForm extends Component{
             >
               Change date   
             </label>
-            {/* using date input to get the native iOS datepicker, hacky implementation
-                until I add a proper js date library */}
+            {/* using datetime-local to avoid issues with manipulating/formatting Dates */}
             <input 
-              type="date" 
+              type="datetime-local" 
               id="datetime"
               className="font-16"
               onChange={this.handleDateChange}

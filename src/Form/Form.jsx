@@ -43,8 +43,7 @@ class Form extends Component{
     event.preventDefault();
     if (!this.state.amount) { return false; }  /* TODO change this to an error message */
       
-   // console.log('An expense was submitted: ' + this.state.amount);
-    
+    /* TODO: double check this, do I want the same format everywhere? */
     const datetime = new Date();
 
     const {amount, category} = this.state;

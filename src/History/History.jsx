@@ -10,7 +10,7 @@ class History extends Component{
       isBeingEditedIndex: null,    /* this is the id of the expense being edited, only allow one at a time */
     }
 
-    /* Sort expenses by date by default. Setting this up in the constructor and
+    /* Sort expenses by date by default. Setting this up in the constructor
       not sorting in edit form because we don't want state to update and rerender which could
       yoink stuff around */
     this.sortedAllExpenses = this.props.allExpenses.sort(function(a, b) {
@@ -30,8 +30,6 @@ class History extends Component{
 
   render(){
     const allExpenses = this.sortedAllExpenses; 
-
-    /* TODO: use a js date library instead of this */
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
     return(
@@ -39,8 +37,9 @@ class History extends Component{
         <div className="text-center gray-777 mtm mbs">
           All Expenses
         </div>
-        <div className="ftable font-14">
-
+        {(!allExpenses.length) 
+          ? <div className="text-center">No expenses entered yet</div>
+          : <div className="ftable font-14">
           {/* TODO consider a limit on this with a "View more" button */}
           {allExpenses.map((expense, i) =>
               <div 
@@ -83,8 +82,7 @@ class History extends Component{
                   : null }
               </div>
           )}
-        
-        </div>
+        </div>}
       </div>
     );
   }

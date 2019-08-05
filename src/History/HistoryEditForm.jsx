@@ -32,8 +32,10 @@ class HistoryEditForm extends Component{
   }
 
   handleDateChange(event) {
-    const ISODate = new Date(event.target.value).toISOString();
-    this.setState({datetime: ISODate});
+    try {
+      const ISODate = new Date(event.target.value).toISOString();
+      this.setState({datetime: ISODate});  
+    } catch (e) { /* Chrome's datepicker is buggy and will sometimes have an empty string value */ }
   }
 
   handleDelete(event) {
@@ -150,7 +152,6 @@ class HistoryEditForm extends Component{
           >
             Delete
           </button>
-          {/* TODO this needs to change the state of the parent, either HOC or render props or React Hooks */}
           <button
               className="btn btn--outline phxs pvs mrxs"
               onClick={this.props.handleClick}                  

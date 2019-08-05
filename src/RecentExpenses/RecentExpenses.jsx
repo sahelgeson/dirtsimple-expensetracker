@@ -3,7 +3,10 @@ import { PropTypes } from "prop-types";
 import { Link } from "react-router-dom";
 
 function RecentExpenses(props){
-  const recentExpenses = props.recentExpenses;
+  const recentExpensesSorted = props.recentExpenses.sort(function(a, b) {
+    var dateA = new Date(a.datetime), dateB = new Date(b.datetime);
+    return dateB - dateA;
+  });
   const numberOfRecentShown = 7; 
 
   return(
@@ -13,7 +16,7 @@ function RecentExpenses(props){
       </div>
       <table className="full-width mbm">
         <tbody>
-          {recentExpenses.slice(0,numberOfRecentShown).map((expense, i) =>
+          {recentExpensesSorted.slice(0,numberOfRecentShown).map((expense, i) =>
             <tr key={i}>
               <td>
                 <span className="dollar inline-block">$</span>

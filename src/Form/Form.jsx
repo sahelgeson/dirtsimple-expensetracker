@@ -27,6 +27,7 @@ class Form extends Component{
 
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -37,6 +38,10 @@ class Form extends Component{
   handleCategoryChange(event) {
     console.log('Category was changed to: ' + event.target.value);
     this.setState({category: event.target.value});
+  }
+
+  handleFocus(event) {
+    this.setState({amount: ''});
   }
 
   handleSubmit(event) {
@@ -92,6 +97,7 @@ class Form extends Component{
             step="0.01"
             pattern="\d*"
             onChange={this.handleAmountChange}
+            onFocus={this.handleFocus}
             value={this.state.amount}
           />
           <label

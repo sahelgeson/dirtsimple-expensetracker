@@ -1,5 +1,24 @@
 import React, { Component} from "react";
 import { PropTypes } from "prop-types";
+import Modal from 'react-modal';
+
+const customModalStyles = {
+  content : {
+    position: 'absolute',
+    top: '30px',
+    left: '30px',
+    right: '30px',
+    bottom: 'auto',
+    border: '1px solid rgb(204, 204, 204)',
+    background: 'rgb(255, 255, 255)',
+    overflow: 'auto',
+    borderRadius: '4px',
+    outline: 'none',
+    padding: '15px',
+  }
+};
+
+Modal.setAppElement('#root');
 
 class HistoryEditForm extends Component{
   constructor(props) {
@@ -11,14 +30,16 @@ class HistoryEditForm extends Component{
       amount: thisExpense.amount,
       category: thisExpense.category,
       datetime: thisExpense.datetime,
+      modalIsOpen: false,
     }
 
-    //this.handleClick = this.handleClick.bind(this);
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.afterOpenModal = this.afterOpenModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
  
   handleAmountChange(event) {
@@ -36,10 +57,20 @@ class HistoryEditForm extends Component{
     } catch (e) { /* Chrome's datepicker is buggy and will sometimes have an empty string value */ }
   }
 
-  handleDelete(event) {
+  openModal(event) {
     event.preventDefault();
-    alert("Are you sure you want to delete this? This can't be undone.")
-  }  
+    this.setState({modalIsOpen: true});
+  }
+
+  afterOpenModal() {
+    // references are now sync'd and can be accessed.
+    //this.subtitle.style.color = '#f00';
+  }
+
+  closeModal() {
+    this.setState({modalIsOpen: false});
+  }
+
 
   handleSubmit(event) {
     event.preventDefault();
@@ -145,11 +176,29 @@ class HistoryEditForm extends Component{
         </div>
         <div className="ftable__row ftable__row--between">
           <button
-            className="btn btn--red mrxs"
-            onClick={this.handleDelete}                  
+            className="btn btn--red  phxs pvs mrxs"
+            onClick={this.openModal}                  
           >
             Delete
           </button>
+          <Modal
+            isOpen={this.state.modalIsOpen}
+            onAfterOpen={this.afterOpenModal}
+            onRequestClose={this.closeModal}
+            style={customModalStyles}
+            contentLabel="Deletion Modal"
+          >
+            {/*<h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>*/}
+            <div>Are you sure you want to delete this? This can't be undone.</div>
+            <button 
+              className="btn btn--red phxs pvs mrxs"
+              onClick={this.closeModal}>Yes, Delete
+            </button>
+            <button 
+              className="btn btn--outline phxs pvs mrxs"
+              onClick={this.closeModal}>No, Cancel
+            </button>
+          </Modal>
           <button
               className="btn btn--outline phxs pvs mrxs"
               onClick={this.props.handleClick}                  

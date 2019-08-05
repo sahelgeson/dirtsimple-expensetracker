@@ -14,9 +14,10 @@ class History extends Component{
   }
 
   handleClick(event) {
-    (this.state.isBeingEditedIndex === event.target.value)
+    const indexNumber = parseInt(event.target.value, 10);
+    (this.state.isBeingEditedIndex === indexNumber)
       ? this.setState({isBeingEditedIndex: null})
-      : this.setState({isBeingEditedIndex: event.target.value})
+      : this.setState({isBeingEditedIndex: indexNumber})
   }
 
   render(){
@@ -61,11 +62,12 @@ class History extends Component{
                   </button>
                 </div>
 
-                {(this.state.isBeingEditedIndex !== null && this.state.isBeingEditedIndex === i.toString()) ?
+                {(this.state.isBeingEditedIndex !== null && this.state.isBeingEditedIndex === i) ?
                   <HistoryEditForm 
                     thisExpense={expense} 
                     categories={this.props.categories} 
                     allExpenses={this.props.allExpenses}
+                    isBeingEditedIndex={this.state.isBeingEditedIndex}
                     handleClick={this.handleClick}
                     handleHoistedExpenseChange={this.props.handleHoistedExpenseChange}
                   />

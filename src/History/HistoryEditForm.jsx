@@ -8,7 +8,6 @@ class HistoryEditForm extends Component{
     const thisExpense = this.props.thisExpense; 
 
     this.state = {
-      isBeingEditedIndex: null,    /* this is the id of the expense being edited, only allow one at a time */
       amount: thisExpense.amount,
       category: thisExpense.category,
       datetime: thisExpense.datetime,
@@ -61,8 +60,12 @@ class HistoryEditForm extends Component{
       category
     }
 
-    /* TODO: change in place instead of adding otherwise it creates a duplicate entry */
-    const allExpensesUnsorted = [editedExpense, ...this.props.allExpenses]
+    /* "Unsorted" because user may edit datetime.
+       Not sorting in edit form because we don't want state to update and rerender which could
+       yoink stuff around */      
+    let allExpensesUnsorted = this.props.allExpenses;
+    /* index is still null */
+    allExpensesUnsorted[this.props.isBeingEditedIndex] = editedExpense;
 
     this.setState({
       allExpensesUnsorted
@@ -171,6 +174,7 @@ HistoryEditForm.propTypes = {
   thisExpense: PropTypes.object.isRequired,
   categories: PropTypes.array.isRequired,
   allExpenses: PropTypes.array.isRequired,
+  isBeingEditedIndex: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
   handleHoistedExpenseChange: PropTypes.func.isRequired,
 };

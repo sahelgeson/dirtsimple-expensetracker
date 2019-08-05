@@ -32,6 +32,7 @@ class App extends Component{
   }
   
   handleHoistedExpenseChange(allExpenses) {
+    console.log('was hoisted')
     /* This function is passed down to the child components that need to update global state of expenses */
 
     /* Sort expenses by date in case datetime was edited. 
@@ -41,7 +42,7 @@ class App extends Component{
     /* TODO: check that this works */       
     allExpenses.sort(function(a, b) {
       var dateA = new Date(a.datetime), dateB = new Date(b.datetime);
-      return dateA - dateB;
+      return dateB - dateA;
     });
 
     this.setState({

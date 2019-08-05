@@ -9,4 +9,5 @@ export default [
   'Entertainment',
   'Books',
   'Transportation',
+  'Other',
 ]

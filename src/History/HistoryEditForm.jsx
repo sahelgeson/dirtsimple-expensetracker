@@ -20,15 +20,13 @@ class HistoryEditForm extends Component{
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   }
-
  
   handleAmountChange(event) {
     this.setState({amount: event.target.value});
   }
 
   handleCategoryChange(event) {
-    console.log('Category was changed to ' + event.target.value);
-    //this.setState({category: event.target.value});
+    this.setState({category: event.target.value});
   }
 
   handleDateChange(event) {

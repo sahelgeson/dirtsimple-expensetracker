@@ -21,6 +21,7 @@ class App extends Component{
       We're not doing conversion in the App state, it needs to be done in child components where needed
     */
 
+    /* allExpenses is not sorted in any order, sorting should be done by child components */
     const allExpenses = JSON.parse(localStorage.getItem('myExpenses')) || [];
     const categories  = JSON.parse(localStorage.getItem('myCategories')) || DefaultCategories;
 
@@ -34,16 +35,6 @@ class App extends Component{
   handleHoistedExpenseChange(allExpenses) {
     console.log('was hoisted')
     /* This function is passed down to the child components that need to update global state of expenses */
-
-    /* Sort expenses by date in case datetime was edited. 
-       Not sorting in edit form because we don't want state to update and rerender which could
-       yoink stuff around */
-
-    /* TODO: check that this works */       
-    allExpenses.sort(function(a, b) {
-      var dateA = new Date(a.datetime), dateB = new Date(b.datetime);
-      return dateB - dateA;
-    });
 
     this.setState({
       allExpenses

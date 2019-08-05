@@ -10,6 +10,14 @@ class History extends Component{
       isBeingEditedIndex: null,    /* this is the id of the expense being edited, only allow one at a time */
     }
 
+    /* Sort expenses by date by default. Setting this up in the constructor and
+      not sorting in edit form because we don't want state to update and rerender which could
+      yoink stuff around */
+    this.sortedAllExpenses = this.props.allExpenses.sort(function(a, b) {
+      var dateA = new Date(a.datetime), dateB = new Date(b.datetime);
+      return dateB - dateA;
+    });
+
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -21,7 +29,8 @@ class History extends Component{
   }
 
   render(){
-    const allExpenses = this.props.allExpenses; 
+    const allExpenses = this.sortedAllExpenses; 
+
     /* TODO: use a js date library instead of this */
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 

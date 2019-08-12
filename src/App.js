@@ -33,9 +33,7 @@ class App extends Component{
   }
   
   handleHoistedExpenseChange(allExpenses) {
-    console.log('was hoisted')
     /* This function is passed down to the child components that need to update global state of expenses */
-
     this.setState({
       allExpenses
     })

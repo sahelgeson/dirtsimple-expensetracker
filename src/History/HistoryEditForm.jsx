@@ -14,7 +14,7 @@ const customModalStyles = {
     overflow: 'auto',
     borderRadius: '4px',
     outline: 'none',
-    padding: '15px',
+    padding: '30px',
   }
 };
 
@@ -40,6 +40,7 @@ class HistoryEditForm extends Component{
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.deleteExpense = this.deleteExpense.bind(this);
   }
  
   handleAmountChange(event) {
@@ -70,7 +71,19 @@ class HistoryEditForm extends Component{
   closeModal() {
     this.setState({modalIsOpen: false});
   }
+  deleteExpense() {
 
+    let allExpensesUpdated = [...this.props.allExpenses];
+    allExpensesUpdated.splice(this.props.isBeingEditedIndex, 1);
+
+    
+    /* TODO: this time we want to rerender History */
+    console.log("allExpensesUpdated: " + allExpensesUpdated);
+    this.props.handleHoistedExpenseChange(allExpensesUpdated);
+    this.closeModal();
+
+    /* TODO: need to close out HistoryEditForm */
+  }
 
   handleSubmit(event) {
     event.preventDefault();
@@ -190,21 +203,23 @@ class HistoryEditForm extends Component{
           >
             {/*<h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>*/}
             <div>Are you sure you want to delete this? This can't be undone.</div>
-            <button 
-              className="btn btn--red phxs pvs mrxs"
-              onClick={this.closeModal}>Yes, Delete
-            </button>
-            <button 
-              className="btn btn--outline phxs pvs mrxs"
-              onClick={this.closeModal}>No, Cancel
-            </button>
+            <div className="pvl">
+              <button 
+                className="btn btn--red phxs pvs mrxs left"
+                onClick={this.deleteExpense}>Yes, Delete
+              </button>
+              <button 
+                className="btn btn--outline phxs pvs mrxs right"
+                onClick={this.closeModal}>No, Cancel
+              </button>
+            </div>
           </Modal>
           <button
               className="btn btn--outline phxs pvs mrxs"
               onClick={this.props.handleClick}                  
               value="null"
             >
-              Cancel
+              Close
             </button>
           <button
             className="btn btn--blue pvs phm"

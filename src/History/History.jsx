@@ -10,14 +10,16 @@ class History extends Component{
       isBeingEditedIndex: null,    /* this is the id of the expense being edited, only allow one at a time */
     }
 
-    /* Sort expenses by date by default. Setting this up in the constructor
+    /* Sort expenses by date by default only for initial load. Setting this up in the constructor so we're
       not sorting in edit form because we don't want state to update and rerender which could
       yoink stuff around */
-    this.allExpensesSorted = this.props.allExpenses.sort(function(a, b) {
+    const allExpensesSorted = [...this.props.allExpenses];
+    allExpensesSorted.sort(function(a, b) {
       var dateA = new Date(a.datetime), dateB = new Date(b.datetime);
       return dateB - dateA;
     });
 
+    this.props.handleHoistedExpenseChange(allExpensesSorted);
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -29,7 +31,7 @@ class History extends Component{
   }
 
   render(){
-    const allExpenses = this.allExpensesSorted; 
+    const allExpenses = this.props.allExpenses; 
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
     return(

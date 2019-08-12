@@ -113,6 +113,12 @@ body {
 .text-right {
   text-align: right !important;
 }
+.left {
+  float: left !important;
+}
+.right {
+  float: right !important;
+}
 
 .card {
   border: 1px solid #ccc;
@@ -130,26 +136,28 @@ body {
 
 /* Margins */
 .mvm {
-  margin-top: 1.6rem;
-  margin-bottom: 1.6rem;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
-
 .mtm {
-  margin-top: 1.6rem;
+  margin-top: 15px;
 }
-
 .mbl {
-  margin-bottom: 3.2rem;
+  margin-bottom: 30px;
+}
+.mvl {
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 .mbm {
-  margin-bottom: 1.6rem;
+  margin-bottom: 15px;
 }
 .mbs {
-  margin-bottom: 0.8rem;
+  margin-bottom: 7.5px;
 }
 /* TODO: ditch the rems and go back to px */
 .mrl {
-  margin-right: 3.2rem;
+  margin-right: 30px;
 }
 .mrm {
   margin-right: 15px;
@@ -173,6 +181,10 @@ body {
 .pvm {
   padding-top: 15px;
   padding-bottom: 15px;
+}
+.pvl {
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 .pbm {
   padding-bottom: 15px;

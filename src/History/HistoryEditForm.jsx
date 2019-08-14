@@ -1,6 +1,7 @@
 import React, { Component} from "react";
 import { PropTypes } from "prop-types";
 import Modal from 'react-modal';
+const { format } = require('date-fns');
 
 const customModalStyles = {
   content : {
@@ -111,7 +112,7 @@ class HistoryEditForm extends Component{
   render(){
     const { amount, category, datetime } = this.state;
     /* The HTML input type="datetime-local" takes a custom format that is only part of the standard ISO format */
-    const formattedDatetime = new Date(datetime).toISOString().slice(0,16);
+    const formattedDatetime = format(datetime, 'YYYY-MM-DDTHH:mm');
 
     return( 
       <form  

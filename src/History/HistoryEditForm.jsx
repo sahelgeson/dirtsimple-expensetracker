@@ -71,18 +71,12 @@ class HistoryEditForm extends Component{
   closeModal() {
     this.setState({modalIsOpen: false});
   }
-  deleteExpense() {
 
+  deleteExpense() {
     let allExpensesUpdated = [...this.props.allExpenses];
     allExpensesUpdated.splice(this.props.isBeingEditedIndex, 1);
-
-    
-    /* TODO: this time we want to rerender History */
-    console.log("allExpensesUpdated: " + allExpensesUpdated);
     this.props.handleHoistedExpenseChange(allExpensesUpdated);
     this.closeModal();
-
-    /* TODO: need to close out HistoryEditForm */
   }
 
   handleSubmit(event) {
@@ -93,10 +87,6 @@ class HistoryEditForm extends Component{
     console.log('An expense was edited: ' + this.state.amount);
 
     const {amount, category, datetime} = this.state;
-
-    console.log('datetime: ' + datetime);
-    console.log('amount: ' + amount);
-    console.log('category: ' + category);
 
     const editedExpense = {
       datetime,

@@ -23,6 +23,13 @@ class History extends Component{
     this.handleClick = this.handleClick.bind(this);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    /* In case user deletes an expense, close the edit form. */
+    if (prevProps.allExpenses.length !== this.props.allExpenses.length) {
+      this.setState({isBeingEditedIndex: null});
+    }
+  }
+
   handleClick(event) {
     const indexNumber = parseInt(event.target.value, 10);
     (this.state.isBeingEditedIndex === indexNumber)

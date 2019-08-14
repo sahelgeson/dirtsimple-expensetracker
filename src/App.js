@@ -17,8 +17,9 @@ class App extends Component{
       }
 
       For datetime, value is stored in localStorage, which means it has to go through JSON.stringify.
-      JSON.stringify converts dates to an ISO format ( Date.toISOString => YYYY-MM-DDTHH:mm:ss.sssZ)
-      We're not doing conversion in the App state, it needs to be done in child components where needed
+      JSON.stringify converts Date objects to an ISO format ( Date.toISOString => YYYY-MM-DDTHH:mm:ss.sssZ)
+      We don't want timezones/GMT, just the local datetime, so we use Date.toString and just save the
+      String. Formatting should be done in child components where needed.
     */
 
     /* allExpenses is not sorted in any order, sorting should be done by child components */

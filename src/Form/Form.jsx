@@ -48,8 +48,12 @@ class Form extends Component{
     event.preventDefault();
     if (!this.state.amount) { return false; }  /* TODO change this to an error message */
       
-    /* TODO: double check this, do I want the same format everywhere? */
-    const datetime = new Date();
+    /* Doing this to avoid issues with ISO/UTC/timezones. 
+        We just want the local date and time for all entries, if a user tracks an expense
+        in a different timezone at 11pm, we don't need to convert it or have it show up as a 
+        different time or even day in the UI. We use toString because JSON.stringify will use
+        Date.toISOString on Date objects but not strings, and we don't want the timezone info */
+    const datetime = new Date().toString();
 
     const {amount, category} = this.state;
 /*

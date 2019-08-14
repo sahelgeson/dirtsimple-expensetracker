@@ -53,8 +53,8 @@ class HistoryEditForm extends Component{
 
   handleDateChange(event) {
     try {
-      const ISODate = new Date(event.target.value).toISOString();
-      this.setState({datetime: ISODate});  
+      const date = new Date(event.target.value).toString();
+      this.setState({datetime: date});  
     } catch (e) { /* Chrome's datepicker is buggy and will sometimes have an empty string value */ }
   }
 

@@ -1,7 +1,9 @@
 import React, { Component} from "react";
 import { PropTypes } from "prop-types";
+import Form from "./Form/Form.jsx";
+import RecentExpenses from "./RecentExpenses/RecentExpenses.jsx";
 
-class Form extends Component{
+class Home extends Component{
   constructor(props) {
     super(props);
   
@@ -32,6 +34,7 @@ class Form extends Component{
   }
 
   handleCategoryChange(event) {
+    console.log('Category was changed to: ' + event.target.value);
     this.setState({category: event.target.value});
   }
 
@@ -68,66 +71,25 @@ class Form extends Component{
   
   render(){
     return (
-      <form 
-        onSubmit={this.handleSubmit}
-        className="main-form mbl"
-      >
-        {/* TODO add an onselect so it resets the value when a user taps into it? */}
-        <label 
-          htmlFor="amount"
-          className="sr-only"            
-        >
-          Enter amount of this expense  
-        </label>
-        <input 
-          id="amount"
-          className="input full-width font-25 mvm"
-          type="number" 
-          placeholder="$0.00" 
-          min="0.01" 
-          step="0.01"
-          pattern="\d*"
-          onChange={this.handleAmountChange}
-          onFocus={this.handleFocus}
-          value={this.state.amount}
+      <div className="App container">
+        <Form
+          allExpenses={this.props.allExpenses}
+          categories={this.props.categories} 
+          handleHoistedExpenseChange={this.props.handleHoistedExpenseChange}
         />
-        <label
-          htmlFor="category"
-          className="block text-center gray-777 mbs"
-        >
-          Category
-        </label>
 
-        <select
-          id="category"
-          className="input input-secondary full-width font-25 mbm"
-          value={this.state.category} 
-          onChange={this.handleCategoryChange}
-        >
-          {this.props.categories.map((category, i) =>
-              <option 
-                key={i}
-                value={category}
-              >
-                {category}
-              </option>
-          )}
-        </select>
-
-        <input 
-          className="input full-width font-25 mvm"
-          type="submit" 
-          value="Save" 
-        />
-      </form>
+        {this.props.allExpenses.length ? 
+          <RecentExpenses recentExpenses={this.props.allExpenses} /> 
+        : null}
+      </div>
     );
   }
 }
 
-Form.propTypes = {
+Home.propTypes = {
   allExpenses: PropTypes.array.isRequired,
   categories: PropTypes.array.isRequired,
   handleHoistedExpenseChange: PropTypes.func.isRequired,
 };
 
-export default Form;
+export default Home;

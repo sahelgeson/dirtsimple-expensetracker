@@ -1,6 +1,8 @@
 import React from "react";
 import { PropTypes } from "prop-types";
 import { Link } from "react-router-dom";
+import styled, { keyframes, css } from "styled-components";
+import { fadeInDown } from "react-animations";
 
 function RecentExpenses(props){
   const recentExpensesSorted = props.recentExpenses.sort(function(a, b) {
@@ -8,6 +10,14 @@ function RecentExpenses(props){
     return dateB - dateA;
   });
   const numberOfRecentShown = 7; 
+
+  const fadeInDownAnimation = keyframes`${fadeInDown}`;
+
+  const Transition = styled.div`
+    ${props => props.active && css`
+      animation: 1s ${fadeInDownAnimation};
+    `}
+  `;
 
   return(
     <div className="card pal">
@@ -17,22 +27,24 @@ function RecentExpenses(props){
       <table className="full-width mbm">
         <tbody>
           {recentExpensesSorted.slice(0,numberOfRecentShown).map((expense, i) =>
-            <tr key={i}>
-              <td>
-                <span className="dollar inline-block">$</span>
-                <span className="inline-block">
-                  {expense.amount}
-                </span>
-              </td>
-              <td>
-                {expense.category}
-              </td>
-              <td>
-                {new Date(expense.datetime).getMonth() + 1}/                  
-                {new Date(expense.datetime).getDate()}/
-                {new Date(expense.datetime).getFullYear().toString().slice(-2)}
-              </td>
-            </tr>                  
+            <Transition key={i} active={!i}>     
+              <tr >
+                <td>
+                  <span className="dollar inline-block">$</span>
+                  <span className="inline-block">
+                    {expense.amount}
+                  </span>
+                </td>
+                <td>
+                  {expense.category}
+                </td>
+                <td>
+                  {new Date(expense.datetime).getMonth() + 1}/                  
+                  {new Date(expense.datetime).getDate()}/
+                  {new Date(expense.datetime).getFullYear().toString().slice(-2)}
+                </td>
+              </tr>          
+            </Transition>    
           )}
         </tbody>             
       </table>

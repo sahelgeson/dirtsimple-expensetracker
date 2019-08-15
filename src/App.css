@@ -1,9 +1,16 @@
+/* Reset section */
 /* apply a natural box layout model to all elements, but allowing components to change */
 html {
   box-sizing: border-box;
 }
 *, *:before, *:after {
   box-sizing: inherit;
+}
+table {
+  border-collapse: collapse;
+}
+th, td {
+  padding: 0;
 }
 
 .sr-only {
@@ -96,9 +103,96 @@ body {
   width: 45%;
 }
 
+.card {
+  border: 1px solid #ccc;
+}
+
+.dollar {
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  color: #777;
+}
+
+.gray-777 {
+  color: #777;
+}
+
+@keyframes highlightfade {
+  from { background: orange; }
+  to { background: transparent; }
+}
+.highlight {
+  animation-name: highlightfade;
+  animation-duration: 1.5s;
+}
+/*
+.highlight-enter {
+  opacity: 0.01;
+}
+
+.highlight-enter.highlight-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.highlight-leave {
+  opacity: 1;
+}
+
+.highlight-leave.highlight-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+*/
 
 
-/* give one style for spacing, another for "buttons" */
+.fade-enter {
+  max-height: 0;
+  opacity: 0;
+}
+
+.fade-enter-active {
+  max-height: 30px;
+  opacity: 1;
+  transition: all 500ms;
+}
+
+.fade-exit {
+  max-height: 30px;
+  opacity: 1;
+}
+
+.fade-exit-active {
+  max-height: 0;
+  opacity: 0;
+  transition: all 500ms;
+}
+
+
+.btn {
+  border-radius: 5px;
+  -webkit-appearance: none;
+}
+  .btn--blue {
+    font-weight: bold;
+    font-size: 16px;
+    background: #0078e7;
+    color: white;
+  }
+  .btn--red {
+    font-weight: bold;
+    font-size: 16px;
+    background: #f44336;
+    color: white;
+  }
+  .btn--outline {
+    //font-weight: bold;
+    font-size: 16px;
+    background: #eee;
+    //background: white;
+    border: 1px solid #ccc;
+  }
+
 
 .center {
   display: block;
@@ -119,17 +213,6 @@ body {
 .right {
   float: right !important;
 }
-
-.card {
-  border: 1px solid #ccc;
-}
-
-.dollar {
-  font-size: 0.8rem;
-  letter-spacing: 2px;
-  color: #777;
-}
-
 .inline-block {
   display: inline-block !important;
 }
@@ -241,31 +324,3 @@ body {
 .font-12 {
   font-size: 12px;
 }
-
-.gray-777 {
-  color: #777;
-}
-
-.btn {
-  border-radius: 5px;
-  -webkit-appearance: none;
-}
-  .btn--blue {
-    font-weight: bold;
-    font-size: 16px;
-    background: #0078e7;
-    color: white;
-  }
-  .btn--red {
-    font-weight: bold;
-    font-size: 16px;
-    background: #f44336;
-    color: white;
-  }
-  .btn--outline {
-    //font-weight: bold;
-    font-size: 16px;
-    background: #eee;
-    //background: white;
-    border: 1px solid #ccc;
-  }

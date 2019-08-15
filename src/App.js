@@ -1,6 +1,6 @@
 import React, { Component} from "react";
 import './App.css';
-import Form from "./Form/Form.jsx";
+import Home from "./Home.jsx";
 import History from "./History/History.jsx";
 import { Route } from "react-router-dom";
 import DefaultCategories from "./DefaultCategories.js";
@@ -51,7 +51,7 @@ class App extends Component{
         <Route
           exact path="/"
           render={(props) => 
-            <Form {...props} 
+            <Home {...props} 
               allExpenses={allExpenses} 
               categories={categories} 
               handleHoistedExpenseChange={this.handleHoistedExpenseChange}

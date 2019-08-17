@@ -115,7 +115,7 @@ class Form extends Component{
         </select>
 
         <input 
-          className="input full-width font-25 mvm"
+          className="input btn full-width font-25 mvm"
           type="submit" 
           value="Save" 
         />

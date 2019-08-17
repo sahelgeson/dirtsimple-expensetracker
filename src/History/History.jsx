@@ -48,11 +48,12 @@ class History extends Component{
         </div>
         {(!allExpenses.length) 
           ? <div className="text-center">No expenses entered yet</div>
-          : <div className="ftable font-14">
+          : <div className="ftable font-16">
           {/* TODO consider a limit on this with a "View more" button */}
-          {allExpenses.map((expense, i) =>
+          {allExpenses.map((expense, i) => 
               <div 
                 className="ftable__row" 
+                className={ (this.state.isBeingEditedIndex === i) ? 'ftable__row test' : 'ftable__row' }
                 key={i}
               >
                 <div className="ftable__cell ftable__cell--amount text-right pvm phxs">
@@ -78,8 +79,9 @@ class History extends Component{
                     Edit 
                   </button>
                 </div>
+                <div className="full-width divider divider--dotted mvn"></div>
 
-                {(this.state.isBeingEditedIndex !== null && this.state.isBeingEditedIndex === i) ?
+                {(this.state.isBeingEditedIndex === i) ?
                   <HistoryEditForm 
                     thisExpense={expense} 
                     categories={this.props.categories} 

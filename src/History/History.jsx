@@ -40,6 +40,7 @@ class History extends Component{
   render(){
     const allExpenses = this.props.allExpenses; 
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const active = this.state.isBeingEditedIndex;
 
     return(
       <div className="container-smaller">
@@ -52,8 +53,9 @@ class History extends Component{
           {/* TODO consider a limit on this with a "View more" button */}
           {allExpenses.map((expense, i) => 
               <div 
-                className="ftable__row" 
-                className={ (this.state.isBeingEditedIndex === i) ? 'ftable__row test' : 'ftable__row' }
+                className={(i === active) ? 
+                    "ftable__row phs editing"
+                    : "ftable__row phs" }
                 key={i}
               >
                 <div className="ftable__cell ftable__cell--amount text-right pvm phxs">
@@ -72,16 +74,23 @@ class History extends Component{
                 </div>
                 <div className="ftable__cell ftable__cell--edit text-right">
                   <button
-                    className="btn btn--outline phxs pvs"
+                    className="btn btn--outline btn--edit paxs"
                     onClick={this.handleClick}                  
                     value={i} 
                   >
                     Edit 
                   </button>
                 </div>
-                <div className="full-width divider divider--dotted mvn"></div>
 
-                {(this.state.isBeingEditedIndex === i) ?
+                {/* Adds visibility hidden to divider instead of returning null so the space doesn't
+                    collapse and have text move a pixel or two */}
+                <div className={(i !== active - 1) && (i !== active) ?
+                      "full-width divider divider--dotted mvn"
+                    : "full-width divider divider--dotted mvn visibility-hidden" }
+                >
+                </div>
+
+                {(i === active) ?
                   <HistoryEditForm 
                     thisExpense={expense} 
                     categories={this.props.categories} 

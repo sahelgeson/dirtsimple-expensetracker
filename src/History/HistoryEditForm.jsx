@@ -116,19 +116,22 @@ class HistoryEditForm extends Component{
 
     return( 
       <form  
-        className="ftable__row card phm pbm pts mbs"
+        className="ftable__row xxcard phm pbm pts mbs"
       >
+        <legend className="legend pvn pbs mbs">
+            Edit
+        </legend>
         <div className="full-width pbm">
           <div>
             <label 
               htmlFor="amount"   
               className="edit-label pvm"        
             >
-              Change amount  
+              Amount  
             </label>
             <input 
               id="amount"
-              className="input edit-input-number inline-block font-16 phxs pvs"
+              className="input edit-input--number inline-block font-16 phxs pvs"
               type="number" 
               placeholder={amount} 
               min="0.01" 
@@ -143,11 +146,11 @@ class HistoryEditForm extends Component{
               htmlFor="category" 
               className="edit-label pvm"          
             >
-              Change category  
+              Category  
             </label>
             <select
               id="category"
-              className="input input-secondary inline-block font-16 phxs pvs"
+              className="input input-secondary bg-white inline-block font-16 phxs pvs"
               value={category} 
               onChange={this.handleCategoryChange}
             >
@@ -166,7 +169,7 @@ class HistoryEditForm extends Component{
               htmlFor="datetime"
               className="edit-label pvm"           
             >
-              Change date   
+              Date   
             </label>
             {/* using datetime-local to avoid issues with manipulating/formatting Dates */}
             <input 

@@ -118,7 +118,7 @@ class HistoryEditForm extends Component{
 
     return( 
       <form  
-        className="ftable__row xxcard phm pbm pts mbs"
+        className="ftable__row phm pbm pts mbs"
       >
         <legend className="legend pvn pbs mbs">
             Edit

@@ -3,6 +3,8 @@ import { PropTypes } from "prop-types";
 import Modal from 'react-modal';
 const { format } = require('date-fns');
 
+Modal.defaultStyles.overlay.backgroundColor = 'rgba(199, 199, 199, 0.69)';
+
 const customModalStyles = {
   content : {
     position: 'absolute',
@@ -183,7 +185,7 @@ class HistoryEditForm extends Component{
         </div>
         <div className="ftable__row ftable__row--between">
           <button
-            className="btn btn--red  phxs pvs mrxs"
+            className="btn btn--red font-14 phxs pvs mrxs"
             onClick={this.openModal}                  
           >
             Delete
@@ -199,24 +201,24 @@ class HistoryEditForm extends Component{
             <div>Are you sure you want to delete this? This can't be undone.</div>
             <div className="pvl">
               <button 
-                className="btn btn--red phxs pvs mrxs left"
+                className="btn btn--red capitalize phxs pvs mrxs left"
                 onClick={this.deleteExpense}>Yes, Delete
               </button>
               <button 
-                className="btn btn--outline phxs pvs mrxs right"
+                className="btn btn--outline capitalize phxs pvs mrxs right"
                 onClick={this.closeModal}>No, Cancel
               </button>
             </div>
           </Modal>
           <button
-              className="btn btn--outline phxs pvs mrxs"
+              className="btn btn--outline font-14 phm pvs mrxs"
               onClick={this.props.handleClick}                  
               value="null"
             >
               Close
             </button>
           <button
-            className="btn btn--blue pvs phm"
+            className="btn btn--blue font-14 pvs phm"
             onClick={this.handleSubmit}                  
           >
             Save

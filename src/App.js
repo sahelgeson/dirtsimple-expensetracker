@@ -1,5 +1,5 @@
 import React, { Component} from "react";
-import './App.css';
+import './css/App.scss';
 import Home from "./Home.jsx";
 import History from "./History/History.jsx";
 import { Route } from "react-router-dom";

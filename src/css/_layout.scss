@@ -1,0 +1,77 @@
+/* Layout classes */
+
+.container {
+  margin: 0 30px;
+}
+.container-smaller {
+  margin: 0 7.5px;
+}
+.main-form {
+  margin-top: 25%; /* TODO: temporary value */
+}
+
+.center {
+  display: block;
+  text-align: center;
+}
+.block {
+  display: block !important;
+}
+.text-center {
+  text-align: center !important;
+}
+.text-right {
+  text-align: right !important;
+}
+.left {
+  float: left !important;
+}
+.right {
+  float: right !important;
+}
+.inline-block {
+  display: inline-block !important;
+}
+
+.full-width {  
+  width: 100%;
+}
+   
+.ftable {
+    display: flex;
+    flex-wrap: wrap;
+}
+.ftable__row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+  .ftable__row--between {
+    justify-content: space-between;
+  }
+  
+.ftable__cell {
+  display: flex;
+  flex-grow: 1;
+  width: 25%;  
+  overflow: hidden; /* Or flex might break */
+  //outline: 1px solid aquamarine;
+}
+  .ftable__cell--amount {
+    width: 6%;  
+  }
+  .ftable__cell--date {
+    width: 12%;  
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .ftable__cell--edit {
+    width: 6%;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+.card {
+  border: 1px solid #ccc;
+}
+

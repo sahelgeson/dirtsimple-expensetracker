@@ -1,0 +1,53 @@
+/* 
+  Orientations are:
+  a: all
+  h: horizontal
+  v: vertical
+  t: top
+  r: right
+  b: bottom
+  l: left
+*/
+
+$orientations: 'a', 'h', 'v', 't', 'r', 'b', 'l';
+$sizes: (
+  'l': 30px, 
+  'm': 15px, 
+  's': 7.5px, 
+  'xs': 5px,
+  'n': 0,
+);
+
+@each $orientation in orientations {
+  @each $size, $px in $sizes {
+    .p#{$orientation}#{$size} { 
+      @if ($orientation == 'a' or $orientation == 'v' or $orientation == 't') {
+        padding-top: #{$px} !important;
+      }
+      @if ($orientation == 'a' or $orientation == 'h' or $orientation == 'r') {
+        padding-right: #{$px} !important;
+      }
+      @if ($orientation == 'a' or $orientation == 'v' or $orientation == 'b') {
+        padding-bottom: #{$px} !important;
+      }
+      @if ($orientation == 'a' or $orientation == 'h' or $orientation == 'l') {
+        padding-left: #{$px} !important;
+      }
+    }
+
+    .m#{$orientation}#{$size} { 
+      @if ($orientation == 'a' or $orientation == 'v' or $orientation == 't') {
+        margin-top: #{$px} !important;
+      }
+      @if ($orientation == 'a' or $orientation == 'h' or $orientation == 'r') {
+        margin-right: #{$px} !important;
+      }
+      @if ($orientation == 'a' or $orientation == 'v' or $orientation == 'b') {
+        margin-bottom: #{$px} !important;
+      }
+      @if ($orientation == 'a' or $orientation == 'h' or $orientation == 'l') {
+        margin-left: #{$px} !important;
+      }
+    }
+  }
+}

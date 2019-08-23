@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { PropTypes } from "prop-types";
 import { Link } from "react-router-dom";
 import styled, { keyframes, css } from "styled-components";
@@ -9,6 +9,8 @@ function RecentExpenses(props){
     return dateB - dateA;
   });
   const numberOfRecentShown = 7; 
+
+  const firstLoadFlag = useRef(true);
 
   const highlightfade = keyframes`{
       from { background: orange; }
@@ -22,6 +24,10 @@ function RecentExpenses(props){
     `}
   `;
 
+  useEffect(() => {
+    firstLoadFlag.current = false;
+  });
+
   return(
     <div className="card phm pvm">
       <div className="center gray-777 mbs">
@@ -31,7 +37,7 @@ function RecentExpenses(props){
         {recentExpensesSorted.slice(0,numberOfRecentShown).map((expense, i) =>
           <Transition 
             key={i} 
-            active={!i}
+            active={!firstLoadFlag.current && !i}
             className="tr"
           >     
             <div className="td pls pvs">

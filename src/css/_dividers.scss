@@ -1,0 +1,21 @@
+.divider {
+    height: 1px;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    padding: 0;
+    display: block;
+    background-color: #ddd;
+    zoom: 1;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}  
+
+/* from here: http://stackoverflow.com/a/18064496 */
+.divider--dotted {
+  background-color: transparent;
+  background-image: linear-gradient(to right, #ccc 20%, rgba(68,68,68,0) 0%);
+  background-position: top;
+  background-size: 5px 1px;
+  background-repeat: repeat-x;
+}

@@ -82,7 +82,7 @@ class History extends Component{
                   </button>
                 </div>
 
-                {/* Adds visibility hidden to divider instead of returning null so the space doesn't
+                {/* Adds visibility hidden to element instead of returning null so the space doesn't
                     collapse and have text move a pixel or two */}
                 <div className={(i !== active - 1) && (i !== active) ?
                       "full-width divider divider--dotted mvn"

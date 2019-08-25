@@ -19,6 +19,7 @@ class Form extends Component{
     this.state = {
       amount: '',
       category: defaultCategory,
+      isSaved: false,
     }
 
     this.handleAmountChange = this.handleAmountChange.bind(this);
@@ -36,13 +37,22 @@ class Form extends Component{
   }
 
   handleFocus() {
-    this.setState({amount: ''});
+    this.setState({
+        amount: '',
+        iSaved: false,
+    });
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    if (!this.state.amount) { return false; }  /* TODO change this to an error message */
+    if (!this.state.amount) { 
+      /* TODO add an error message or effect here */
+      this.setState({iSaved: false});
+      return false; 
+    }  
       
+    this.setState({iSaved: true});
+
     /* Doing this to avoid issues with ISO/UTC/timezones. 
         We just want the local date and time for all entries, if a user tracks an expense
         in a different timezone at 11pm, we don't need to convert it or have it show up as a 
@@ -72,7 +82,18 @@ class Form extends Component{
         onSubmit={this.handleSubmit}
         className="main-form mbl"
       >
-        {/* TODO add an onselect so it resets the value when a user taps into it? */}
+
+        {/* Adds visibility hidden to element instead of returning null so the space doesn't
+            collapse and have text move a pixel or two 
+            
+            TODO: check a11y on this */}
+        <div className={this.state.iSaved ?
+              "status text-center gray-777 font-14"
+            : "status text-center gray-777 font-14 visibility-hidden" }
+        >
+          Saved!
+        </div>
+
         <label 
           htmlFor="amount"
           className="sr-only"            
@@ -81,7 +102,7 @@ class Form extends Component{
         </label>
         <input 
           id="amount"
-          className="input full-width font-25 mvm"
+          className="input gray-border full-width font-25 mvm"
           type="number" 
           placeholder="$0.00" 
           min="0.01" 
@@ -115,8 +136,9 @@ class Form extends Component{
         </select>
 
         <input 
-          className="input btn full-width font-25 mvm"
+          className="input btn btn--blue full-width font-25 mvm"
           type="submit" 
+          disabled={this.state.amount === '' ? true : false}
           value="Save" 
         />
       </form>

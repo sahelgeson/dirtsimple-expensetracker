@@ -124,7 +124,7 @@ class HistoryEditForm extends Component{
             Edit
         </legend>
         <div className="full-width pbm">
-          <div>
+          <div className="mvm">
             <label 
               htmlFor="amount"   
               className="edit-label pvm"        
@@ -133,7 +133,7 @@ class HistoryEditForm extends Component{
             </label>
             <input 
               id="amount"
-              className="input edit-input--number inline-block font-16 phxs pvs"
+              className="input edit-input--number gray-border inline-block font-16 phxs pvs"
               type="number" 
               placeholder={amount} 
               min="0.01" 
@@ -143,7 +143,7 @@ class HistoryEditForm extends Component{
               value={amount}
             />
           </div>
-          <div>
+          <div className="mvm">
             <label 
               htmlFor="category" 
               className="edit-label pvm"          
@@ -166,7 +166,7 @@ class HistoryEditForm extends Component{
               )}
             </select>
           </div>
-          <div>
+          <div className="mvm">
             <label 
               htmlFor="datetime"
               className="edit-label pvm"           
@@ -185,7 +185,7 @@ class HistoryEditForm extends Component{
         </div>
         <div className="ftable__row ftable__row--between">
           <button
-            className="btn btn--red font-14 phxs pvs mrxs"
+            className="btn btn--red font-14 phm pvm mrxs"
             onClick={this.openModal}                  
           >
             Delete
@@ -201,24 +201,24 @@ class HistoryEditForm extends Component{
             <div>Are you sure you want to delete this? This can't be undone.</div>
             <div className="pvl">
               <button 
-                className="btn btn--red capitalize phxs pvs mrxs left"
+                className="btn btn--red capitalize phm pvm mrxs left"
                 onClick={this.deleteExpense}>Yes, Delete
               </button>
               <button 
-                className="btn btn--outline capitalize phxs pvs mrxs right"
+                className="btn btn--outline capitalize phm pvm mrxs right"
                 onClick={this.closeModal}>No, Cancel
               </button>
             </div>
           </Modal>
           <button
-              className="btn btn--outline font-14 phm pvs mrxs"
+              className="btn btn--outline gray-777 font-14 phm pvm mrxs"
               onClick={this.props.handleClick}                  
               value="null"
             >
               Close
             </button>
           <button
-            className="btn btn--blue font-14 pvs phm"
+            className="btn btn--blue font-14 pvm phm"
             onClick={this.handleSubmit}                  
           >
             Save

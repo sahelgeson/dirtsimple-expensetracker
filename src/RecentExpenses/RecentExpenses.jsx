@@ -13,7 +13,7 @@ function RecentExpenses(props){
   const firstLoadFlag = useRef(true);
 
   const highlightfade = keyframes`{
-      from { background: orange; }
+      from { background: rgba(255, 220, 110, 0.8); }
       to { background: transparent; }
     }
   `;

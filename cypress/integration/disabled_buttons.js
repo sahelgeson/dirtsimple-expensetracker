@@ -1,3 +1,5 @@
+import { testExpense } from '../utils/constants';
+
 describe('Check that save buttons are disabled when amount is zero, empty, or NaN', function () {
 
     describe('Check the save button on the homepage', function () {
@@ -28,9 +30,13 @@ describe('Check that save buttons are disabled when amount is zero, empty, or Na
 
     describe('Check the save button on the edit form on the history page', function () {
         before(() => {
-            cy.visit('/history/').then(() => {
-                cy.getQa('history-edit-btn').eq(0).click();
+            cy.visit('/').then(() => {
+                window.localStorage.setItem('myExpenses', JSON.stringify(testExpense))
+                cy.visit('/history/').then(() => {
+                    cy.getQa('history-edit-btn').eq(0).click();
+                });
             });
+            
         });   
 
         it('should open the first entry and check the button is disabled if user enters 0', function () {

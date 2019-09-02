@@ -111,6 +111,7 @@ class Form extends Component{
           onChange={this.handleAmountChange}
           onFocus={this.handleFocus}
           value={this.state.amount}
+          data-qa="main-form-amount-input"    
         />
         <label
           htmlFor="category"
@@ -140,6 +141,7 @@ class Form extends Component{
           type="submit" 
           disabled={parseInt(this.state.amount) ? false : true}
           value="Save" 
+          data-qa="main-form-save-btn"          
         />
       </form>
     );

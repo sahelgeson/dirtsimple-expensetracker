@@ -23,3 +23,10 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+/**
+ * data-qa attribute helpers
+ */
+Cypress.Commands.add('getQa', (dataQa) => {
+    cy.get(`[data-qa="${dataQa}"]`);
+});

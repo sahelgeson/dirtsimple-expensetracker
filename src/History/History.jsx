@@ -77,6 +77,7 @@ class History extends Component{
                     className="btn btn--outline btn--edit paxs"
                     onClick={this.handleClick}                  
                     value={i} 
+                    data-qa="history-edit-btn"     
                   >
                     Edit 
                   </button>

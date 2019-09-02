@@ -141,6 +141,7 @@ class HistoryEditForm extends Component{
               pattern="\d*"
               onChange={this.handleAmountChange}
               value={amount}
+              data-qa="history-form-amount-input"   
             />
           </div>
           <div className="mvm">
@@ -220,7 +221,8 @@ class HistoryEditForm extends Component{
           <button
             className="btn btn--blue font-14 pvm phm"
             onClick={this.handleSubmit}  
-            disabled={!!parseInt(this.state.amount) ? false : true}                
+            disabled={!!parseInt(this.state.amount) ? false : true} 
+            data-qa="history-form-save-btn"                  
           >
             Save
           </button>

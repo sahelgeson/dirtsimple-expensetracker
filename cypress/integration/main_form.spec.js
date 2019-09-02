@@ -1,6 +1,6 @@
 describe('Check the easy path for the user entering in a new expense', function () {
 
-    describe('Check that user can enter an amount', function () {
+    describe('Check that user can enter a new expense which is saved and displayed in Recent Expenses', function () {
         before(() => {
             cy.visit('/');
         });  
@@ -26,5 +26,15 @@ describe('Check the easy path for the user entering in a new expense', function 
                 expect(newExpense.category).to.equal('Other');
             });
         });  
+
+        it('should enter in an amount and save a new expense which shows up at the top of Recent Expenses', function () {
+            cy.getQa('main-form-amount-input').type('8');
+            cy.getQa('main-form-category-input').select('Clothes');
+            cy.getQa('main-form-save-btn').click().then(() =>{
+                // get the first item in recent expenses
+                cy.getQa('recent-expenses').get('.tr').eq(0).get('.td').eq(0).should('contain', '$8')
+                cy.getQa('recent-expenses').get('.tr').eq(0).get('.td').eq(1).should('contain', 'Clothes')
+            });
+        });          
     });
 });

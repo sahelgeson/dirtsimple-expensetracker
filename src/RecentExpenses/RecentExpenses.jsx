@@ -33,7 +33,10 @@ function RecentExpenses(props){
       <div className="center gray-777 mbs">
         Recent Expenses
       </div>
-      <div className="table font-14 full-width mbm">
+      <div 
+        className="table font-14 full-width mbm"
+        data-qa="recent-expenses"
+      >
         {recentExpensesSorted.slice(0,numberOfRecentShown).map((expense, i) =>
           <Transition 
             key={i} 

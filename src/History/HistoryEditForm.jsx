@@ -219,7 +219,8 @@ class HistoryEditForm extends Component{
             </button>
           <button
             className="btn btn--blue font-14 pvm phm"
-            onClick={this.handleSubmit}                  
+            onClick={this.handleSubmit}  
+            disabled={!!parseInt(this.state.amount) ? false : true}                
           >
             Save
           </button>

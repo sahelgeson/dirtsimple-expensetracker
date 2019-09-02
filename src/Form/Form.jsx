@@ -138,7 +138,7 @@ class Form extends Component{
         <input 
           className="input btn btn--blue full-width font-25 mvm"
           type="submit" 
-          disabled={this.state.amount === '' ? true : false}
+          disabled={parseInt(this.state.amount) ? false : true}
           value="Save" 
         />
       </form>

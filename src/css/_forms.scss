@@ -15,9 +15,12 @@
     border: 1px solid #ccc;
     background: none;
   }
-  .input[disabled] {
-    opacity: 0.5;
-  }
+
+
+.input[disabled],
+.btn[disabled] {
+  opacity: 0.5;
+}
 
 .edit-label {
   display: inline-block;

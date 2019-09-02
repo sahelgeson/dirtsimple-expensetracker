@@ -1,4 +1,4 @@
-import { testExpense } from '../utils/constants';
+import { testExpenses } from '../utils/constants';
 
 describe('Check that save buttons are disabled when amount is zero, empty, or NaN', function () {
 
@@ -31,7 +31,7 @@ describe('Check that save buttons are disabled when amount is zero, empty, or Na
     describe('Check the save button on the edit form on the history page', function () {
         before(() => {
             cy.visit('/').then(() => {
-                window.localStorage.setItem('myExpenses', JSON.stringify(testExpense))
+                window.localStorage.setItem('myExpenses', JSON.stringify(testExpenses))
                 cy.visit('/history/').then(() => {
                     cy.getQa('history-edit-btn').eq(0).click();
                 });

@@ -125,6 +125,7 @@ class Form extends Component{
           className="input input-secondary full-width font-25 mbm"
           value={this.state.category} 
           onChange={this.handleCategoryChange}
+          data-qa="main-form-category-input" 
         >
           {this.props.categories.map((category, i) =>
               <option 

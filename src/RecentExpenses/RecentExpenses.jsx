@@ -29,12 +29,12 @@ function RecentExpenses(props){
   });
 
   return(
-    <div className="card phm pvm">
+    <div className="card phm pvm mbl">
       <div className="center gray-777 mbs">
         Recent Expenses
       </div>
       <div 
-        className="table font-14 full-width mbm"
+        className="table font-14 full-width mbl"
         data-qa="recent-expenses"
       >
         {recentExpensesSorted.slice(0,numberOfRecentShown).map((expense, i) =>
@@ -60,8 +60,12 @@ function RecentExpenses(props){
         )}    
       </div>
 
-      <div className="text-center">
-        <Link to="/history">See all expenses</Link>              
+      <div className="text-center mvm">
+        <Link to="/history"
+          className="link phm"
+        >
+          See all expenses <span className="link__arrow">&#9654;</span>
+        </Link>              
       </div> 
     </div>
   );

@@ -1,9 +1,9 @@
 import React, { Component} from "react";
 import { PropTypes } from "prop-types";
-import Modal from 'react-modal';
+import ReactModal from 'react-modal';
 const { format } = require('date-fns');
 
-Modal.defaultStyles.overlay.backgroundColor = 'rgba(199, 199, 199, 0.69)';
+ReactModal.defaultStyles.overlay.backgroundColor = 'rgba(80, 80, 80, 0.69)';
 
 const customModalStyles = {
   content : {
@@ -17,11 +17,11 @@ const customModalStyles = {
     overflow: 'auto',
     borderRadius: '4px',
     outline: 'none',
-    padding: '30px',
+    padding: '30px 15px',
   }
 };
 
-Modal.setAppElement('#root');
+ReactModal.setAppElement('#root');
 
 class HistoryEditForm extends Component{
   constructor(props) {
@@ -133,7 +133,7 @@ class HistoryEditForm extends Component{
             </label>
             <input 
               id="amount"
-              className="input edit-input--number gray-border inline-block font-16 phxs pvs"
+              className="edit-input gray-border font-16 plm pvs prxs"
               type="number" 
               placeholder={amount} 
               min="0.01" 
@@ -153,7 +153,7 @@ class HistoryEditForm extends Component{
             </label>
             <select
               id="category"
-              className="input input-secondary bg-white inline-block font-16 phxs pvs"
+              className="edit-input select-css gray-border font-16 plm pvs prxs"
               value={category} 
               onChange={this.handleCategoryChange}
             >
@@ -178,7 +178,7 @@ class HistoryEditForm extends Component{
             <input 
               type="datetime-local" 
               id="datetime"
-              className="font-16"
+              className="edit-input select-css gray-border inline-block font-16 plm pvs prxs"
               onChange={this.handleDateChange}
               value={formattedDatetime}
             ></input>
@@ -191,7 +191,7 @@ class HistoryEditForm extends Component{
           >
             Delete
           </button>
-          <Modal
+          <ReactModal
             isOpen={this.state.modalIsOpen}
             onAfterOpen={this.afterOpenModal}
             onRequestClose={this.closeModal}
@@ -199,7 +199,7 @@ class HistoryEditForm extends Component{
             contentLabel="Deletion Modal"
           >
             {/*<h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>*/}
-            <div>Are you sure you want to delete this? This can't be undone.</div>
+            <div>Are you sure you want to delete this expense entirely? This can't be undone.</div>
             <div className="pvl">
               <button 
                 className="btn btn--red capitalize phm pvm mrxs left"
@@ -210,7 +210,7 @@ class HistoryEditForm extends Component{
                 onClick={this.closeModal}>No, Cancel
               </button>
             </div>
-          </Modal>
+          </ReactModal>
           <button
               className="btn btn--outline gray-777 font-14 phm pvm mrxs"
               onClick={this.props.handleClick}                  

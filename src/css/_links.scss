@@ -1,0 +1,15 @@
+
+.link {
+	text-decoration: none;
+	color: #096ec7;	
+}
+	/* TODO: switch this to content after so that text is still centered, add different states */
+	.link__arrow {
+		display: table-cell;
+		font-size: 11px;
+		vertical-align: middle;
+		height: 100%;
+		padding-left: 1px;
+	}
+
+

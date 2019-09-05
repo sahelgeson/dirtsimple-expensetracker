@@ -122,7 +122,7 @@ class Form extends Component{
 
         <select
           id="category"
-          className="input input-secondary full-width font-25 mbm"
+          className="select-css input input-secondary full-width font-25 mbm"
           value={this.state.category} 
           onChange={this.handleCategoryChange}
           data-qa="main-form-category-input" 

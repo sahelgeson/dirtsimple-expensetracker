@@ -26,7 +26,6 @@ class Home extends Component{
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleAmountChange(event) {
@@ -41,33 +40,6 @@ class Home extends Component{
   handleFocus() {
     this.setState({amount: ''});
   }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    if (!this.state.amount) { return false; }  /* TODO change this to an error message */
-      
-    /* Doing this to avoid issues with ISO/UTC/timezones. 
-        We just want the local date and time for all entries, if a user tracks an expense
-        in a different timezone at 11pm, we don't need to convert it or have it show up as a 
-        different time or even day in the UI. We use toString because JSON.stringify will use
-        Date.toISOString on Date objects but not strings, and we don't want the timezone info */
-    const datetime = new Date().toString();
-
-    const {amount, category} = this.state;
-/*
-    console.log('datetime: ' + datetime);
-    console.log('amount: ' + amount);
-    console.log('category: ' + category);
-*/
-    const newExpense = {
-      datetime,
-      amount,
-      category
-    }
-
-    const allExpenses = [newExpense, ...this.props.allExpenses]
-    this.props.handleHoistedExpenseChange(allExpenses);
-  }  
   
   render(){
     return (

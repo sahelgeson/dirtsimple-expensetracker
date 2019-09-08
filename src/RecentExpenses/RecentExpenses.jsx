@@ -62,9 +62,9 @@ function RecentExpenses(props){
 
       <div className="text-center mvm">
         <Link to="/history"
-          className="link phm"
+          className="link link--arrow relative phm"
         >
-          See all expenses <span className="link__arrow">&#9654;</span>
+          See all expenses
         </Link>              
       </div> 
     </div>

@@ -43,7 +43,7 @@ class History extends Component{
     const active = this.state.isBeingEditedIndex;
 
     return(
-      <div className="container-smaller">
+      <div className="container margin-0-auto phs">
         <div className="text-center gray-777 mtm mbs">
           All Expenses
         </div>

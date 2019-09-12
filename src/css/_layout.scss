@@ -1,16 +1,12 @@
 /* Layout classes */
-
-.container {
-  margin: 0 30px;
-}
-.container-smaller {
-  margin: 0 7.5px;
-}
-
 .center {
   display: block;
   text-align: center;
 }
+.margin-0-auto {
+  margin: 0 auto;
+}
+
 .block {
   display: block !important;
 }

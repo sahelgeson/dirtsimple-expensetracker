@@ -14,10 +14,7 @@ body {
 }
 
 .container {
-  margin: 0 30px;
-}
-.container-smaller {
-  margin: 0 7.5px;
+  max-width: 960px;
 }
 
 .main-form {

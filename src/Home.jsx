@@ -43,7 +43,7 @@ class Home extends Component{
   
   render(){
     return (
-      <div className="App container">
+      <div className="App container margin-0-auto phl">
         <Form
           allExpenses={this.props.allExpenses}
           categories={this.props.categories} 

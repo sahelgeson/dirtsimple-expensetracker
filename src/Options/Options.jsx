@@ -21,22 +21,41 @@ class Options extends Component{
     });
 
     this.props.handleHoistedExpenseChange(allExpensesSorted);
-    this.handleClick = this.handleClick.bind(this);
+    this.addCategory = this.addCategory.bind(this);
+    this.deleteCategory = this.deleteCategory.bind(this);
+    this.renameCategory = this.renameCategory.bind(this);
+    this.handleAddCategoryChange = this.handleAddCategoryChange.bind(this);
+    this.handleAddFocus = this.handleAddFocus.bind(this);
+    this.handleDeleteCategoryChange = this.handleDeleteCategoryChange.bind(this);
+  }
+  addCategory() {
+    this.closeModal();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    /* In case user deletes an expense, close the edit form. */
-    if (prevProps.allExpenses.length !== this.props.allExpenses.length) {
-      this.setState({isBeingEditedIndex: null});
-    }
+  deleteCategory() {
+    let allExpensesUpdated = [...this.props.allExpenses];
+    allExpensesUpdated.splice(this.props.isBeingEditedIndex, 1);
+    this.props.handleHoistedExpenseChange(allExpensesUpdated);
+    this.closeModal();
   }
 
-  handleClick(event) {
-    const indexNumber = parseInt(event.target.value, 10);
-    (this.state.isBeingEditedIndex === indexNumber)
-      ? this.setState({isBeingEditedIndex: null})
-      : this.setState({isBeingEditedIndex: indexNumber})
-  }
+  renameCategory() {
+    this.closeModal();
+  }  
+
+  handleAddCategoryChange() {
+    this.closeModal();
+  } 
+
+  handleAddFocus() {
+    
+  }  
+
+  handleDeleteCategoryChange() {
+    this.closeModal();
+  } 
+
+
 
   render(){
     const allExpenses = this.props.allExpenses; 
@@ -47,34 +66,154 @@ class Options extends Component{
         <h1 className="text-center gray-777 mtm mbs">
           Options
         </h1>
-        <div>
-          <h2>Edit Categories:</h2>
-          <ul>
-            <li>Add a category</li>
-            <li>Delete a category</li>
-            <li>Rename a category</li>
-            <ReactModal
-              isOpen={this.state.modalIsOpen}
-              onAfterOpen={this.afterOpenModal}
-              onRequestClose={this.closeModal}
-              style={ReactModalStyles}
-              contentLabel="Deletion Modal"
-            >
-              {/*<h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>*/}
-              <div>Are you sure you want to delete this expense entirely? This can't be undone.</div>
-              <div className="pvl">
-                <button 
-                  className="btn btn--red capitalize phm pvm mrxs left"
-                  onClick={this.deleteExpense}>Yes, Delete
-                </button>
-                <button 
-                  className="btn btn--outline capitalize phm pvm mrxs right"
-                  onClick={this.closeModal}>No, Cancel
-                </button>
-              </div>
-            </ReactModal>
-          </ul>
-        </div>
+
+        <form>
+        <legend>Edit Categories:</legend>
+
+          {/* Adds visibility hidden to element instead of returning null so the space doesn't
+              collapse and have text move a pixel or two 
+              
+              TODO: check a11y on this */}
+          <div className={this.state.iSaved ?
+                "status text-center gray-777 font-14"
+              : "status text-center gray-777 font-14 visibility-hidden" }
+          >
+            Saved!
+          </div>
+
+          <label 
+            htmlFor="addcategory"           
+          >
+            Add a category  
+          </label>
+          <input 
+            id="addcategory"
+            className="input gray-border full-width font-25 mvm"
+            type="text" 
+            placeholder="New Category"
+            onChange={this.handleAddCategoryChange}
+            onFocus={this.handleAddFocus}
+            data-qa="options-add-category-input"    
+          />         
+
+
+          <ReactModal
+            isOpen={this.state.modalIsOpen}
+            onAfterOpen={this.afterOpenModal}
+            onRequestClose={this.closeModal}
+            style={ReactModalStyles}
+            contentLabel="Duplication Modal"
+          >
+            <div>Warning: There is already a category with this name. No new category will be added.</div>
+          </ReactModal>
+
+          <label
+            htmlFor="deletecategory"
+          >
+            Delete a category
+          </label>
+          <select
+            id="category"
+            className="select-css input input-secondary full-width font-25 mbm"
+            value={this.state.category} 
+            onChange={this.handleDeleteCategoryChange}
+            data-qa="options-delete-category-input"  
+          >
+            {this.props.categories.map((category, i) =>
+                <option 
+                  key={i}
+                  value={category}
+                >
+                  {category}
+                </option>
+            )}
+          </select>
+          <ReactModal
+            isOpen={this.state.modalIsOpen}
+            onAfterOpen={this.afterOpenModal}
+            onRequestClose={this.closeModal}
+            style={ReactModalStyles}
+            contentLabel="Deletion Modal"
+          >
+            <div>
+              Are you sure you want to delete this category? Any expenses with this category
+              will still exist and have the category "Uncategorized".
+            </div>
+            <div className="pvl">
+              <button 
+                className="btn btn--red capitalize phm pvm mrxs left"
+                onClick={this.deleteCategory}>Yes, Delete
+              </button>
+              <button 
+                className="btn btn--outline capitalize phm pvm mrxs right"
+                onClick={this.closeModal}>No, Cancel
+              </button>
+            </div>
+          </ReactModal>
+
+          <label
+            htmlFor="renamecategory"
+          >
+            Rename a category
+          </label>
+          <select
+            id="renamecategory"
+            className="select-css input input-secondary full-width font-25 mbm"
+            value={this.state.category} 
+            onChange={this.handleRenameCategoryChange}
+            data-qa="options-rename-category-input"  
+          >
+            {this.props.categories.map((category, i) =>
+                <option 
+                  key={i}
+                  value={category}
+                >
+                  {category}
+                </option>
+            )}
+          </select>
+          <ReactModal
+            isOpen={this.state.modalIsOpen}
+            onAfterOpen={this.afterOpenModal}
+            onRequestClose={this.closeModal}
+            style={ReactModalStyles}
+            contentLabel="Renaming Modal"
+          >
+            <div>Are you sure you want to rename this category? Any expenses with the original category
+              will have their category renamed. This can't be undone.</div>
+            <div className="pvl">
+              <button 
+                className="btn btn--red capitalize phm pvm mrxs left"
+                onClick={this.renameCategory}>Yes, Rename
+              </button>
+              <button 
+                className="btn btn--outline capitalize phm pvm mrxs right"
+                onClick={this.closeModal}>No, Cancel
+              </button>
+            </div>
+          </ReactModal>
+          <ReactModal
+            isOpen={this.state.modalIsOpen}
+            onAfterOpen={this.afterOpenModal}
+            onRequestClose={this.closeModal}
+            style={ReactModalStyles}
+            contentLabel="Duplication Modal"
+          >
+            <div>Warning: the new category name already exists. Any expenses with the original category
+              will have their category renamed and combined with the existing category. This can't be undone.</div>
+            <div className="pvl">
+              <button 
+                className="btn btn--red capitalize phm pvm mrxs left"
+                onClick={this.renameCategory}>Yes, Rename
+              </button>
+              <button 
+                className="btn btn--outline capitalize phm pvm mrxs right"
+                onClick={this.closeModal}>No, Cancel
+              </button>
+            </div>
+          </ReactModal>
+        </form>
+
       </div>
     );
   }

@@ -2,7 +2,8 @@ import React, { Component} from "react";
 import './css/App.scss';
 import Home from "./Home.jsx";
 import History from "./History/History.jsx";
-import { Route } from "react-router-dom";
+import Options from "./Options/Options.jsx";
+import { Route, Link } from "react-router-dom";
 import DefaultCategories from "./DefaultCategories.js";
 
 class App extends Component{
@@ -48,6 +49,21 @@ class App extends Component{
 
     return (
       <div>
+        <Link to="/options"
+          className="text-right block gray-777 font-14 phl mtm"
+          data-qa="app-options-link"
+        >
+          Options
+        </Link>   
+        <Route
+          exact path="/options"
+          render={(props) => 
+            <Options {...props} 
+              allExpenses={allExpenses} 
+              categories={categories} 
+              handleHoistedExpenseChange={this.handleHoistedExpenseChange}
+            />}
+        />        
         <Route
           exact path="/"
           render={(props) => 

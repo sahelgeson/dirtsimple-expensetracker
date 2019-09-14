@@ -1,25 +1,11 @@
 import React, { Component} from "react";
 import { PropTypes } from "prop-types";
 import ReactModal from 'react-modal';
+import ReactModalStyles from "../modals/ReactModalStyles.js";
 const { format } = require('date-fns');
 
-ReactModal.defaultStyles.overlay.backgroundColor = 'rgba(80, 80, 80, 0.69)';
 
-const customModalStyles = {
-  content : {
-    position: 'absolute',
-    top: '30px',
-    left: '30px',
-    right: '30px',
-    bottom: 'auto',
-    border: '1px solid rgb(204, 204, 204)',
-    background: 'rgb(255, 255, 255)',
-    overflow: 'auto',
-    borderRadius: '4px',
-    outline: 'none',
-    padding: '30px 15px',
-  }
-};
+ReactModal.defaultStyles.overlay.backgroundColor = 'rgba(80, 80, 80, 0.69)';
 
 ReactModal.setAppElement('#root');
 
@@ -195,7 +181,7 @@ class HistoryEditForm extends Component{
             isOpen={this.state.modalIsOpen}
             onAfterOpen={this.afterOpenModal}
             onRequestClose={this.closeModal}
-            style={customModalStyles}
+            style={ReactModalStyles}
             contentLabel="Deletion Modal"
           >
             {/*<h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>*/}

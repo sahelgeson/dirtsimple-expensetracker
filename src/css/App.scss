@@ -17,8 +17,18 @@ body {
   max-width: 960px;
 }
 
-.main-form {
-  margin-top: 25%; 
+.logo-dirt {
+  font-size: 34px;
+  font-weight: bold;
+  font-family: 'Basic', sans-serif;
+  letter-spacing: -1px;
+}
+.logo-simple {
+  font-size: 38px;
+  text-transform: uppercase;
+  font-family: 'Oswald', 'PT Sans Narrow', 'Gill Sans', sans-serif;
+  font-weight: lighter;
+  padding-left: 3px;
 }
 
 .card {

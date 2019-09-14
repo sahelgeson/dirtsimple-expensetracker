@@ -43,7 +43,15 @@ class Home extends Component{
   
   render(){
     return (
-      <div className="App container margin-0-auto phl">
+      <div className="container margin-0-auto phl">
+        <h1 
+          className="font-24 text-center gray-777 mtl ptl"
+        >
+          <span className="logo-dirt">dirt</span>
+          <span className="logo-simple">simple</span>
+          <br />
+          expense tracker          
+        </h1>
         <Form
           allExpenses={this.props.allExpenses}
           categories={this.props.categories} 

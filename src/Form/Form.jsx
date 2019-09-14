@@ -80,7 +80,7 @@ class Form extends Component{
     return (
       <form 
         onSubmit={this.handleSubmit}
-        className="main-form mbl"
+        className="mbl"
       >
 
         {/* Adds visibility hidden to element instead of returning null so the space doesn't

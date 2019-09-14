@@ -1,4 +1,4 @@
-describe('Check the easy path for the user entering in a new expense', function () {
+describe('Check the easy path for the user entering in a new expense for the main form', function () {
 
     describe('Check that user can enter a new expense which is saved and displayed in Recent Expenses', function () {
         before(() => {

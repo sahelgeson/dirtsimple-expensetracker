@@ -58,13 +58,19 @@ class History extends Component{
                     : "ftable__row phs" }
                 key={i}
               >
-                <div className="ftable__cell ftable__cell--amount text-right pvm phxs">
+                <div 
+                  className="ftable__cell ftable__cell--amount text-right pvm phxs"
+                  data-qa="history-amount"   
+                >
                   <span className="dollar inline-block">$</span>
                   <span className="inline-block">
                     {expense.amount}
                   </span>
                 </div>
-                <div className="ftable__cell pvm phs">
+                <div 
+                  className="ftable__cell pvm phs"
+                  data-qa="history-category"   
+                >
                   {expense.category}
                 </div>
                 <div className="ftable__cell ftable__cell--date pvm prxs"> 

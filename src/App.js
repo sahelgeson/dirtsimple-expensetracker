@@ -3,7 +3,8 @@ import './css/App.scss';
 import Home from "./Home.jsx";
 import History from "./History/History.jsx";
 import ScrollToTop from "./helpers/ScrollToTop.jsx";
-import { Route } from "react-router-dom";
+import Options from "./Options/Options.jsx";
+import { Route, Link } from "react-router-dom";
 import DefaultCategories from "./DefaultCategories.js";
 
 class App extends Component{
@@ -32,6 +33,7 @@ class App extends Component{
       categories,
     }
     this.handleHoistedExpensesChange = this.handleHoistedExpensesChange.bind(this);
+    this.handleHoistedCategoriesChange = this.handleHoistedCategoriesChange.bind(this);
   }
   
   handleHoistedExpensesChange(allExpenses) {
@@ -39,8 +41,19 @@ class App extends Component{
     this.setState({
       allExpenses
     })
-
     localStorage.setItem('myExpenses', JSON.stringify(allExpenses));
+  }  
+
+    
+  handleHoistedCategoriesChange(categories) {
+    /* This function is passed down to the child components that need to update global state of expenses */
+
+    this.setState({
+      categories
+    })
+    /* TODO: commenting this out for now 
+    localStorage.setItem('myCategories', JSON.stringify(categories));
+    */
   }  
 
   render(){
@@ -49,6 +62,22 @@ class App extends Component{
 
     return (
       <div>
+        <Link to="/options"
+          className="text-right block gray-777 font-14 phl mtm"
+          data-qa="app-options-link"
+        >
+          Options
+        </Link>   
+        <Route
+          exact path="/options"
+          render={(props) => 
+            <Options {...props} 
+              allExpenses={allExpenses} 
+              categories={categories} 
+              handleHoistedExpensesChange={this.handleHoistedExpensesChange}
+              handleHoistedCategoriesChange={this.handleHoistedCategoriesChange}
+            />}
+        />        
         <Route
           exact path="/"
           render={(props) => 

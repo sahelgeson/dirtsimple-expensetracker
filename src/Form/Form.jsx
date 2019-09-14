@@ -39,7 +39,7 @@ class Form extends Component{
   handleFocus() {
     this.setState({
         amount: '',
-        iSaved: false,
+        isSaved: false,
     });
   }
 
@@ -47,11 +47,11 @@ class Form extends Component{
     event.preventDefault();
     if (!this.state.amount) { 
       /* TODO add an error message or effect here */
-      this.setState({iSaved: false});
+      this.setState({isSaved: false});
       return false; 
     }  
       
-    this.setState({iSaved: true});
+    this.setState({isSaved: true});
 
     /* Doing this to avoid issues with ISO/UTC/timezones. 
         We just want the local date and time for all entries, if a user tracks an expense
@@ -87,7 +87,7 @@ class Form extends Component{
             collapse and have text move a pixel or two 
             
             TODO: check a11y on this */}
-        <div className={this.state.iSaved ?
+        <div className={this.state.isSaved ?
               "status text-center gray-777 font-14"
             : "status text-center gray-777 font-14 visibility-hidden" }
         >

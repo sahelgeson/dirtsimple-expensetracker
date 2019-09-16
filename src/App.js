@@ -32,6 +32,7 @@ class App extends Component{
       categories,
     }
     this.handleHoistedExpenseChange = this.handleHoistedExpenseChange.bind(this);
+    this.handleHoistedCategoriesChange = this.handleHoistedCategoriesChange.bind(this);
   }
   
   handleHoistedExpenseChange(allExpenses) {
@@ -39,8 +40,19 @@ class App extends Component{
     this.setState({
       allExpenses
     })
-
     localStorage.setItem('myExpenses', JSON.stringify(allExpenses));
+  }  
+
+    
+  handleHoistedCategoriesChange(categories) {
+    /* This function is passed down to the child components that need to update global state of expenses */
+
+    /* TODO: commenting this out for now 
+    this.setState({
+      categories
+    })
+    localStorage.setItem('myCategories', JSON.stringify(categories));
+    */
   }  
 
   render(){

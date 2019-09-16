@@ -8,53 +8,106 @@ class Options extends Component{
     super(props);
   
     this.state = {
- 
+      isSaved: false,   /* TODO: one, or separate isSaved for all forms? */
+      newCategory: null,
+      openModalName: null,
+      deletedCategory: null,
+      renamedCategory: null,
     }
 
-    /* Sort expenses by date by default only for initial load. Setting this up in the constructor so we're
-      not sorting in edit form because we don't want state to update and rerender which could
-      yoink stuff around */
-    const allExpensesSorted = [...this.props.allExpenses];
-    allExpensesSorted.sort(function(a, b) {
-      var dateA = new Date(a.datetime), dateB = new Date(b.datetime);
-      return dateB - dateA;
-    });
-
-    this.props.handleHoistedExpenseChange(allExpensesSorted);
-    this.addCategory = this.addCategory.bind(this);
-    this.deleteCategory = this.deleteCategory.bind(this);
-    this.renameCategory = this.renameCategory.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.changeCategoriesOfAllExpenses = this.changeCategoriesOfAllExpenses.bind(this);
     this.handleAddCategoryChange = this.handleAddCategoryChange.bind(this);
     this.handleAddFocus = this.handleAddFocus.bind(this);
     this.handleDeleteCategoryChange = this.handleDeleteCategoryChange.bind(this);
-  }
-  addCategory() {
-    this.closeModal();
-  }
-
-  deleteCategory() {
-    let allExpensesUpdated = [...this.props.allExpenses];
-    allExpensesUpdated.splice(this.props.isBeingEditedIndex, 1);
-    this.props.handleHoistedExpenseChange(allExpensesUpdated);
-    this.closeModal();
+    this.handleAddSubmit = this.handleAddSubmit.bind(this);
+    this.handleDeleteSubmit = this.handleDeleteSubmit.bind(this);
+    this.handleRenameSubmit = this.handleRenameSubmit.bind(this);
   }
 
-  renameCategory() {
-    this.closeModal();
-  }  
+  closeModal() {
+    this.setState({openModalName: null});
+  }
 
-  handleAddCategoryChange() {
-    this.closeModal();
+  changeCategoriesOfAllExpenses(oldValue, newValue) {
+    const allExpenses = this.props.allExpenses;
+
+    return allExpenses.map((expense, i) => {
+        if (expense.category === oldValue) {
+          expense.category = newValue
+        }
+        return expense;
+      }
+    )
+  }
+
+  handleAddCategoryChange(event) {
+    this.setState({newCategory: event.target.value});
   } 
 
   handleAddFocus() {
-    
+    this.setState({
+        iSaved: false,
+        openModalName: null,
+    });
   }  
 
-  handleDeleteCategoryChange() {
-    this.closeModal();
-  } 
+  handleAddSubmit(event) {
+    event.preventDefault();
+    
+    let categories = this.props.categories;
+    /* Check if it is a duplicate category name */
+    if (categories.indexOf(this.state.newCategory) !== -1) { 
+      /* TODO: I don't like how I'm doing this, seems awkward */
+      this.setState({openModalName: 'add'})
+      return false;
+    } else {
+      categories.push(this.state.newCategory);
+      this.props.handleHoistedCategoriesChange(categories);
+      this.setState({iSaved: true});
+    }
+  }  
 
+
+  handleDeleteSubmit(event) {
+    event.preventDefault();
+    console.log('deleting this category: ' + this.state.deletedCategory)
+
+    const updatedCategories = this.props.categories.filter(category => 
+      category !== this.state.deletedCategory
+    );
+    this.props.handleHoistedCategoriesChange(updatedCategories);
+
+    const updatedExpenses = this.changeCategoriesOfAllExpenses(this.state.deletedCategory, 'Uncategorized')
+    this.props.handleHoistedExpensesChange(updatedExpenses);
+    this.closeModal();
+  }  
+
+
+  handleRenameSubmit(event) {
+    event.preventDefault();
+    console.log('renaming this category: ' + this.state.deletedCategory)
+
+    const updatedCategories = this.props.categories.map(category => {
+        if (category === this.state.deletedCategory) {
+          category = this.state.renamedCategory;
+        }
+        return category
+      }
+    );
+    this.props.handleHoistedCategoriesChange(updatedCategories);
+
+    const updatedExpenses = this.changeCategoriesOfAllExpenses(this.state.deletedCategory, 'Uncategorized')
+    this.props.handleHoistedExpensesChange(updatedExpenses);
+    this.closeModal();
+  }  
+  
+  handleDeleteCategoryChange(event) {
+    this.setState({
+        deletedCategory: event.target.value,
+        openModalName: 'delete',
+    });
+  } 
 
 
   render(){
@@ -67,9 +120,10 @@ class Options extends Component{
           Options
         </h1>
 
-        <form>
-        <legend>Edit Categories:</legend>
-
+        <h2>Edit Categories:</h2>
+        <form
+          onSubmit={this.handleAddSubmit}
+        >
           {/* Adds visibility hidden to element instead of returning null so the space doesn't
               collapse and have text move a pixel or two 
               
@@ -90,23 +144,42 @@ class Options extends Component{
             id="addcategory"
             className="input gray-border full-width font-25 mvm"
             type="text" 
+            spellCheck="true"
             placeholder="New Category"
             onChange={this.handleAddCategoryChange}
             onFocus={this.handleAddFocus}
             data-qa="options-add-category-input"    
           />         
 
-
           <ReactModal
-            isOpen={this.state.modalIsOpen}
-            onAfterOpen={this.afterOpenModal}
+            isOpen={(this.state.openModalName === 'add')}
             onRequestClose={this.closeModal}
             style={ReactModalStyles}
             contentLabel="Duplication Modal"
           >
-            <div>Warning: There is already a category with this name. No new category will be added.</div>
+            <div>
+              Warning: There is already a category with this name. No new category will be added.
+              <br />
+              <button 
+                className="btn btn--outline gray-777 capitalize phm pvm mrxs"
+                onClick={this.closeModal}>Okay
+              </button>
+            </div>
           </ReactModal>
 
+          <input 
+            className="input btn btn--blue full-width font-25 mvm"
+            type="submit" 
+            disabled={(this.state.newCategory && this.state.newCategory !== '') ? false : true}
+            value="Save" 
+            data-qa="options-add-submit-btn"          
+          />
+        </form>
+
+        <form
+          id="deleteform"
+          onSubmit={this.handleDeleteSubmit}
+        >
           <label
             htmlFor="deletecategory"
           >
@@ -115,10 +188,11 @@ class Options extends Component{
           <select
             id="category"
             className="select-css input input-secondary full-width font-25 mbm"
-            value={this.state.category} 
+            value="" 
             onChange={this.handleDeleteCategoryChange}
             data-qa="options-delete-category-input"  
           >
+            <option value="">Choose a category</option>
             {this.props.categories.map((category, i) =>
                 <option 
                   key={i}
@@ -129,28 +203,38 @@ class Options extends Component{
             )}
           </select>
           <ReactModal
-            isOpen={this.state.modalIsOpen}
+            isOpen={(this.state.openModalName === 'delete')}
             onAfterOpen={this.afterOpenModal}
             onRequestClose={this.closeModal}
             style={ReactModalStyles}
             contentLabel="Deletion Modal"
           >
             <div>
-              Are you sure you want to delete this category? Any expenses with this category
+              Are you sure you want to delete the category "{this.state.deletedCategory}"? Any expenses with this category
               will still exist and have the category "Uncategorized".
             </div>
             <div className="pvl">
               <button 
+                type="submit"
+                form="deleteform"
                 className="btn btn--red capitalize phm pvm mrxs left"
-                onClick={this.deleteCategory}>Yes, Delete
-              </button>
+                data-qa="options-delete-submit-btn"
+              >
+                Yes, Delete  
+              </button>     
               <button 
                 className="btn btn--outline capitalize phm pvm mrxs right"
-                onClick={this.closeModal}>No, Cancel
+                onClick={this.closeModal}
+              >
+                No, Cancel
               </button>
             </div>
           </ReactModal>
+        </form>
 
+        <form
+          onSubmit={this.handleRenameSubmit}
+        >
           <label
             htmlFor="renamecategory"
           >
@@ -159,10 +243,11 @@ class Options extends Component{
           <select
             id="renamecategory"
             className="select-css input input-secondary full-width font-25 mbm"
-            value={this.state.category} 
+            value="" 
             onChange={this.handleRenameCategoryChange}
             data-qa="options-rename-category-input"  
           >
+            <option value="">Choose a category</option>
             {this.props.categories.map((category, i) =>
                 <option 
                   key={i}
@@ -173,34 +258,40 @@ class Options extends Component{
             )}
           </select>
           <ReactModal
-            isOpen={this.state.modalIsOpen}
+            isOpen={(this.state.openModalName === 'rename')}
             onAfterOpen={this.afterOpenModal}
             onRequestClose={this.closeModal}
             style={ReactModalStyles}
             contentLabel="Renaming Modal"
           >
-            <div>Are you sure you want to rename this category? Any expenses with the original category
+            <div>Are you sure you want to rename the category "{this.state.deletedCategory}" to "{this.state.renamedCategory}"? 
+              Any expenses with the category "{this.state.deletedCategory}"
               will have their category renamed. This can't be undone.</div>
             <div className="pvl">
               <button 
                 className="btn btn--red capitalize phm pvm mrxs left"
-                onClick={this.renameCategory}>Yes, Rename
+                onClick={this.renameCategory}
+              >
+                Yes, Rename
               </button>
               <button 
                 className="btn btn--outline capitalize phm pvm mrxs right"
-                onClick={this.closeModal}>No, Cancel
+                onClick={this.closeModal}
+              >
+                No, Cancel
               </button>
             </div>
           </ReactModal>
           <ReactModal
-            isOpen={this.state.modalIsOpen}
+            isOpen={(this.state.openModalName === 'rename_dupe')}
             onAfterOpen={this.afterOpenModal}
             onRequestClose={this.closeModal}
             style={ReactModalStyles}
             contentLabel="Duplication Modal"
           >
-            <div>Warning: the new category name already exists. Any expenses with the original category
-              will have their category renamed and combined with the existing category. This can't be undone.</div>
+            <div>Warning: the new category name already exists. Any expenses with the original category name 
+              "{this.state.deletedCategory}" will have their category renamed to "{this.state.renamedCategory}" 
+              and combined with that category. This can't be undone.</div>
             <div className="pvl">
               <button 
                 className="btn btn--red capitalize phm pvm mrxs left"
@@ -213,7 +304,6 @@ class Options extends Component{
             </div>
           </ReactModal>
         </form>
-
       </div>
     );
   }
@@ -223,6 +313,7 @@ Options.propTypes = {
   allExpenses: PropTypes.array.isRequired,
   categories: PropTypes.array.isRequired,
   handleHoistedExpenseChange: PropTypes.func.isRequired,
+  handleHoistedCategoriesChange: PropTypes.func.isRequired,
 };
 
 export default Options;

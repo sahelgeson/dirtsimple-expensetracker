@@ -189,11 +189,15 @@ class HistoryEditForm extends Component{
             <div className="pvl">
               <button 
                 className="btn btn--red capitalize phm pvm mrxs left"
-                onClick={this.deleteExpense}>Yes, Delete
+                onClick={this.deleteExpense}
+              >
+                Yes, Delete
               </button>
               <button 
                 className="btn btn--outline capitalize phm pvm mrxs right"
-                onClick={this.closeModal}>No, Cancel
+                onClick={this.closeModal}
+              >
+                No, Cancel
               </button>
             </div>
           </ReactModal>

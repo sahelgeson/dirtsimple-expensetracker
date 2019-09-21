@@ -64,7 +64,7 @@ class HistoryEditForm extends Component{
   deleteExpense() {
     let allExpensesUpdated = [...this.props.allExpenses];
     allExpensesUpdated.splice(this.props.isBeingEditedIndex, 1);
-    this.props.handleHoistedExpenseChange(allExpensesUpdated);
+    this.props.handleHoistedExpensesChange(allExpensesUpdated);
     this.closeModal();
   }
 
@@ -94,7 +94,7 @@ class HistoryEditForm extends Component{
       allExpensesUnsorted
     })
 
-    this.props.handleHoistedExpenseChange(allExpensesUnsorted);
+    this.props.handleHoistedExpensesChange(allExpensesUnsorted);
   }  
 
   render(){
@@ -228,7 +228,7 @@ HistoryEditForm.propTypes = {
   allExpenses: PropTypes.array.isRequired,
   isBeingEditedIndex: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
-  handleHoistedExpenseChange: PropTypes.func.isRequired,
+  handleHoistedExpensesChange: PropTypes.func.isRequired,
 };
 
 export default HistoryEditForm;

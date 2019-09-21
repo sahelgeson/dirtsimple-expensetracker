@@ -9,10 +9,12 @@ class Options extends Component{
   
     this.state = {
       isSaved: false,   /* TODO: one, or separate isSaved for all forms? */
+      isRenaming: false,
       newCategory: null,
       openModalName: null,
-      deletedCategory: null,
-      renamedCategory: null,
+      deletedCategory: '',
+      renamedCategoryOriginal: '',
+      renamedCategoryNew: '',
     }
 
     this.closeModal = this.closeModal.bind(this);
@@ -20,6 +22,8 @@ class Options extends Component{
     this.handleAddCategoryChange = this.handleAddCategoryChange.bind(this);
     this.handleAddFocus = this.handleAddFocus.bind(this);
     this.handleDeleteCategoryChange = this.handleDeleteCategoryChange.bind(this);
+    this.handleRenameCategoryChange = this.handleRenameCategoryChange.bind(this);   
+    this.handleRenameCategoryNewChange = this.handleRenameCategoryNewChange.bind(this);        
     this.handleAddSubmit = this.handleAddSubmit.bind(this);
     this.handleDeleteSubmit = this.handleDeleteSubmit.bind(this);
     this.handleRenameSubmit = this.handleRenameSubmit.bind(this);
@@ -55,7 +59,7 @@ class Options extends Component{
   handleAddSubmit(event) {
     event.preventDefault();
     
-    let categories = this.props.categories;
+    let categories = [...this.props.categories];
     /* Check if it is a duplicate category name */
     if (categories.indexOf(this.state.newCategory) !== -1) { 
       /* TODO: I don't like how I'm doing this, seems awkward */
@@ -84,36 +88,48 @@ class Options extends Component{
   }  
 
 
-  handleRenameSubmit(event) {
+  handleRenameSubmit({event, dupeOkayedFlag = false}) {
     event.preventDefault();
-    console.log('renaming this category: ' + this.state.deletedCategory)
 
-    const updatedCategories = this.props.categories.map(category => {
-        if (category === this.state.deletedCategory) {
-          category = this.state.renamedCategory;
+    debugger;
+    /* check for dupes first */
+    if (!dupeOkayedFlag && this.props.categories.indexOf(this.state.renamedCategoryNew) !== -1) {
+      this.setState({openModalName : 'rename-dupe'})
+      return false;
+    } else {
+      const updatedCategories = this.props.categories.map(category => {
+          if (category === this.state.renamedCategoryOriginal) {
+            category = this.state.renamedCategoryNew; 
+          }
+          return category
         }
-        return category
-      }
-    );
-    this.props.handleHoistedCategoriesChange(updatedCategories);
+      );
+      this.props.handleHoistedCategoriesChange(updatedCategories);
 
-    const updatedExpenses = this.changeCategoriesOfAllExpenses(this.state.deletedCategory, 'Uncategorized')
-    this.props.handleHoistedExpensesChange(updatedExpenses);
-    this.closeModal();
+      const updatedExpenses = this.changeCategoriesOfAllExpenses(this.state.deletedCategory, 'Uncategorized')
+      this.props.handleHoistedExpensesChange(updatedExpenses);
+    }
   }  
   
   handleDeleteCategoryChange(event) {
     this.setState({
-        deletedCategory: event.target.value,
-        openModalName: 'delete',
+      deletedCategory: event.target.value,
+      openModalName: 'delete',
     });
   } 
 
+  handleRenameCategoryChange(event) {
+    this.setState({
+      isRenaming: true,
+      renamedCategoryOriginal: event.target.value,
+    });
+  } 
+
+  handleRenameCategoryNewChange(event) {
+    this.setState({renamedCategoryNew: event.target.value,});
+  } 
 
   render(){
-    const allExpenses = this.props.allExpenses; 
-    const categories = this.props.categories; 
-
     return(
       <div className="container margin-0-auto phs">
         <h1 className="text-center gray-777 mtm mbs">
@@ -243,9 +259,9 @@ class Options extends Component{
           <select
             id="renamecategory"
             className="select-css input input-secondary full-width font-25 mbm"
-            value="" 
+            value={this.state.renamedCategoryOriginal} 
             onChange={this.handleRenameCategoryChange}
-            data-qa="options-rename-category-input"  
+            data-qa="options-rename-category-old-input"  
           >
             <option value="">Choose a category</option>
             {this.props.categories.map((category, i) =>
@@ -257,6 +273,36 @@ class Options extends Component{
                 </option>
             )}
           </select>
+          {this.state.isRenaming ?   
+            <div>
+              <label 
+                htmlFor="renamecategory-new"           
+                className="sr-only"
+              >
+                Rename this category to 
+              </label>
+              <input 
+                id="renamecategory-new"
+                className="input gray-border full-width font-25 mvm"
+                type="text" 
+                spellCheck="true"
+                placeholder="Rename Category to..."
+                onChange={this.handleRenameCategoryNewChange}                 
+                data-qa="options-rename-category-new-input"    
+              />   
+
+              <button
+                className="input btn btn--blue full-width font-25 mvm"
+                type="submit" 
+                disabled={this.state.renamedCategoryNew === ''}   
+                value="Save" 
+                data-qa="options-rename-submit-btn"          
+              >
+                Save
+              </button>
+            </div>       
+    
+          : null}
           <ReactModal
             isOpen={(this.state.openModalName === 'rename')}
             onAfterOpen={this.afterOpenModal}
@@ -264,13 +310,14 @@ class Options extends Component{
             style={ReactModalStyles}
             contentLabel="Renaming Modal"
           >
-            <div>Are you sure you want to rename the category "{this.state.deletedCategory}" to "{this.state.renamedCategory}"? 
-              Any expenses with the category "{this.state.deletedCategory}"
+            <div>Are you sure you want to rename the category "{this.state.renamedCategoryOriginal}" to "{this.state.renamedCategoryNew}"? 
+              Any expenses with the category "{this.state.renamedCategoryOriginal}"
               will have their category renamed. This can't be undone.</div>
             <div className="pvl">
+              {/* TODO: how will this work with handleRenameSubmit? Look at multiple submit button again */}
               <button 
                 className="btn btn--red capitalize phm pvm mrxs left"
-                onClick={this.renameCategory}
+                onClick={(event) => this.handleRenameSubmit({event, dupeOkayedFlag: true})}   
               >
                 Yes, Rename
               </button>
@@ -283,7 +330,7 @@ class Options extends Component{
             </div>
           </ReactModal>
           <ReactModal
-            isOpen={(this.state.openModalName === 'rename_dupe')}
+            isOpen={(this.state.openModalName === 'rename-dupe')}
             onAfterOpen={this.afterOpenModal}
             onRequestClose={this.closeModal}
             style={ReactModalStyles}
@@ -304,6 +351,17 @@ class Options extends Component{
             </div>
           </ReactModal>
         </form>
+
+        <h3 className="mvn">Categories:</h3>
+        <ul className="mvs">
+          {this.props.categories.map((category, i) =>
+                <li
+                  key={i}
+                >
+                  {category}
+                </li>
+            )}
+        </ul>
       </div>
     );
   }
@@ -312,7 +370,7 @@ class Options extends Component{
 Options.propTypes = {
   allExpenses: PropTypes.array.isRequired,
   categories: PropTypes.array.isRequired,
-  handleHoistedExpenseChange: PropTypes.func.isRequired,
+  handleHoistedExpensesChange: PropTypes.func.isRequired,
   handleHoistedCategoriesChange: PropTypes.func.isRequired,
 };
 

@@ -19,7 +19,7 @@ class History extends Component{
       return dateB - dateA;
     });
 
-    this.props.handleHoistedExpenseChange(allExpensesSorted);
+    this.props.handleHoistedExpensesChange(allExpensesSorted);
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -104,7 +104,7 @@ class History extends Component{
                     allExpenses={this.props.allExpenses}
                     isBeingEditedIndex={this.state.isBeingEditedIndex}
                     handleClick={this.handleClick}
-                    handleHoistedExpenseChange={this.props.handleHoistedExpenseChange}
+                    handleHoistedExpensesChange={this.props.handleHoistedExpensesChange}
                   />
                   : null }
               </div>
@@ -118,7 +118,7 @@ class History extends Component{
 History.propTypes = {
   allExpenses: PropTypes.array.isRequired,
   categories: PropTypes.array.isRequired,
-  handleHoistedExpenseChange: PropTypes.func.isRequired,
+  handleHoistedExpensesChange: PropTypes.func.isRequired,
 };
 
 export default History;

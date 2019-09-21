@@ -30,10 +30,10 @@ class App extends Component{
       allExpenses,
       categories,
     }
-    this.handleHoistedExpenseChange = this.handleHoistedExpenseChange.bind(this);
+    this.handleHoistedExpensesChange = this.handleHoistedExpensesChange.bind(this);
   }
   
-  handleHoistedExpenseChange(allExpenses) {
+  handleHoistedExpensesChange(allExpenses) {
     /* This function is passed down to the child components that need to update global state of expenses */
     this.setState({
       allExpenses
@@ -54,7 +54,7 @@ class App extends Component{
             <Home {...props} 
               allExpenses={allExpenses} 
               categories={categories} 
-              handleHoistedExpenseChange={this.handleHoistedExpenseChange}
+              handleHoistedExpensesChange={this.handleHoistedExpensesChange}
             />}
         />
         <Route
@@ -63,7 +63,7 @@ class App extends Component{
             <History {...props} 
               allExpenses={allExpenses} 
               categories={categories} 
-              handleHoistedExpenseChange={this.handleHoistedExpenseChange}
+              handleHoistedExpensesChange={this.handleHoistedExpensesChange}
             />}
         />
       </div>

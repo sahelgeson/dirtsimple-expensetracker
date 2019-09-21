@@ -55,7 +55,7 @@ class Home extends Component{
         <Form
           allExpenses={this.props.allExpenses}
           categories={this.props.categories} 
-          handleHoistedExpenseChange={this.props.handleHoistedExpenseChange}
+          handleHoistedExpensesChange={this.props.handleHoistedExpensesChange}
         />
 
         {this.props.allExpenses.length ? 
@@ -69,7 +69,7 @@ class Home extends Component{
 Home.propTypes = {
   allExpenses: PropTypes.array.isRequired,
   categories: PropTypes.array.isRequired,
-  handleHoistedExpenseChange: PropTypes.func.isRequired,
+  handleHoistedExpensesChange: PropTypes.func.isRequired,
 };
 
 export default Home;

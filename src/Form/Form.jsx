@@ -73,7 +73,7 @@ class Form extends Component{
     }
 
     const allExpenses = [newExpense, ...this.props.allExpenses]
-    this.props.handleHoistedExpenseChange(allExpenses);
+    this.props.handleHoistedExpensesChange(allExpenses);
   }  
   
   render(){
@@ -152,7 +152,7 @@ class Form extends Component{
 Form.propTypes = {
   allExpenses: PropTypes.array.isRequired,
   categories: PropTypes.array.isRequired,
-  handleHoistedExpenseChange: PropTypes.func.isRequired,
+  handleHoistedExpensesChange: PropTypes.func.isRequired,
 };
 
 export default Form;

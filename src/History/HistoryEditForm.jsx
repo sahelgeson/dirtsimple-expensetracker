@@ -5,6 +5,11 @@ import HistoryEditFormCategory from "./HistoryEditFormCategory.jsx";
 import HistoryEditFormDatetime from "./HistoryEditFormDatetime.jsx";
 import HistoryEditFormButtons from "./HistoryEditFormButtons.jsx";
 
+/* if the amount entered is 0 or '' or invalid, save button will be disabled (isSaveDisabled) */
+function isAmountValid(amount) {
+  return !!parseInt(amount, 10);
+}
+
 class HistoryEditForm extends Component{
   constructor(props) {
     super(props);
@@ -15,6 +20,7 @@ class HistoryEditForm extends Component{
       amount: thisExpense.amount,
       category: thisExpense.category,
       datetime: thisExpense.datetime,
+      isSaveDisabled: true,
       isModalOpen: false,
     }
 
@@ -26,19 +32,29 @@ class HistoryEditForm extends Component{
     this.closeModal = this.closeModal.bind(this);
     this.deleteExpense = this.deleteExpense.bind(this);
   }
- 
+
   handleAmountChange(event) {
-    this.setState({amount: event.target.value});
+    const amount = event.target.value;
+    this.setState({
+        amount: amount,
+        isSaveDisabled: !isAmountValid(amount),    
+    });
   }
 
   handleCategoryChange(event) {
-    this.setState({category: event.target.value});
+    this.setState({
+        category: event.target.value,
+        isSaveDisabled: !isAmountValid(this.state.amount),    
+    });
   }
 
   handleDateChange(event) {
     try {
       const date = new Date(event.target.value).toString();
-      this.setState({datetime: date});  
+      this.setState({
+          datetime: date,
+          isSaveDisabled: !isAmountValid(this.state.amount), 
+      });  
     } catch (e) { /* Chrome's datepicker is buggy and will sometimes have an empty string value */ }
   }
 
@@ -60,13 +76,11 @@ class HistoryEditForm extends Component{
 
   handleSubmit(event) {
     event.preventDefault();
-
     if (!this.state.amount) { return false; }  /* TODO change this to an error message */
 
     console.log('An expense was edited: ' + this.state.amount);
 
     const {amount, category, datetime} = this.state;
-
     const editedExpense = {
       datetime,
       amount,
@@ -117,7 +131,8 @@ class HistoryEditForm extends Component{
           amount={amount}
           handleClick={this.props.handleClick}
           handleSubmit={this.handleSubmit}
-          isModalOpen={this.state.isModalOpen}
+          isSaveDisabled={this.state.isSaveDisabled}
+          isModalOpen={this.state.isModalOpen}          
           openModal={this.openModal}
           closeModal={this.closeModal}
           deleteExpense={this.deleteExpense}

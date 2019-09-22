@@ -47,7 +47,7 @@ function HistoryEditFormButtons(props){
       <button
         className="btn btn--blue font-14 pvm phm"
         onClick={props.handleSubmit}  
-        disabled={!!parseInt(props.amount, 10) ? false : true} 
+        disabled={props.isSaveDisabled ? true : false } 
         data-qa="history-form-save-btn"                  
       >
         Save
@@ -57,9 +57,10 @@ function HistoryEditFormButtons(props){
 }
 
 HistoryEditFormButtons.propTypes = {
-  amount: PropTypes.string.isRequired,    /* TODO: will also need isSaveDisabled eventually */
+  amount: PropTypes.string.isRequired,    
   handleClick: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  isSaveDisabled: PropTypes.bool.isRequired,
   isModalOpen: PropTypes.bool.isRequired,
   openModal: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,

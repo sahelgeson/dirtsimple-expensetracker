@@ -35,8 +35,7 @@ describe('Check that save buttons are disabled when amount is zero, empty, or Na
                 cy.visit('/history/').then(() => {
                     cy.getQa('history-edit-btn').eq(0).click();
                 });
-            });
-            
+            });            
         });   
 
         it('should open the first entry and check the button is disabled on open', function () {
@@ -56,6 +55,13 @@ describe('Check that save buttons are disabled when amount is zero, empty, or Na
         it('should open the first entry and check the button is not disabled if user enters the valid number 6', function () {
             cy.getQa('history-form-amount-input').clear().type('6');
             cy.getQa('history-form-save-btn').should('not.be.disabled');
+        }); 
+
+        it('should open the first entry and check the button changes to "Saved!" if user enters the valid number 6 and submits', function () {
+            cy.getQa('history-form-amount-input').clear().type('6');
+            cy.getQa('history-form-save-btn').click().then(() => {
+                cy.getQa('history-form-saved-message').should('contain', 'Saved!')
+            }); 
         }); 
     });
 });

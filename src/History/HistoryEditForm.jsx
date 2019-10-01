@@ -21,6 +21,7 @@ class HistoryEditForm extends Component{
       category: thisExpense.category,
       datetime: thisExpense.datetime,
       isSaveDisabled: true,
+      isSaved: false,
       isModalOpen: false,
     }
 
@@ -30,31 +31,38 @@ class HistoryEditForm extends Component{
     this.handleSubmit = this.handleSubmit.bind(this);
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.setButtonStates = this.setButtonStates.bind(this);
     this.deleteExpense = this.deleteExpense.bind(this);
   }
 
-  handleAmountChange(event) {
-    const amount = event.target.value;
+  setButtonStates(isAmountValid) {
+    /* isSaveDisabled is in here and called by all change handlers because the initial state is disabled
+        so when a user opens the form, the save button is disabled, but as soon as any of the inputs are changed
+        the save button should be enabled (as long as the amount is valid) 
+    */
     this.setState({
-        amount: amount,
-        isSaveDisabled: !isAmountValid(amount),    
+      isSaveDisabled: !isAmountValid, 
+      isSaved: false,    
     });
   }
 
+
+  handleAmountChange(event) {
+    const amount = event.target.value;
+    this.setState({amount: amount});
+    this.setButtonStates(isAmountValid(amount));
+  }
+
   handleCategoryChange(event) {
-    this.setState({
-        category: event.target.value,
-        isSaveDisabled: !isAmountValid(this.state.amount),    
-    });
+    this.setState({category: event.target.value});
+    this.setButtonStates(isAmountValid(this.state.amount));     /* TODO: review this for possible async setState problems */
   }
 
   handleDateChange(event) {
     try {
       const date = new Date(event.target.value).toString();
-      this.setState({
-          datetime: date,
-          isSaveDisabled: !isAmountValid(this.state.amount), 
-      });  
+      this.setState({datetime: date});  
+      this.setButtonStates(isAmountValid(this.state.amount));   /* TODO: review this for possible async setState problems */
     } catch (e) { /* Chrome's datepicker is buggy and will sometimes have an empty string value */ }
   }
 
@@ -95,7 +103,8 @@ class HistoryEditForm extends Component{
     allExpensesUnsorted[this.props.isBeingEditedIndex] = editedExpense;
 
     this.setState({
-      allExpensesUnsorted
+      allExpensesUnsorted,
+      isSaved: true,
     })
 
     this.props.handleHoistedExpensesChange(allExpensesUnsorted);
@@ -132,6 +141,7 @@ class HistoryEditForm extends Component{
           handleClick={this.props.handleClick}
           handleSubmit={this.handleSubmit}
           isSaveDisabled={this.state.isSaveDisabled}
+          isSaved={this.state.isSaved}
           isModalOpen={this.state.isModalOpen}          
           openModal={this.openModal}
           closeModal={this.closeModal}

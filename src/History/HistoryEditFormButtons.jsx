@@ -44,14 +44,23 @@ function HistoryEditFormButtons(props){
         >
           Close
         </button>
-      <button
-        className="btn btn--blue font-14 pvm phm"
-        onClick={props.handleSubmit}  
-        disabled={props.isSaveDisabled ? true : false } 
-        data-qa="history-form-save-btn"                  
-      >
-        Save
-      </button>
+      {!props.isSaved ?
+        <button
+          className="btn btn--blue font-14 pvm phm"
+          onClick={props.handleSubmit}  
+          disabled={props.isSaveDisabled ? true : false } 
+          data-qa="history-form-save-btn"                  
+        >
+          Save
+        </button>
+        :
+        <div 
+          className="gray-777 font-14 pvm phm"
+          data-qa="history-form-saved-message"   
+        >
+          Saved!
+        </div>
+      }
     </div>
   );
 }
@@ -61,6 +70,7 @@ HistoryEditFormButtons.propTypes = {
   handleClick: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   isSaveDisabled: PropTypes.bool.isRequired,
+  isSaved: PropTypes.bool.isRequired,
   isModalOpen: PropTypes.bool.isRequired,
   openModal: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,

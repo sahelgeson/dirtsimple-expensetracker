@@ -1,7 +1,8 @@
-import React, { Component} from "react";
+import React, { Component, Fragment} from "react";
 import './css/App.scss';
 import Home from "./Home.jsx";
 import History from "./History/History.jsx";
+import ScrollToTop from "./helpers/ScrollToTop.jsx";
 import { Route } from "react-router-dom";
 import DefaultCategories from "./DefaultCategories.js";
 
@@ -60,11 +61,14 @@ class App extends Component{
         <Route
           exact path="/history"
           render={(props) => 
-            <History {...props} 
-              allExpenses={allExpenses} 
-              categories={categories} 
-              handleHoistedExpensesChange={this.handleHoistedExpensesChange}
-            />}
+            <Fragment>
+              <ScrollToTop />
+              <History {...props} 
+                allExpenses={allExpenses} 
+                categories={categories} 
+                handleHoistedExpensesChange={this.handleHoistedExpensesChange}
+              />            
+            </Fragment>}
         />
       </div>
     );

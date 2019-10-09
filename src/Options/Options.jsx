@@ -20,12 +20,9 @@ class Options extends Component{
   render(){
     return(
       <div className="container margin-0-auto phl">
-        <h1 className="text-center gray-777 mtm mbs">
-          Options
-        </h1>
 
         {/* TODO: make this toggle the edit categories options below */}
-        <h2 className="mtm mbs">
+        <h2 className="mtl">
             Edit Categories:
         </h2>
         <OptionsAddCategory 

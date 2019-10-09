@@ -54,7 +54,7 @@ class OptionsRenameCategory extends Component{
   } 
 
   handleRenameCategoryNewChange(event) {
-    this.setState({renamedCategoryNew: event.target.value,});
+    this.setState({renamedCategoryNew: event.target.value});
   }   
    
   handleRenameSubmit(event, dupeOkayedFlag = false) {
@@ -183,7 +183,7 @@ class OptionsRenameCategory extends Component{
               contentLabel="Duplication Modal"
             >
               <div>Warning: the new category name already exists. Any expenses with the original category name 
-                "{this.state.deletedCategory}" will have their category renamed to "{this.state.renamedCategory}" 
+                "{this.state.renamedCategoryOriginal}" will have their category renamed to "{this.state.renamedCategoryNew}" 
                 and combined with that category. This can't be undone.</div>
               <div className="pvl">
                 <button 

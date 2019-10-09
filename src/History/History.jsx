@@ -44,9 +44,6 @@ class History extends Component{
 
     return(
       <div className="container margin-0-auto phs">
-        <div className="text-center gray-777 mtm mbs">
-          All Expenses
-        </div>
         {(!allExpenses.length) 
           ? <div className="text-center">No expenses entered yet</div>
           : <div className="ftable font-16">

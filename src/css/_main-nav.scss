@@ -1,0 +1,18 @@
+/* Flexbox classes */
+
+.main-nav {
+  box-shadow: 1px 1px 2px #dddddd;
+  .main-nav__item {
+    text-align: center;
+  }
+  .main-nav__link {
+    display: block;
+    font-size: 14px;
+    color: #777;
+    font-weight: bold;
+    text-decoration: none;
+    &.active {
+      border-bottom: 2px solid #999;
+    }
+  }
+}

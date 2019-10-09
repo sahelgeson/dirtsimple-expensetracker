@@ -1,10 +1,10 @@
-import React, { Component, Fragment} from "react";
+import React, { Component } from "react";
 import './css/App.scss';
 import Home from "./Home.jsx";
 import History from "./History/History.jsx";
 import ScrollToTop from "./helpers/ScrollToTop.jsx";
 import Options from "./Options/Options.jsx";
-import { Route, Link } from "react-router-dom";
+import { Route, NavLink } from "react-router-dom";
 import DefaultCategories from "./DefaultCategories.js";
 
 class App extends Component{
@@ -61,44 +61,70 @@ class App extends Component{
     const categories = this.state.categories;
 
     return (
-      <div>
-        <Link to="/options"
-          className="text-right block gray-777 font-14 phl mtm"
-          data-qa="app-options-link"
-        >
-          Options
-        </Link>   
-        <Route
-          exact path="/options"
-          render={(props) => 
-            <Options {...props} 
-              allExpenses={allExpenses} 
-              categories={categories} 
-              handleHoistedExpensesChange={this.handleHoistedExpensesChange}
-              handleHoistedCategoriesChange={this.handleHoistedCategoriesChange}
-            />}
-        />        
+      <div>    
+        <nav className="main-nav mbm">
+          <ul className="flex">
+            <li className="flex__1 main-nav__item">
+              <NavLink exact to="/"
+                className="main-nav__link pvm"
+                data-qa="app-home-link"
+              >
+                Home
+              </NavLink>
+            </li>
+            <li className="flex__1 main-nav__item">
+              <NavLink exact to="/history"
+                className="main-nav__link pvm"
+                data-qa="app-home-link"
+              >
+                All Expenses
+              </NavLink> 
+            </li>
+            <li className="flex__1 main-nav__item">
+              <NavLink exact to="/options"
+                className="main-nav__link pvm"
+                data-qa="app-options-link"
+              >
+                Options
+              </NavLink> 
+            </li>
+          </ul>
+        </nav>  
         <Route
           exact path="/"
           render={(props) => 
-            <Home {...props} 
-              allExpenses={allExpenses} 
-              categories={categories} 
-              handleHoistedExpensesChange={this.handleHoistedExpensesChange}
-            />}
+            <div className="history-page">  
+              <Home {...props} 
+                allExpenses={allExpenses} 
+                categories={categories} 
+                handleHoistedExpensesChange={this.handleHoistedExpensesChange}
+              />
+            </div>}
         />
         <Route
           exact path="/history"
           render={(props) => 
-            <Fragment>
-              <ScrollToTop />
+            <div className="history">
+              <ScrollToTop />  
               <History {...props} 
                 allExpenses={allExpenses} 
                 categories={categories} 
                 handleHoistedExpensesChange={this.handleHoistedExpensesChange}
               />            
-            </Fragment>}
+            </div>}
         />
+        <Route
+          exact path="/options"
+          render={(props) => 
+            <div className="options-page">        
+              <Options {...props} 
+                allExpenses={allExpenses} 
+                categories={categories} 
+                handleHoistedExpensesChange={this.handleHoistedExpensesChange}
+                handleHoistedCategoriesChange={this.handleHoistedCategoriesChange}
+              />
+            </div>}
+        />          
       </div>
     );
   }

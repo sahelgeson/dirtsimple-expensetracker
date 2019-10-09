@@ -45,7 +45,7 @@ class Home extends Component{
     return (
       <div className="container margin-0-auto phl">
         <h1 
-          className="font-24 text-center gray-777 mtl ptl"
+          className="font-24 text-center gray-777 mtl pts"
         >
           <span className="logo-dirt">dirt</span>
           <span className="logo-simple">simple</span>

@@ -71,8 +71,7 @@ class OptionsAddCategory extends Component{
           onClick={this.handleAccordionClick}
         >
           <label 
-            htmlFor="addcategory"
-            className="mvm"           
+            htmlFor="addcategory"         
           >
             Add a category
           </label>

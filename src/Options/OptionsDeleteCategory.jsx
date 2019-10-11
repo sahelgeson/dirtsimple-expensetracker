@@ -80,7 +80,6 @@ class OptionsDeleteCategory extends Component{
         >
           <label
             htmlFor="deletecategory"
-            className="mvm"
           >
             Delete a category
           </label>

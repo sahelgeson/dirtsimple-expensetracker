@@ -3,6 +3,7 @@ import { PropTypes } from "prop-types";
 import OptionsAddCategory from "./OptionsAddCategory.jsx";
 import OptionsDeleteCategory from "./OptionsDeleteCategory.jsx";
 import OptionsRenameCategory from "./OptionsRenameCategory.jsx";
+import OptionsViewAllCategories from "./OptionsViewAllCategories.jsx";
 
 class Options extends Component{
   constructor(props) {
@@ -44,17 +45,9 @@ class Options extends Component{
             handleHoistedCategoriesChange={this.props.handleHoistedCategoriesChange}
         />
 
-
-        <h3 className="mtl gray-777">Categories:</h3>
-        <ul className="mvs gray-777">
-          {this.props.categories.map((category, i) =>
-                <li
-                  key={i}
-                >
-                  {category}
-                </li>
-            )}
-        </ul>
+        <OptionsViewAllCategories
+            categories={this.props.categories}
+        />
       </div>
     );
   }

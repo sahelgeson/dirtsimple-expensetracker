@@ -3,7 +3,7 @@ import { PropTypes } from "prop-types";
 import ReactModal from 'react-modal';
 import ReactModalStyles from "../modals/ReactModalStyles.js";
 
-class OptionsRenameCategory extends Component{
+class OptionsRenameCategory extends Component {
   constructor(props) {
     super(props);
   
@@ -93,7 +93,6 @@ class OptionsRenameCategory extends Component{
         >
           <label
             htmlFor="renamecategory"
-            className="mvm"
           >
             Rename a category
           </label>

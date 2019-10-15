@@ -38,7 +38,7 @@ class OptionsViewAllCategories extends Component{
         </button>
 
       {this.state.isOpen ? 
-        <div className="mhl mbm">
+        <div className="mhl mbl">
           <ul className="gray-777 mvs">
             {this.props.categories.map((category, i) =>
                   <li

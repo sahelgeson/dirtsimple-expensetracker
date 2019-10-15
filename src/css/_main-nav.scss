@@ -1,5 +1,14 @@
 /* Flexbox classes */
 
+.home-svg-icon {
+  position: relative;
+  top: 3px;
+  width: 16px;
+  height: 16px;
+  fill: #999;
+  margin-right: 6px;
+}
+
 .main-nav {
   box-shadow: 1px 1px 2px #dddddd;
   .main-nav__item {
@@ -8,11 +17,17 @@
   .main-nav__link {
     display: block;
     font-size: 14px;
-    color: #777;
+    color: #999;
     font-weight: bold;
     text-decoration: none;
     &.active {
+      color: #777;
       border-bottom: 2px solid #999;
+      .home-svg-icon {
+        fill: #777;
+      }
     }
   }
 }
+
+

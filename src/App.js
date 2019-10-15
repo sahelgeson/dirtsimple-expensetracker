@@ -51,9 +51,8 @@ class App extends Component{
     this.setState({
       categories
     })
-    /* TODO: commenting this out for now 
+    
     localStorage.setItem('myCategories', JSON.stringify(categories));
-    */
   }  
 
   render(){

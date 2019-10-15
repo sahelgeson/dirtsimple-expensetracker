@@ -28,6 +28,7 @@ class OptionsViewAllCategories extends Component{
           type="button"
           className="full-width text-left pam"
           onClick={this.handleAccordionClick}
+          data-qa="options-view-all-category-accordion"
         >
           <span>
             View all categories
@@ -38,7 +39,10 @@ class OptionsViewAllCategories extends Component{
         </button>
 
       {this.state.isOpen ? 
-        <div className="mhl mbl">
+        <div 
+          className="mhl mbl"
+          data-qa="options-view-all-category-container"
+        >
           <ul className="gray-777 mvs">
             {this.props.categories.map((category, i) =>
                   <li

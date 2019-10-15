@@ -77,6 +77,7 @@ class OptionsDeleteCategory extends Component{
           type="button"
           className="full-width text-left pam"
           onClick={this.handleAccordionClick}
+          data-qa="options-delete-category-accordion"
         >
           <label
             htmlFor="deletecategory"

@@ -45,7 +45,6 @@ class OptionsAddCategory extends Component{
 
   handleAddSubmit(event) {
     event.preventDefault();
-    console.log('handleaddsubmit being fired')
     let categories = [...this.props.categories];
     /* Check if it is a duplicate category name */
     if (categories.indexOf(this.state.newCategory) !== -1) { 
@@ -69,6 +68,7 @@ class OptionsAddCategory extends Component{
           type="button"
           className="full-width text-left pam"
           onClick={this.handleAccordionClick}
+          data-qa="options-add-category-accordion"
         >
           <label 
             htmlFor="addcategory"         

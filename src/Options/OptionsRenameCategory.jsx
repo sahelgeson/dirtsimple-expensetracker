@@ -90,6 +90,7 @@ class OptionsRenameCategory extends Component {
           type="button"
           className="full-width text-left pam"
           onClick={this.handleAccordionClick}
+          data-qa="options-rename-category-accordion"
         >
           <label
             htmlFor="renamecategory"

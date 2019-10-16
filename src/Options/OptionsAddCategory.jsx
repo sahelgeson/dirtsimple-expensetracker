@@ -48,7 +48,6 @@ class OptionsAddCategory extends Component{
     let categories = [...this.props.categories];
     /* Check if it is a duplicate category name */
     if (categories.includes(this.state.newCategory)) { 
-      /* TODO: I don't like how I'm doing this, seems awkward */
       this.setState({isModalOpen: true})
       return false;
     } else {

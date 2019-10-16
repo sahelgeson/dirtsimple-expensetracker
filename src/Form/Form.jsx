@@ -46,7 +46,6 @@ class Form extends Component{
   handleSubmit(event) {
     event.preventDefault();
     if (!this.state.amount) { 
-      /* TODO add an error message or effect here */
       this.setState({isSaved: false});
       return false; 
     }  

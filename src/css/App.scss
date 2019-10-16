@@ -1,20 +1,15 @@
 @import '_reset.scss';
-@import '_visibility.scss';
-@import '_layout.scss';
-@import '_flexbox.scss';
 @import '_buttons.scss';
-@import '_forms.scss';
-@import '_type.scss';
 @import '_colors.scss';
 @import '_dividers.scss';
+@import '_flexbox.scss';
+@import '_forms.scss';
+@import '_layout.scss';
 @import '_links.scss';
-@import '_spacing.scss';
 @import '_main-nav.scss';
-
-
-// TODO ^ review above, should be in alphabetical order unless there's
-// some specificity requirements that require imports to be in a certain order
-// (and that should NOT be the case)
+@import '_spacing.scss';
+@import '_type.scss';
+@import '_visibility.scss';
 
 body {
   background: #f0ffff;

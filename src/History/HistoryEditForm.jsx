@@ -84,7 +84,7 @@ class HistoryEditForm extends Component{
 
   handleSubmit(event) {
     event.preventDefault();
-    if (!this.state.amount) { return false; }  /* TODO change this to an error message */
+    if (!this.state.amount) { return false; } 
 
     console.log('An expense was edited: ' + this.state.amount);
 

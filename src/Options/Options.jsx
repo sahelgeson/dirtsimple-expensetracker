@@ -10,7 +10,7 @@ class Options extends Component{
     super(props);
   
     this.state = {
-      isSaved: false,   /* TODO: one, or separate isSaved for all forms? */
+      isSaved: false,
       isRenaming: false,
       openModalName: null,
       renamedCategoryOriginal: '',

@@ -190,7 +190,6 @@ class OptionsRenameCategory extends Component {
                 Any expenses with the category "{this.state.renamedCategoryOriginal}"
                 will have their category renamed. This can't be undone.</div>
               <div className="pvl">
-                {/* TODO: how will this work with handleRenameSubmit? Look at multiple submit button again */}
                 <button 
                   type="button"
                   className="btn btn--red capitalize phm pvm mrxs left"

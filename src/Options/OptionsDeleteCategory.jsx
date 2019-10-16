@@ -9,6 +9,8 @@ class OptionsDeleteCategory extends Component{
   
     this.state = {
       deletedCategory: '',
+      isSaved: false,
+      isOpen: false,
       isModalOpen: false,
     }
 
@@ -61,7 +63,10 @@ class OptionsDeleteCategory extends Component{
 
     const updatedExpenses = this.changeCategoriesOfAllExpenses(this.state.deletedCategory, 'Uncategorized')
     this.props.handleHoistedExpensesChange(updatedExpenses);
-    this.closeModal();
+    this.setState({
+        isModalOpen: false,
+        isSaved: true,
+    });
   }  
 
  
@@ -137,7 +142,13 @@ class OptionsDeleteCategory extends Component{
               </div>
             </ReactModal>
           </div>
-        : null }          
+        : null }      
+
+        {this.state.isSaved && this.state.isOpen ?
+          <div className="status text-center gray-777 font-14 mbm">
+            Deleted!
+          </div>
+        : null }            
       </form>
 
     );

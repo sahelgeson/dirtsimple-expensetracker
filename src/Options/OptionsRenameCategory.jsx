@@ -9,6 +9,8 @@ class OptionsRenameCategory extends Component {
   
     this.state = {
       isChanging: false,
+      isSaved: false,
+      isOpen: false,
       renamedCategoryOriginal: '',
       renamedCategoryNew: '',
       openModalName: null,
@@ -23,12 +25,12 @@ class OptionsRenameCategory extends Component {
   }
 
   /* TODO: this is also used in OptionsDeleteCategory */
-  changeCategoriesOfAllExpenses(oldValue, newValue) {
+  changeCategoriesOfAllExpenses(originalValue, newValue) {
     const allExpenses = this.props.allExpenses;
 
     return allExpenses.map((expense, i) => {
-        if (expense.category === oldValue) {
-          expense.category = newValue
+        if (expense.category === originalValue) {
+          expense.category = newValue;
         }
         return expense;
       }
@@ -57,26 +59,44 @@ class OptionsRenameCategory extends Component {
     this.setState({renamedCategoryNew: event.target.value});
   }   
    
-  handleRenameSubmit(event, dupeOkayedFlag = false) {
+  handleRenameSubmit(event, isOkayFromModal = false) {
     event.preventDefault();
 
     /* check for dupes first */
-    if (!dupeOkayedFlag && this.props.categories.indexOf(this.state.renamedCategoryNew) !== -1) {
-      this.setState({openModalName : 'rename-dupe'})
+    const hasDupes = this.props.categories.includes(this.state.renamedCategoryNew);
+    if (!isOkayFromModal && hasDupes) {
+      this.setState({openModalName : 'rename-dupe'});
       return false;
-    } else {
-      const updatedCategories = this.props.categories.map(category => {
+    } else if (!isOkayFromModal && !hasDupes) {
+      // if no dupes, open rename modal for warning
+      this.setState({openModalName : 'rename'});
+      return false;
+    } else if (isOkayFromModal) {
+      // update the categories array
+      let updatedCategories = [...this.props.categories];
+      if (hasDupes) {
+        /* just delete the old category from category array, we will update the expenses with new category (which
+            already exists in the category array because they are identical) */
+        updatedCategories = updatedCategories.filter((category) => category !== this.state.renamedCategoryOriginal)
+      } else {
+        updatedCategories = updatedCategories.map(category => {
           if (category === this.state.renamedCategoryOriginal) {
-            category = this.state.renamedCategoryNew; 
+              category = this.state.renamedCategoryNew; 
           }
-          return category
-        }
-      );
-      this.setState({isChanging : false})
+          return category;
+        });
+      }
+
+      // update the expenses and hoist both the expenses array and categories array
+      const updatedExpenses = this.changeCategoriesOfAllExpenses(this.state.renamedCategoryOriginal, this.state.renamedCategoryNew);
+      this.props.handleHoistedExpensesChange(updatedExpenses);
       this.props.handleHoistedCategoriesChange(updatedCategories);
 
-      const updatedExpenses = this.changeCategoriesOfAllExpenses(this.state.deletedCategory, 'Uncategorized')
-      this.props.handleHoistedExpensesChange(updatedExpenses);
+      this.setState({
+          isChanging : false,
+          isSaved : true,
+          openModalName: null,
+      });
     }
   }  
 
@@ -163,12 +183,14 @@ class OptionsRenameCategory extends Component {
               <div className="pvl">
                 {/* TODO: how will this work with handleRenameSubmit? Look at multiple submit button again */}
                 <button 
+                  type="button"
                   className="btn btn--red capitalize phm pvm mrxs left"
-                  onClick={(event) => this.handleRenameSubmit({event, dupeOkayedFlag: true})}   
+                  onClick={(event) => this.handleRenameSubmit(event, {isOkayFromModal: true})}   
                 >
                   Yes, Rename
                 </button>
                 <button 
+                  type="button"
                   className="btn btn--outline capitalize phm pvm mrxs right"
                   onClick={this.closeModal}
                 >
@@ -187,12 +209,14 @@ class OptionsRenameCategory extends Component {
                 and combined with that category. This can't be undone.</div>
               <div className="pvl">
                 <button 
+                  type="button"
                   className="btn btn--red capitalize phm pvm mrxs left"
-                  onClick={this.renameCategory}
+                  onClick={(event) => this.handleRenameSubmit(event, {isOkayFromModal: true})} 
                 >
                   Yes, Rename
                 </button>
                 <button 
+                  type="button"
                   className="btn btn--outline capitalize phm pvm mrxs right"
                   onClick={this.closeModal}
                 >
@@ -201,7 +225,13 @@ class OptionsRenameCategory extends Component {
               </div>
             </ReactModal>
           </div>
-        : null }      
+        : null }   
+        
+        {this.state.isSaved && this.state.isOpen ?
+          <div className="status text-center gray-777 font-14 mbm">
+            Renamed!
+          </div>
+        : null }   
       </form>
 
     );

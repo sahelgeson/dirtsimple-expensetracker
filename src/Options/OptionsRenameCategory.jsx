@@ -19,6 +19,7 @@ class OptionsRenameCategory extends Component {
     this.changeCategoriesOfAllExpenses = this.changeCategoriesOfAllExpenses.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleAccordionClick = this.handleAccordionClick.bind(this);  
+    this.handleFocus = this.handleFocus.bind(this);  
     this.handleRenameCategoryChange = this.handleRenameCategoryChange.bind(this);
     this.handleRenameCategoryNewChange = this.handleRenameCategoryNewChange.bind(this);
     this.handleRenameSubmit = this.handleRenameSubmit.bind(this);
@@ -47,6 +48,13 @@ class OptionsRenameCategory extends Component {
       isSaved: false,
     });
   }   
+
+  handleFocus() {
+    this.setState({
+        isSaved: false,
+        isModalOpen: false,
+    });
+  }  
 
   handleRenameCategoryChange(event) {
     this.setState({
@@ -129,6 +137,7 @@ class OptionsRenameCategory extends Component {
               className="select-css input input-secondary full-width font-16 mbm"
               value={this.state.renamedCategoryOriginal} 
               onChange={this.handleRenameCategoryChange}
+              onFocus={this.handleFocus}
               data-qa="options-rename-category-old-input"  
             >
               <option value="">Choose a category</option>

@@ -17,6 +17,7 @@ class OptionsDeleteCategory extends Component{
     this.changeCategoriesOfAllExpenses = this.changeCategoriesOfAllExpenses.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleAccordionClick = this.handleAccordionClick.bind(this);  
+    this.handleFocus = this.handleFocus.bind(this);  
     this.handleDeleteCategoryChange = this.handleDeleteCategoryChange.bind(this);
     this.handleDeleteSubmit = this.handleDeleteSubmit.bind(this);
   }
@@ -44,6 +45,13 @@ class OptionsDeleteCategory extends Component{
       isSaved: false,
     });
   } 
+
+  handleFocus() {
+    this.setState({
+        isSaved: false,
+        isModalOpen: false,
+    });
+  }  
   
   handleDeleteCategoryChange(event) {
     this.setState({
@@ -77,7 +85,6 @@ class OptionsDeleteCategory extends Component{
         onSubmit={this.handleDeleteSubmit}
         className="card mvl"
       >
-
         <button 
           type="button"
           className="full-width text-left pam"
@@ -101,6 +108,7 @@ class OptionsDeleteCategory extends Component{
               className="select-css input input-secondary full-width font-16 mbm"
               value="" 
               onChange={this.handleDeleteCategoryChange}
+              onFocus={this.handleFocus}
               data-qa="options-delete-category-input"  
             >
               <option value="">Choose a category</option>
@@ -124,15 +132,20 @@ class OptionsDeleteCategory extends Component{
                 will still exist and have the category "Uncategorized".
               </div>
               <div className="pvl">
+                {/* doing onClick instead of just button type="submit" because a normal submit will
+                  make the submit button focussed after submission, and that interferes with the handleFocus 
+                  handler used to reset the success messaging */}
                 <button 
-                  type="submit"
+                  type="button"
                   form="deleteform"
                   className="btn btn--red capitalize phm pvm mrxs left"
+                  onClick={(event) => this.handleDeleteSubmit(event)}
                   data-qa="options-delete-submit-btn"
                 >
                   Yes, Delete  
                 </button>     
                 <button 
+                  type="button"
                   className="btn btn--outline capitalize phm pvm mrxs right"
                   onClick={this.closeModal}
                 >

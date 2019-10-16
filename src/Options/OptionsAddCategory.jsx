@@ -17,7 +17,7 @@ class OptionsAddCategory extends Component{
     this.closeModal = this.closeModal.bind(this);
     this.handleAccordionClick = this.handleAccordionClick.bind(this);    
     this.handleAddCategoryChange = this.handleAddCategoryChange.bind(this);
-    this.handleAddFocus = this.handleAddFocus.bind(this);    
+    this.handleFocus = this.handleFocus.bind(this);    
     this.handleAddSubmit = this.handleAddSubmit.bind(this);
   }
 
@@ -36,7 +36,7 @@ class OptionsAddCategory extends Component{
     this.setState({newCategory: event.target.value});
   } 
 
-  handleAddFocus() {
+  handleFocus() {
     this.setState({
         isSaved: false,
         isModalOpen: false,
@@ -89,7 +89,7 @@ class OptionsAddCategory extends Component{
             spellCheck="true"
             placeholder="New Category"
             onChange={this.handleAddCategoryChange}
-            onFocus={this.handleAddFocus}
+            onFocus={this.handleFocus}
             data-qa="options-add-category-input"    
           />          
           <ReactModal

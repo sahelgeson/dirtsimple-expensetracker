@@ -124,6 +124,7 @@ class OptionsDeleteCategory extends Component{
             <ReactModal
               isOpen={(this.state.isModalOpen)}      
               onRequestClose={this.closeModal}
+              shouldFocusAfterRender={false}
               style={ReactModalStyles}
               contentLabel="Deletion Modal"
             >

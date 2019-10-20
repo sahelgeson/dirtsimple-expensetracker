@@ -24,12 +24,15 @@ describe('Check that the options can be edited on the options page', function ()
                 cy.getQa('options-rename-category-old-input').select('TEST').then(() => {
                     cy.getQa('options-rename-category-new-input').type('ABCD').then(() => {                    
                         cy.getQa('options-rename-category-new-input').should('have.value', 'ABCD');
-                        cy.getQa('options-rename-submit-btn').should('not.be.disabled');
-                        cy.getQa('options-rename-submit-btn').click().then(() =>{
-                            // check localStorage to make sure it's renamed correctly
-                            const categories = JSON.parse(localStorage.getItem('myCategories'));
-                            const newCategory = categories[(categories.length - 1)];
-                            expect(newCategory).to.equal('ABCD');
+                        cy.getQa('options-rename-save-btn').should('not.be.disabled');
+                        cy.getQa('options-rename-save-btn').click().then(() => {
+                            // choose "Yes, Rename" on the modal
+                            cy.getQa('options-rename-modal-yes-button').click().then(() => {                   
+                                // check localStorage to make sure it's renamed correctly
+                                const categories = JSON.parse(localStorage.getItem('myCategories'));
+                                const newCategory = categories[(categories.length - 1)];
+                                expect(newCategory).to.equal('ABCD');
+                            });
                         });
                     });
                 });

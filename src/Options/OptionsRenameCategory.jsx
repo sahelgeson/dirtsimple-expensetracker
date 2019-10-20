@@ -173,7 +173,7 @@ class OptionsRenameCategory extends Component {
                   type="submit" 
                   disabled={this.state.renamedCategoryNew === ''}   
                   value="Save" 
-                  data-qa="options-rename-submit-btn"          
+                  data-qa="options-rename-save-btn"          
                 >
                   Save
                 </button>
@@ -194,6 +194,7 @@ class OptionsRenameCategory extends Component {
                   type="button"
                   className="btn btn--red capitalize phm pvm mrxs left"
                   onClick={(event) => this.handleRenameSubmit(event, {isOkayFromModal: true})}   
+                  data-qa="options-rename-modal-yes-button"
                 >
                   Yes, Rename
                 </button>

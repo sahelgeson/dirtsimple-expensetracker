@@ -33,7 +33,6 @@ class Home extends Component{
   }
 
   handleCategoryChange(event) {
-    console.log('Category was changed to: ' + event.target.value);
     this.setState({category: event.target.value});
   }
 

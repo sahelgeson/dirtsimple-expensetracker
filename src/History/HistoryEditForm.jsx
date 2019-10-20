@@ -86,8 +86,6 @@ class HistoryEditForm extends Component{
     event.preventDefault();
     if (!this.state.amount) { return false; } 
 
-    console.log('An expense was edited: ' + this.state.amount);
-
     const {amount, category, datetime} = this.state;
     const editedExpense = {
       datetime,

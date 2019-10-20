@@ -62,7 +62,6 @@ class OptionsDeleteCategory extends Component{
 
   handleDeleteSubmit(event) {
     event.preventDefault();
-    console.log('deleting this category: ' + this.state.deletedCategory)
 
     const updatedCategories = this.props.categories.filter(category => 
       category !== this.state.deletedCategory
@@ -150,7 +149,6 @@ class OptionsDeleteCategory extends Component{
                   className="btn btn--outline capitalize phm pvm mrxs right"
                   onClick={this.closeModal}
                 >
-                  {/* TODO: blur the focus on the select after this happens  */}
                   No, Cancel
                 </button>
               </div>

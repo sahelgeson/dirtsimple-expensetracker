@@ -60,11 +60,7 @@ class Form extends Component{
     const datetime = new Date().toString();
 
     const {amount, category} = this.state;
-/*
-    console.log('datetime: ' + datetime);
-    console.log('amount: ' + amount);
-    console.log('category: ' + category);
-*/
+
     const newExpense = {
       datetime,
       amount,

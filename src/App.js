@@ -22,6 +22,8 @@ class App extends Component{
       JSON.stringify converts Date objects to an ISO format ( Date.toISOString => YYYY-MM-DDTHH:mm:ss.sssZ)
       We don't want timezones/GMT, just the local datetime, so we use Date.toString and just save the
       String. Formatting should be done in child components where needed.
+
+      TODO: figure out adding an id to both expenses and categories for use in keys. 
     */
 
     /* allExpenses is not sorted in any order, sorting should be done by child components */
@@ -38,20 +40,13 @@ class App extends Component{
   
   handleHoistedExpensesChange(allExpenses) {
     /* This function is passed down to the child components that need to update global state of expenses */
-    this.setState({
-      allExpenses
-    })
+    this.setState({ allExpenses });
     localStorage.setItem('myExpenses', JSON.stringify(allExpenses));
   }  
-
     
   handleHoistedCategoriesChange(categories) {
     /* This function is passed down to the child components that need to update global state of expenses */
-
-    this.setState({
-      categories
-    })
-    
+    this.setState({ categories });
     localStorage.setItem('myCategories', JSON.stringify(categories));
   }  
 

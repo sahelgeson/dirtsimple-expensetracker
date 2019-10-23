@@ -37,7 +37,19 @@ class App extends Component{
       of view)
     */
 
-    const allExpenses = JSON.parse(localStorage.getItem('myExpensesWithIds')) || [];
+    let allExpenses = JSON.parse(localStorage.getItem('myExpenses')) || [];
+    if (allExpenses.length) {
+      // this is a data migration to add ids to allExpenses if they don't have ids already
+      allExpenses = allExpenses.map((expense, i) => {
+          if (!expense.hasOwnProperty('id')) {
+            expense.id = i;
+          }
+          return expense;
+      });
+      // saves the data migration immediately
+      localStorage.setItem('myExpenses', JSON.stringify(allExpenses));
+    }
+
     const categories  = JSON.parse(localStorage.getItem('myCategories')) || DefaultCategories;
 
     this.state = {
@@ -51,7 +63,7 @@ class App extends Component{
   handleHoistedExpensesChange(allExpenses) {
     /* This function is passed down to the child components that need to update global state of expenses */
     this.setState({ allExpenses });
-    localStorage.setItem('myExpensesWithIds', JSON.stringify(allExpenses));
+    localStorage.setItem('myExpenses', JSON.stringify(allExpenses));
   }  
     
   handleHoistedCategoriesChange(categories) {

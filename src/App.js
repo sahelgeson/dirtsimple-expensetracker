@@ -29,9 +29,14 @@ class App extends Component{
       Categories only allow for one unique value per category name. If that is changed you will need to also
       change any keys associated with categories since those need unique values. Categories are case-sensitive,
       so "Food" and "food" are different categories.
+
+      !!! the expenses in allExpenses are not sorted, either by index or datetime. Sorting is the responsibility
+      of child components. This is necessary because the expenses on the History page must remain unsorted, 
+      otherwise a datetime change will be hoisted up to App, will be sorted in App, then filter back down to
+      History causing a rerender (and the expense whose datetime was changed will suddenly move, possibly out
+      of view)
     */
 
-    /* allExpenses is not sorted in any order, sorting should be done by child components */
     const allExpenses = JSON.parse(localStorage.getItem('myExpensesWithIds')) || [];
     const categories  = JSON.parse(localStorage.getItem('myCategories')) || DefaultCategories;
 

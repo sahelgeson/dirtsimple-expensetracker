@@ -113,7 +113,7 @@ class OptionsDeleteCategory extends Component{
               <option value="">Choose a category</option>
               {this.props.categories.map((category, i) =>
                   <option 
-                    key={i}
+                    key={category}
                     value={category}
                   >
                     {category}

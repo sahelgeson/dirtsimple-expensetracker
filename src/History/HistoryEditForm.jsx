@@ -15,7 +15,7 @@ class HistoryEditForm extends Component{
     super(props);
   
     const thisExpense = this.props.thisExpense; 
-
+ 
     this.state = {
       amount: thisExpense.amount,
       category: thisExpense.category,
@@ -77,7 +77,9 @@ class HistoryEditForm extends Component{
 
   deleteExpense() {
     let allExpensesUpdated = [...this.props.allExpenses];
-    allExpensesUpdated.splice(this.props.isBeingEditedIndex, 1);
+    allExpensesUpdated = allExpensesUpdated.filter((expense) => {
+        return (expense.id !== this.props.thisExpense.id);
+    });
     this.props.handleHoistedExpensesChange(allExpensesUpdated);
     this.closeModal();
   }
@@ -85,9 +87,10 @@ class HistoryEditForm extends Component{
   handleSubmit(event) {
     event.preventDefault();
     if (!this.state.amount) { return false; } 
-
+    const id = this.props.thisExpense.id;
     const {amount, category, datetime} = this.state;
     const editedExpense = {
+      id,     
       datetime,
       amount,
       category
@@ -96,9 +99,12 @@ class HistoryEditForm extends Component{
     /* "Unsorted" because user may edit datetime.
        Not sorting in edit form because we don't want state to update and rerender which could
        yoink stuff around */      
-    let allExpensesUnsorted = this.props.allExpenses;
-    /* index is still null */
-    allExpensesUnsorted[this.props.isBeingEditedIndex] = editedExpense;
+    const allExpensesUnsorted = this.props.allExpenses.map((expense) => {
+          if (expense.id === id) {
+              expense = editedExpense;
+          }
+          return expense;
+    });
 
     this.setState({
       allExpensesUnsorted,
@@ -154,7 +160,7 @@ HistoryEditForm.propTypes = {
   thisExpense: PropTypes.object.isRequired,
   categories: PropTypes.array.isRequired,
   allExpenses: PropTypes.array.isRequired,
-  isBeingEditedIndex: PropTypes.number.isRequired,
+  isBeingEditedId: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
   handleHoistedExpensesChange: PropTypes.func.isRequired,
 };

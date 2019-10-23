@@ -7,6 +7,7 @@ class Form extends Component{
   
     /* Format for expenses: 
       {
+        id,
         datetime,
         amount,
         category
@@ -59,9 +60,15 @@ class Form extends Component{
         Date.toISOString on Date objects but not strings, and we don't want the timezone info */
     const datetime = new Date().toString();
 
+    const latestExpenseId = this.props.allExpenses.reduce((id, expense) => {
+        return (id > expense.id ? id : expense.id);
+    }, 0);
+
+    const id = latestExpenseId + 1;
     const {amount, category} = this.state;
 
     const newExpense = {
+      id,
       datetime,
       amount,
       category
@@ -124,7 +131,7 @@ class Form extends Component{
         >
           {this.props.categories.map((category, i) =>
               <option 
-                key={i}
+                key={category}
                 value={category}
               >
                 {category}

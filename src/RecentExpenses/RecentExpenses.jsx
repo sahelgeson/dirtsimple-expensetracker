@@ -4,10 +4,14 @@ import { Link } from "react-router-dom";
 import styled, { keyframes, css } from "styled-components";
 
 function RecentExpenses(props){
+  // TODO: should replace with one sorted by id, or just assume they are already sorted and remove entirely
+  //  consider moving this function into separate file to be reused
   const recentExpensesSorted = props.recentExpenses.sort(function(a, b) {
     var dateA = new Date(a.datetime), dateB = new Date(b.datetime);
     return dateB - dateA;
   });
+
+  const latestExpenseId = recentExpensesSorted.length && recentExpensesSorted[0].id;
   const numberOfRecentShown = 7; 
 
   const firstLoadFlag = useRef(true);
@@ -37,10 +41,10 @@ function RecentExpenses(props){
         className="table font-14 full-width mbl"
         data-qa="recent-expenses"
       >
-        {recentExpensesSorted.slice(0,numberOfRecentShown).map((expense, i) =>
+        {recentExpensesSorted.slice(0,numberOfRecentShown).map((expense) =>
           <Transition 
-            key={i} 
-            active={!firstLoadFlag.current && !i}
+            key={expense.id} 
+            active={!firstLoadFlag.current && (expense.id === latestExpenseId)}
             className="tr"
           >     
             <div className="td pls pvs">

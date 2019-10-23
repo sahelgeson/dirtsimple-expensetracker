@@ -7,13 +7,14 @@ class History extends Component{
     super(props);
   
     this.state = {
-      isBeingEditedIndex: null,    /* this is the id of the expense being edited, only allow one at a time */
+      isBeingEditedId: null,    /* this is the id of the expense being edited, only allow one at a time */
     }
 
     /* Sort expenses by date by default only for initial load. Setting this up in the constructor so we're
       not sorting in edit form because we don't want state to update and rerender which could
       yoink stuff around */
     const allExpensesSorted = [...this.props.allExpenses];
+    // TODO: should replace with one sorted by id, or just assume they are already sorted and remove entirely
     allExpensesSorted.sort(function(a, b) {
       var dateA = new Date(a.datetime), dateB = new Date(b.datetime);
       return dateB - dateA;
@@ -26,21 +27,21 @@ class History extends Component{
   componentDidUpdate(prevProps, prevState) {
     /* In case user deletes an expense, close the edit form. */
     if (prevProps.allExpenses.length !== this.props.allExpenses.length) {
-      this.setState({isBeingEditedIndex: null});
+      this.setState({isBeingEditedId: null});
     }
   }
 
   handleClick(event) {
-    const indexNumber = parseInt(event.target.value, 10);
-    (this.state.isBeingEditedIndex === indexNumber)
-      ? this.setState({isBeingEditedIndex: null})
-      : this.setState({isBeingEditedIndex: indexNumber})
+    const thisId = parseInt(event.target.value, 10);
+    (this.state.isBeingEditedId === thisId)
+      ? this.setState({isBeingEditedId: null})
+      : this.setState({isBeingEditedId: thisId})
   }
 
   render(){
     const allExpenses = this.props.allExpenses; 
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const active = this.state.isBeingEditedIndex;
+    const active = this.state.isBeingEditedId;
 
     return(
       <div className="container margin-0-auto phs">
@@ -48,12 +49,12 @@ class History extends Component{
           ? <div className="text-center">No expenses entered yet</div>
           : <div className="ftable font-16">
           {/* TODO consider a limit on this with a "View more" button */}
-          {allExpenses.map((expense, i) => 
+          {allExpenses.map((expense) => 
               <div 
-                className={(i === active) ? 
+                className={(expense.id === active) ? 
                     "ftable__row phs editing"
                     : "ftable__row phs" }
-                key={i}
+                key={expense.id}
               >
                 <div 
                   className="ftable__cell ftable__cell--amount text-right pvm phxs"
@@ -79,7 +80,7 @@ class History extends Component{
                   <button
                     className="btn btn--outline btn--edit paxs"
                     onClick={this.handleClick}                  
-                    value={i} 
+                    value={expense.id} 
                     data-qa="history-edit-btn"     
                   >
                     Edit 
@@ -88,18 +89,18 @@ class History extends Component{
 
                 {/* Adds visibility hidden to element instead of returning null so the space doesn't
                     collapse and have text move a pixel or two */}
-                <div className={(i !== active - 1) && (i !== active) ?
+                <div className={(expense.id !== active - 1) && (expense.id !== active) ?
                       "full-width divider divider--dotted mvn"
                     : "full-width divider divider--dotted mvn visibility-hidden" }
                 >
                 </div>
 
-                {(i === active) ?
+                {(expense.id === active) ?
                   <HistoryEditForm 
                     thisExpense={expense} 
                     categories={this.props.categories} 
                     allExpenses={this.props.allExpenses}
-                    isBeingEditedIndex={this.state.isBeingEditedIndex}
+                    isBeingEditedId={this.state.isBeingEditedId}
                     handleClick={this.handleClick}
                     handleHoistedExpensesChange={this.props.handleHoistedExpensesChange}
                   />

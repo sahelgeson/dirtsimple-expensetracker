@@ -18,7 +18,7 @@ function HistoryEditFormCategory(props){
           >
             {props.categories.map((category, i) =>
                 <option 
-                  key={i}
+                  key={category}
                   value={category}
                 >
                   {category}

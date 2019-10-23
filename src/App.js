@@ -23,11 +23,16 @@ class App extends Component{
       We don't want timezones/GMT, just the local datetime, so we use Date.toString and just save the
       String. Formatting should be done in child components where needed.
 
-      TODO: figure out adding an id to both expenses and categories for use in keys. 
+      Amount is valid to 2 decimal places, native HTML5 attributes on the input validate that. The
+      expectation/hope is that users will just use dollar amounts without cents.
+
+      Categories only allow for one unique value per category name. If that is changed you will need to also
+      change any keys associated with categories since those need unique values. Categories are case-sensitive,
+      so "Food" and "food" are different categories.
     */
 
     /* allExpenses is not sorted in any order, sorting should be done by child components */
-    const allExpenses = JSON.parse(localStorage.getItem('myExpenses')) || [];
+    const allExpenses = JSON.parse(localStorage.getItem('myExpensesWithIds')) || [];
     const categories  = JSON.parse(localStorage.getItem('myCategories')) || DefaultCategories;
 
     this.state = {
@@ -41,7 +46,7 @@ class App extends Component{
   handleHoistedExpensesChange(allExpenses) {
     /* This function is passed down to the child components that need to update global state of expenses */
     this.setState({ allExpenses });
-    localStorage.setItem('myExpenses', JSON.stringify(allExpenses));
+    localStorage.setItem('myExpensesWithIds', JSON.stringify(allExpenses));
   }  
     
   handleHoistedCategoriesChange(categories) {

@@ -10,7 +10,9 @@ describe('Check the easy path for the user entering in a new expense for the mai
                 cy.getQa('main-form-category-input').should('have.value', 'Food')
                 cy.getQa('main-form-save-btn').click().then(() =>{
                     // check localStorage to make sure it's added correctly
-                    const newExpense = JSON.parse(localStorage.getItem('myExpenses'))[0];
+
+                    // TODO: need to change this, no longer arranged by index
+                    const newExpense = JSON.parse(localStorage.getItem('myExpensesWithIds'))[0];
                     expect(newExpense.amount).to.equal('6');
                     expect(newExpense.category).to.equal('Food');
                 });
@@ -22,7 +24,9 @@ describe('Check the easy path for the user entering in a new expense for the mai
                 cy.getQa('main-form-category-input').select('Other').then(() =>{
                     cy.getQa('main-form-save-btn').click().then(() =>{
                         // check localStorage to make sure it's added correctly
-                        const newExpense = JSON.parse(localStorage.getItem('myExpenses'))[0];
+
+                        // TODO: need to change this, no longer arranged by index
+                        const newExpense = JSON.parse(localStorage.getItem('myExpensesWithIds'))[0];
                         expect(newExpense.amount).to.equal('7');
                         expect(newExpense.category).to.equal('Other');
                     });

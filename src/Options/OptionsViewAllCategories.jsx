@@ -46,7 +46,7 @@ class OptionsViewAllCategories extends Component{
           <ul className="gray-777 mvs">
             {this.props.categories.map((category, i) =>
                   <li
-                    key={i}
+                    key={category}
                   >
                     {category}
                   </li>

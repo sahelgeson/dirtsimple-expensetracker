@@ -1,5 +1,7 @@
 import React, { Component} from "react";
-import { PropTypes } from "prop-types";
+import { connect } from 'react-redux';
+import { addExpense } from '../redux/actions/expenses-actions';
+import cuid from 'cuid';
 
 class Form extends Component{
   constructor(props) {
@@ -10,16 +12,16 @@ class Form extends Component{
         id,
         datetime,
         amount,
-        category
+        categoryId
       }
     */
 
     /* TODO: change this eventually so user can set default category */
-    const defaultCategory = this.props.categories[0] || [];
+    const defaultCategoryId = (this.props.categories[0] && this.props.categories[0].id)  || [];
 
     this.state = {
       amount: '',
-      category: defaultCategory,
+      categoryId: defaultCategoryId,
       isSaved: false,
     }
 
@@ -34,7 +36,7 @@ class Form extends Component{
   }
 
   handleCategoryChange(event) {
-    this.setState({category: event.target.value});
+    this.setState({categoryId: event.target.value});
   }
 
   handleFocus() {
@@ -60,22 +62,17 @@ class Form extends Component{
         Date.toISOString on Date objects but not strings, and we don't want the timezone info */
     const datetime = new Date().toString();
 
-    const latestExpenseId = this.props.allExpenses.reduce((id, expense) => {
-        return (id > expense.id ? id : expense.id);
-    }, 0);
-
-    const id = latestExpenseId + 1;
-    const {amount, category} = this.state;
+    const id = cuid();
+    const {amount, categoryId} = this.state;
 
     const newExpense = {
       id,
       datetime,
       amount,
-      category
+      categoryId
     }
 
-    const allExpenses = [newExpense, ...this.props.allExpenses]
-    this.props.handleHoistedExpensesChange(allExpenses);
+    this.props.addExpense(newExpense);
   }  
   
   render(){
@@ -125,17 +122,22 @@ class Form extends Component{
         <select
           id="category"
           className="select-css input input-secondary full-width font-25 mbm"
-          value={this.state.category} 
+          value={this.state.categoryId} 
           onChange={this.handleCategoryChange}
           data-qa="main-form-category-input" 
         >
-          {this.props.categories.map((category, i) =>
-              <option 
-                key={category}
-                value={category}
-              >
-                {category}
-              </option>
+          {this.props.categories.map((category) => {
+              if (category.id !== null) {
+                return (
+                  <option 
+                    key={category.id}
+                    value={category.id}
+                  >
+                    {category.name}
+                  </option>
+                )
+              } else { return null; }
+            }
           )}
         </select>
 
@@ -151,10 +153,11 @@ class Form extends Component{
   }
 }
 
-Form.propTypes = {
-  allExpenses: PropTypes.array.isRequired,
-  categories: PropTypes.array.isRequired,
-  handleHoistedExpensesChange: PropTypes.func.isRequired,
-};
+function mapStateToProps(state) {
+  return {
+    allExpenses: state.allExpenses,
+    categories:  state.categories,
+  };
+}
 
-export default Form;
+export default connect(mapStateToProps, { addExpense })(Form);

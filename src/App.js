@@ -13,9 +13,16 @@ class App extends Component{
   
     /* Format for expenses (used in allExpenses): 
       {
+        id,
         datetime,
         amount,
-        category
+        categoryId
+      }
+
+      Format for a category: 
+      {
+        id,
+        name
       }
 
       For datetime, value is stored in localStorage, which means it has to go through JSON.stringify.
@@ -28,7 +35,7 @@ class App extends Component{
 
       Categories only allow for one unique value per category name. If that is changed you will need to also
       change any keys associated with categories since those need unique values. Categories are case-sensitive,
-      so "Food" and "food" are different categories.
+      so "Food" and "food" are different categories. 
 
       !!! the expenses in allExpenses are not sorted, either by index or datetime. Sorting is the responsibility
       of child components. This is necessary because the expenses on the History page must remain unsorted, 
@@ -37,7 +44,7 @@ class App extends Component{
       of view)
     */
 
-    let allExpenses = JSON.parse(localStorage.getItem('myExpenses')) || [];
+    let allExpenses = JSON.parse(localStorage.getItem('myExpensesDebug')) || [];
     if (allExpenses.length) {
       // this is a data migration to add ids to allExpenses if they don't have ids already
       allExpenses = allExpenses.map((expense, i) => {
@@ -47,10 +54,10 @@ class App extends Component{
           return expense;
       });
       // saves the data migration immediately
-      localStorage.setItem('myExpenses', JSON.stringify(allExpenses));
+      localStorage.setItem('myExpensesDebug', JSON.stringify(allExpenses));
     }
 
-    const categories  = JSON.parse(localStorage.getItem('myCategories')) || DefaultCategories;
+    const categories  = JSON.parse(localStorage.getItem('myCategoriesDebug')) || DefaultCategories;
 
     this.state = {
       allExpenses,
@@ -63,13 +70,13 @@ class App extends Component{
   handleHoistedExpensesChange(allExpenses) {
     /* This function is passed down to the child components that need to update global state of expenses */
     this.setState({ allExpenses });
-    localStorage.setItem('myExpenses', JSON.stringify(allExpenses));
+    localStorage.setItem('myExpensesDebug', JSON.stringify(allExpenses));
   }  
     
   handleHoistedCategoriesChange(categories) {
     /* This function is passed down to the child components that need to update global state of expenses */
     this.setState({ categories });
-    localStorage.setItem('myCategories', JSON.stringify(categories));
+    localStorage.setItem('myCategoriesDebug', JSON.stringify(categories));
   }  
 
   render(){
@@ -125,23 +132,14 @@ class App extends Component{
           render={(props) => 
             <div className="history">
               <ScrollToTop />  
-              <History {...props} 
-                allExpenses={allExpenses} 
-                categories={categories} 
-                handleHoistedExpensesChange={this.handleHoistedExpensesChange}
-              />            
+              <History {...props} />            
             </div>}
         />
         <Route
           exact path="/options"
           render={(props) => 
             <div className="options-page">        
-              <Options {...props} 
-                allExpenses={allExpenses} 
-                categories={categories} 
-                handleHoistedExpensesChange={this.handleHoistedExpensesChange}
-                handleHoistedCategoriesChange={this.handleHoistedCategoriesChange}
-              />
+              <Options {...props} />
             </div>}
         />          
       </div>

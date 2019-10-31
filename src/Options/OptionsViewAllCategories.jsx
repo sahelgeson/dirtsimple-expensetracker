@@ -1,13 +1,12 @@
 import React, { Component} from "react";
-import { PropTypes } from "prop-types";
-
+import { connect } from 'react-redux';
 
 class OptionsViewAllCategories extends Component{
   constructor(props) {
     super(props);
   
     this.state = {
-      isOpen: false,  
+      isOpen: true,  
     }
 
     this.handleAccordionClick = this.handleAccordionClick.bind(this);    
@@ -44,13 +43,18 @@ class OptionsViewAllCategories extends Component{
           data-qa="options-view-all-category-container"
         >
           <ul className="gray-777 mvs">
-            {this.props.categories.map((category, i) =>
+          {this.props.categories.map((category) => {
+              if (category.id !== null) {
+                return (
                   <li
-                    key={category}
+                    key={category.id}
                   >
-                    {category}
+                    {category.name}
                   </li>
-              )}
+                )
+              } else { return null; }
+            }
+          )}
           </ul>
         </div>        
       : null }
@@ -59,8 +63,10 @@ class OptionsViewAllCategories extends Component{
   }
 }
 
-OptionsViewAllCategories.propTypes = {
-  categories: PropTypes.array.isRequired,
-};
+function mapStateToProps(state) {
+  return {
+    categories: state.categories,
+  };
+}
 
-export default OptionsViewAllCategories;
+export default connect(mapStateToProps)(OptionsViewAllCategories);

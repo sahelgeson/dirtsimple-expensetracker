@@ -1,5 +1,6 @@
 import React, { Component} from "react";
-import { PropTypes } from "prop-types";
+import { connect } from 'react-redux';
+import { deleteCategory } from '../redux/actions/categories-actions';
 import ReactModal from 'react-modal';
 import ReactModalStyles from "../modals/ReactModalStyles.js";
 
@@ -8,31 +9,18 @@ class OptionsDeleteCategory extends Component{
     super(props);
   
     this.state = {
-      deletedCategory: '',
+      deletedCategoryId: 0,
+      deletedCategoryName: '',
       isSaved: false,
       isOpen: false,
       isModalOpen: false,
     }
 
-    this.changeCategoriesOfAllExpenses = this.changeCategoriesOfAllExpenses.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleAccordionClick = this.handleAccordionClick.bind(this);  
     this.handleFocus = this.handleFocus.bind(this);  
     this.handleDeleteCategoryChange = this.handleDeleteCategoryChange.bind(this);
     this.handleDeleteSubmit = this.handleDeleteSubmit.bind(this);
-  }
-
-  /* TODO: this is also used in OptionsRenameCategory */
-  changeCategoriesOfAllExpenses(oldValue, newValue) {
-    const allExpenses = this.props.allExpenses;
-
-    return allExpenses.map((expense, i) => {
-        if (expense.category === oldValue) {
-          expense.category = newValue
-        }
-        return expense;
-      }
-    )
   }
 
   closeModal() {
@@ -54,8 +42,14 @@ class OptionsDeleteCategory extends Component{
   }  
   
   handleDeleteCategoryChange(event) {
+    const allCategories = [...this.props.categories];
+    const deletedCategory = allCategories.filter((category) => {
+      return ( category.id === event.target.value );
+    }).pop(); /* just want the object inside */
+
     this.setState({
-      deletedCategory: event.target.value,
+      deletedCategoryId: event.target.value,
+      deletedCategoryName: deletedCategory.name,
       isModalOpen: true,
     });
   } 
@@ -63,13 +57,8 @@ class OptionsDeleteCategory extends Component{
   handleDeleteSubmit(event) {
     event.preventDefault();
 
-    const updatedCategories = this.props.categories.filter(category => 
-      category !== this.state.deletedCategory
-    );
-    this.props.handleHoistedCategoriesChange(updatedCategories);
+    this.props.deleteCategory(this.state.deletedCategoryId);
 
-    const updatedExpenses = this.changeCategoriesOfAllExpenses(this.state.deletedCategory, 'Uncategorized')
-    this.props.handleHoistedExpensesChange(updatedExpenses);
     this.setState({
         isModalOpen: false,
         isSaved: true,
@@ -111,13 +100,18 @@ class OptionsDeleteCategory extends Component{
               data-qa="options-delete-category-input"  
             >
               <option value="">Choose a category</option>
-              {this.props.categories.map((category, i) =>
-                  <option 
-                    key={category}
-                    value={category}
-                  >
-                    {category}
-                  </option>
+              {this.props.categories.map((category) => {
+                  if (category.id !== null) {
+                    return (
+                      <option 
+                        key={category.id}
+                        value={category.id}
+                      >
+                        {category.name}
+                      </option>
+                    )
+                  } else { return null; }
+                }
               )}
             </select>
             <ReactModal
@@ -128,7 +122,7 @@ class OptionsDeleteCategory extends Component{
               contentLabel="Deletion Modal"
             >
               <div>
-                Are you sure you want to delete the category "{this.state.deletedCategory}"? Any expenses with this category
+                Are you sure you want to delete the category "{this.state.deletedCategoryName}"? Any expenses with this category
                 will still exist and have the category "Uncategorized".
               </div>
               <div className="pvl">
@@ -167,11 +161,12 @@ class OptionsDeleteCategory extends Component{
   }
 }
 
-OptionsDeleteCategory.propTypes = {
-  allExpenses: PropTypes.array.isRequired,
-  categories: PropTypes.array.isRequired,
-  handleHoistedExpensesChange: PropTypes.func.isRequired,
-  handleHoistedCategoriesChange: PropTypes.func.isRequired,
-};
 
-export default OptionsDeleteCategory;
+function mapStateToProps(state) {
+  return {
+    allExpenses: state.allExpenses,
+    categories: state.categories,
+  };
+}
+
+export default connect(mapStateToProps, { deleteCategory })(OptionsDeleteCategory);

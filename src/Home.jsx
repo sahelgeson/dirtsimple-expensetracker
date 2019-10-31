@@ -1,74 +1,33 @@
-import React, { Component} from "react";
-import { PropTypes } from "prop-types";
+import React from "react";
+import { connect } from 'react-redux';
 import Form from "./Form/Form.jsx";
 import RecentExpenses from "./RecentExpenses/RecentExpenses.jsx";
 
-class Home extends Component{
-  constructor(props) {
-    super(props);
-  
-    /* Format for expenses: 
-      {
-        datetime,
-        amount,
-        category
-      }
-    */
+function Home(props){
+  return (
+    <div className="container margin-0-auto phl">
+      <h1 
+        className="font-24 text-center gray-777 mtl pts"
+      >
+        <span className="logo-dirt">dirt</span>
+        <span className="logo-simple">simple</span>
+        <br />
+        expense tracker          
+      </h1>
+      <Form/>
 
-    /* TODO: change this eventually so user can set default category */
-    const defaultCategory = this.props.categories[0] || [];
-
-    this.state = {
-      amount: '',
-      category: defaultCategory,
-    }
-
-    this.handleAmountChange = this.handleAmountChange.bind(this);
-    this.handleCategoryChange = this.handleCategoryChange.bind(this);
-    this.handleFocus = this.handleFocus.bind(this);
-  }
-
-  handleAmountChange(event) {
-    this.setState({amount: event.target.value});
-  }
-
-  handleCategoryChange(event) {
-    this.setState({category: event.target.value});
-  }
-
-  handleFocus() {
-    this.setState({amount: ''});
-  }
-  
-  render(){
-    return (
-      <div className="container margin-0-auto phl">
-        <h1 
-          className="font-24 text-center gray-777 mtl pts"
-        >
-          <span className="logo-dirt">dirt</span>
-          <span className="logo-simple">simple</span>
-          <br />
-          expense tracker          
-        </h1>
-        <Form
-          allExpenses={this.props.allExpenses}
-          categories={this.props.categories} 
-          handleHoistedExpensesChange={this.props.handleHoistedExpensesChange}
-        />
-
-        {this.props.allExpenses.length ? 
-          <RecentExpenses recentExpenses={this.props.allExpenses} /> 
-        : null}
-      </div>
-    );
-  }
+      {props.allExpenses.length ? 
+        <RecentExpenses recentExpenses={props.allExpenses} /> 
+      : null}
+    </div>
+  );
 }
 
-Home.propTypes = {
-  allExpenses: PropTypes.array.isRequired,
-  categories: PropTypes.array.isRequired,
-  handleHoistedExpensesChange: PropTypes.func.isRequired,
-};
+function mapStateToProps(state) {
+  return {
+    allExpenses: state.allExpenses,
+    categories:  state.categories,
+  };
+}
 
-export default Home;
+export default connect(mapStateToProps)(Home);

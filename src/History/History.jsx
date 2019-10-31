@@ -1,6 +1,7 @@
 import React, { Component} from "react";
-import { PropTypes } from "prop-types";
+import { connect } from 'react-redux';
 import HistoryEditForm from "./HistoryEditForm.jsx";
+import { sortExpenses } from '../redux/actions/expenses-actions';
 
 class History extends Component{
   constructor(props) {
@@ -12,15 +13,11 @@ class History extends Component{
 
     /* Sort expenses by date by default only for initial load. Setting this up in the constructor so we're
       not sorting in edit form because we don't want state to update and rerender which could
-      yoink stuff around */
-    const allExpensesSorted = [...this.props.allExpenses];
-    // TODO: should replace with one sorted by id, or just assume they are already sorted and remove entirely
-    allExpensesSorted.sort(function(a, b) {
-      var dateA = new Date(a.datetime), dateB = new Date(b.datetime);
-      return dateB - dateA;
-    });
-
-    this.props.handleHoistedExpensesChange(allExpensesSorted);
+      yoink stuff around -- in other words we save any edits made by HistoryEditForm to the store,
+      but we don't re-sort the expenses except on load/reload */
+    const allExpenses= [...props.allExpenses];
+    this.props.sortExpenses(allExpenses);
+  
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -31,15 +28,16 @@ class History extends Component{
     }
   }
 
-  handleClick(event) {
-    const thisId = parseInt(event.target.value, 10);
+  handleClick(event) {    
+    const thisId = event.target.value;
     (this.state.isBeingEditedId === thisId)
       ? this.setState({isBeingEditedId: null})
       : this.setState({isBeingEditedId: thisId})
   }
 
   render(){
-    const allExpenses = this.props.allExpenses; 
+    const allExpenses = [...this.props.allExpenses]; 
+    const allCategories = [...this.props.categories];
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const active = this.state.isBeingEditedId;
 
@@ -49,63 +47,69 @@ class History extends Component{
           ? <div className="text-center">No expenses entered yet</div>
           : <div className="ftable font-16">
           {/* TODO consider a limit on this with a "View more" button */}
-          {allExpenses.map((expense) => 
-              <div 
-                className={(expense.id === active) ? 
-                    "ftable__row phs editing"
-                    : "ftable__row phs" }
-                key={expense.id}
-              >
+          {allExpenses.map((expense) => {
+              const thisCategory = allCategories.filter((category) => {
+                return ( category.id === expense.categoryId );
+              }).pop(); /* just want the object inside */
+
+              return (
                 <div 
-                  className="ftable__cell ftable__cell--amount text-right pvm phxs"
-                  data-qa="history-amount"   
+                  className={(expense.id === active) ? 
+                      "ftable__row phs editing"
+                      : "ftable__row phs" }
+                  key={expense.id}
                 >
-                  <span className="dollar inline-block">$</span>
-                  <span className="inline-block">
-                    {expense.amount}
-                  </span>
-                </div>
-                <div 
-                  className="ftable__cell pvm phs"
-                  data-qa="history-category"   
-                >
-                  {expense.category}
-                </div>
-                <div className="ftable__cell ftable__cell--date pvm prxs"> 
-                  {days[new Date(expense.datetime).getDay()]},&nbsp; 
-                  {new Date(expense.datetime).getMonth() + 1}/                  
-                  {new Date(expense.datetime).getDate()}
-                </div>
-                <div className="ftable__cell ftable__cell--edit text-right">
-                  <button
-                    className="btn btn--outline btn--edit paxs"
-                    onClick={this.handleClick}                  
-                    value={expense.id} 
-                    data-qa="history-edit-btn"     
+                  <div 
+                    className="ftable__cell ftable__cell--amount text-right pvm phxs"
+                    data-qa="history-amount"   
                   >
-                    Edit 
-                  </button>
-                </div>
+                    <span className="dollar inline-block">$</span>
+                    <span className="inline-block">
+                      {expense.amount}
+                    </span>
+                  </div>
+                  <div 
+                    className={(thisCategory.id !== null) ?
+                        "ftable__cell pvm phs"
+                      : "ftable__cell pvm phs italic gray-777" }
+                    data-qa="history-category"   
+                  >
+                    {thisCategory.name}
+                  </div>
+                  <div className="ftable__cell ftable__cell--date pvm prxs"> 
+                    {days[new Date(expense.datetime).getDay()]},&nbsp; 
+                    {new Date(expense.datetime).getMonth() + 1}/                  
+                    {new Date(expense.datetime).getDate()}
+                  </div>
+                  <div className="ftable__cell ftable__cell--edit text-right">
+                    <button
+                      className="btn btn--outline btn--edit paxs"
+                      onClick={this.handleClick}                  
+                      value={expense.id} 
+                      data-qa="history-edit-btn"     
+                    >
+                      Edit 
+                    </button>
+                  </div>
 
-                {/* Adds visibility hidden to element instead of returning null so the space doesn't
-                    collapse and have text move a pixel or two */}
-                <div className={(expense.id !== active - 1) && (expense.id !== active) ?
-                      "full-width divider divider--dotted mvn"
-                    : "full-width divider divider--dotted mvn visibility-hidden" }
-                >
-                </div>
+                  {/* Adds visibility hidden to element instead of returning null so the space doesn't
+                      collapse and have text move a pixel or two */}
+                  <div className={(expense.id !== active - 1) && (expense.id !== active) ?
+                        "full-width divider divider--dotted mvn"
+                      : "full-width divider divider--dotted mvn visibility-hidden" }
+                  >
+                  </div>
 
-                {(expense.id === active) ?
-                  <HistoryEditForm 
-                    thisExpense={expense} 
-                    categories={this.props.categories} 
-                    allExpenses={this.props.allExpenses}
-                    isBeingEditedId={this.state.isBeingEditedId}
-                    handleClick={this.handleClick}
-                    handleHoistedExpensesChange={this.props.handleHoistedExpensesChange}
-                  />
-                  : null }
-              </div>
+                  {(expense.id === active) ?
+                    <HistoryEditForm 
+                      thisExpense={expense} 
+                      isBeingEditedId={this.state.isBeingEditedId}
+                      handleClick={this.handleClick}
+                    />
+                    : null }
+                </div>
+              );
+            }
           )}
         </div>}
       </div>
@@ -113,10 +117,11 @@ class History extends Component{
   }
 }
 
-History.propTypes = {
-  allExpenses: PropTypes.array.isRequired,
-  categories: PropTypes.array.isRequired,
-  handleHoistedExpensesChange: PropTypes.func.isRequired,
-};
+function mapStateToProps(state) {
+  return {
+    allExpenses: state.allExpenses,
+    categories:  state.categories,
+  };
+}
 
-export default History;
+export default connect(mapStateToProps, { sortExpenses })(History);

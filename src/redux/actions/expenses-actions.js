@@ -15,8 +15,29 @@ export const addExpense = ({
     datetime = new Date().toString(),
   } = {}) => ({
     type: ADD_EXPENSE,
-    payload: { expense },
+    payload: { expense },       // 'expense' is not defined
 });
+
+/*
+TODO: change update actions to curry a base function to simplify both this and reducers
+const updateCreator = (id, value, valueType) => ({
+    type: UPDATE_EXPENSE_AMOUNT,
+    payload: { 
+        id,
+        value,
+        valueType,
+    },
+});
+
+export const updateExpenseAmount = (id = 0, value = 0, valueType = 'amount') => ({
+    type: UPDATE_EXPENSE_AMOUNT,
+    payload: { 
+        id,
+        value,
+        valueType,
+    },
+});
+*/
 
 export const updateExpenseAmount = (amount = 0) => ({
     type: UPDATE_EXPENSE_AMOUNT,
@@ -36,6 +57,6 @@ export const updateExpenseDatetime = (datetime = 'Sat Jan 30 1971 12:46:47 GMT-0
 
 export const deleteExpense = (expense = {}) => ({
     type: DELETE_EXPENSE,
-    expense,       // no payload needed? 
+    payload: { id },            // TODO: 'id' is not defined  
 });
   

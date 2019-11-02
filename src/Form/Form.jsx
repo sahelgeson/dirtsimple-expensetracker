@@ -1,5 +1,8 @@
 import React, { Component} from "react";
-import { PropTypes } from "prop-types";
+//import { PropTypes } from "prop-types";
+import { connect } from 'react-redux';
+import { addExpense } from '../redux/actions/expenses-actions';
+import cuid from 'cuid';
 
 class Form extends Component{
   constructor(props) {
@@ -60,11 +63,7 @@ class Form extends Component{
         Date.toISOString on Date objects but not strings, and we don't want the timezone info */
     const datetime = new Date().toString();
 
-    const latestExpenseId = this.props.allExpenses.reduce((id, expense) => {
-        return (id > expense.id ? id : expense.id);
-    }, 0);
-
-    const id = latestExpenseId + 1;
+    const id = cuid();
     const {amount, category} = this.state;
 
     const newExpense = {
@@ -74,8 +73,9 @@ class Form extends Component{
       category
     }
 
-    const allExpenses = [newExpense, ...this.props.allExpenses]
-    this.props.handleHoistedExpensesChange(allExpenses);
+    //const allExpenses = [newExpense, ...this.props.allExpenses]
+    this.props.addExpense(newExpense);
+    //this.props.handleHoistedExpensesChange(allExpenses);
   }  
   
   render(){
@@ -151,10 +151,19 @@ class Form extends Component{
   }
 }
 
-Form.propTypes = {
-  allExpenses: PropTypes.array.isRequired,
-  categories: PropTypes.array.isRequired,
-  handleHoistedExpensesChange: PropTypes.func.isRequired,
-};
 
-export default Form;
+function mapStateToProps(state) {
+  return {
+    allExpenses: state.allExpenses,
+    categories: state.categories,
+  };
+}
+
+/*
+Form.propTypes = {
+  //allExpenses: PropTypes.array.isRequired,
+  //categories: PropTypes.array.isRequired,
+  //handleHoistedExpensesChange: PropTypes.func.isRequired,
+};
+*/
+export default connect(mapStateToProps, { addExpense })(Form);

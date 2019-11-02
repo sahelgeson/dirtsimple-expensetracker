@@ -3,19 +3,39 @@ import cuid from 'cuid';
 import DefaultCategoriesNames from "../constants/DefaultCategoriesNames";
 
 // slice reducer
-const expensesReducer = (state = {}, action = {}) => {
+const expensesReducer = (state = [], action = {}) => {
   const { type, payload } = action;
   switch (type) {
-    case ADD_EXPENSE:
-      return Object.assign({}, state, {
-        //chatLog: state.chatLog.concat(payload)
-      });
+    case 'ADD_EXPENSE':
+      return [...state, payload]
 
     // Catch all simple changes
-    case UPDATE_EXPENSE_AMOUNT:
-    case UPDATE_EXPENSE_CATEGORY:
-    case UPDATE_EXPENSE_DATETIME:
-      //return Object.assign({}, state, payload);
+    // TODO: ugly, simplify this with curried functions in expenses-actions
+    case 'UPDATE_EXPENSE_AMOUNT':
+        return state.map(expense => {
+          if (expense.id === action.payload.id) {
+            expense["amount"] = action.payload.amount;
+          }
+          return expense;
+        });      
+    case 'UPDATE_EXPENSE_CATEGORY':
+        return state.map(expense => {
+          if (expense.id === action.payload.id) {
+            expense["category"] = action.payload.category;
+          }
+          return expense;
+        });      
+    case 'UPDATE_EXPENSE_DATETIME':
+      return state.map(expense => {
+        if (expense.id === action.payload.id) {
+          expense["datetime"] = action.payload.datetime;
+        }
+        return expense;
+      });
+
+    case 'DELETE_EXPENSE':
+        const updatedExpenses = state.filter((item, index) => item.id !== action.payload);
+        return updatedExpenses;
 
     default: 
       return state;
@@ -36,15 +56,15 @@ const DefaultCategories = () => {
   return categories;
 }
 
-const categoriesReducer = (state = {}, action = {}) => {
+const categoriesReducer = (state = [], action = {}) => {
   const { type, payload } = action;
   switch (type) {
-    case ADD_CATEGORY:
+    case 'ADD_CATEGORY':
       return Object.assign({}, state, {
         //chatLog: state.chatLog.concat(payload)
       });
 
-    case UPDATE_CATEGORY:
+    case 'UPDATE_CATEGORY':
       //return Object.assign({}, state, payload);
 
     default: 
@@ -61,17 +81,22 @@ const handleSpecialCaseForCategories = (categories, action, allExpenses) => {
       https://redux.js.org/recipes/structuring-reducers/beyond-combinereducers
 
     */
+    const payload = action.payload;
 
-        allExpenses = allExpenses.map((expense) => {
-          if (expense.category === payload) {   // payload or category?
-            expense.category = null;
-          }
-          return expense;
-        }); 
-        
-        /* TODO: need to put together state */
-        // what about payload here?
-       return Object.assign({}, state, payload); // change this   
+    allExpenses = allExpenses.map((expense) => {
+      if (expense.category === payload) {   // payload or category?
+        expense.category = null;
+      }
+      return expense;
+    }); 
+    
+    const state = {
+      allExpenses,
+      categories
+    }
+    /* TODO: need to put together state */
+    // what about payload here?
+    return Object.assign({}, state, payload); // change this   
 };
 
 const combinedReducer = combineReducers({  
@@ -83,10 +108,10 @@ const combinedReducer = combineReducers({
 function crossSliceReducer(state, action) {
   switch (action.type) {
 
-    case DELETE_CATEGORY_CROSS_SLICE: {    
+    case 'DELETE_CATEGORY_CROSS_SLICE': {    
       return {        
         allExpenses: expensesReducer(state.allExpenses, action), 
-        categories:  handleSpecialCaseForCategories(state.categories, action, state.allExpenses), 
+        categories:  handleSpecialCaseForCategories(state.categories, action, state.allExpenses),   // this should be category id?
       }
     }
     default:

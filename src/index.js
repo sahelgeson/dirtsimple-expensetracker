@@ -15,10 +15,12 @@ const initialState = {
     allExpenses,
     categories,
 }
-console.log('initialState: ' + initialState)
-debugger; 
 
-const store = createStore(rootReducer, initialState)
+//debugger; 
+
+const store = createStore(rootReducer, initialState,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()    // TODO: remove before deploying
+);
 
 ReactDOM.render(
     <Provider store={store}>

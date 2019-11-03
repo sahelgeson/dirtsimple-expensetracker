@@ -6,17 +6,11 @@ import {
     DELETE_EXPENSE, 
 } from '../constants/ActionTypes'
 
-import cuid from 'cuid';
-
-export const addExpense = ({
-    id = cuid(),
-    amount = 0,
-    category = 'Uncategorized',
-    datetime = new Date().toString(),
-  } = {}) => ({
+export const addExpense = (expense = {}) => ({
     type: ADD_EXPENSE,
-    payload: { expense },       // 'expense' is not defined
+    payload: { expense },      
 });
+
 
 /*
 TODO: change update actions to curry a base function to simplify both this and reducers
@@ -39,24 +33,24 @@ export const updateExpenseAmount = (id = 0, value = 0, valueType = 'amount') => 
 });
 */
 
-export const updateExpenseAmount = (amount = 0) => ({
+export const updateExpenseAmount = (id = 0, amount = 0) => ({
     type: UPDATE_EXPENSE_AMOUNT,
-    payload: { amount },
+    payload: { id, amount },
 });
 
-export const updateExpenseCategory = (category = 'Uncategorized') => ({
+export const updateExpenseCategory = (id = 0, category = 'Uncategorized') => ({
     type: UPDATE_EXPENSE_CATEGORY,
-    payload: { category },
+    payload: { id, category },
 });
 
-export const updateExpenseDatetime = (datetime = 'Sat Jan 30 1971 12:46:47 GMT-0400 (Eastern Daylight Time)') => ({
+export const updateExpenseDatetime = (id = 0, datetime = 'Sat Jan 30 1971 12:46:47 GMT-0400 (Eastern Daylight Time)') => ({
     type: UPDATE_EXPENSE_DATETIME,
-    payload: { datetime },
+    payload: { id, datetime },
 });
 
 
-export const deleteExpense = (expense = {}) => ({
+export const deleteExpense = (id = 0) => ({
     type: DELETE_EXPENSE,
-    payload: { id },            // TODO: 'id' is not defined  
+    payload: { id },            
 });
   

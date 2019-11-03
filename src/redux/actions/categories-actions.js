@@ -6,16 +6,16 @@ import {
 
 export const addCategory = (category) => ({
   type: ADD_CATEGORY,
-  category,
+  payload: { category },
 });
 
-export const updateCategory = (category) => ({
+export const updateCategory = (id = 0, name = '') => ({
     type: UPDATE_CATEGORY,
-    category,
+    payload: { id, name },
 });
 
-export const deleteCategory = (category) => ({
+export const deleteCategory = (id = 0) => ({
     type: DELETE_CATEGORY_CROSS_SLICE,
-    category,        
+    payload: { id },                 
 });
   

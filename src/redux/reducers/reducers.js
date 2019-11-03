@@ -44,7 +44,8 @@ const expensesReducer = (state = [], action = {}) => {
 
 // array of names, need to add ids with cuid? 
 // setting up as an array, should it be an obj?
-const DefaultCategories = () => {
+// this is a function to get an array and not an array
+const getDefaultCategories = () => {
   const categories = DefaultCategoriesNames.map((categoryName) => {
     let obj = {
       id: cuid(),
@@ -56,16 +57,19 @@ const DefaultCategories = () => {
   return categories;
 }
 
-const categoriesReducer = (state = [], action = {}) => {
+const categoriesReducer = (state = getDefaultCategories(), action = {}) => {
   const { type, payload } = action;
   switch (type) {
     case 'ADD_CATEGORY':
-      return Object.assign({}, state, {
-        //chatLog: state.chatLog.concat(payload)
-      });
+      return [...state, payload]
 
     case 'UPDATE_CATEGORY':
-      //return Object.assign({}, state, payload);
+      return state.map(category => {
+        if (category.id === action.payload.id) {
+          category["name"] = action.payload.name;
+        }
+        return category;
+      });  
 
     default: 
       return state;

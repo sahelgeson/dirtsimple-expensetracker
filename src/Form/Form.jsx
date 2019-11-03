@@ -17,6 +17,7 @@ class Form extends Component{
       }
     */
 
+    console.log(this.props.categories);
     /* TODO: change this eventually so user can set default category */
     const defaultCategory = this.props.categories[0] || [];
 
@@ -129,12 +130,12 @@ class Form extends Component{
           onChange={this.handleCategoryChange}
           data-qa="main-form-category-input" 
         >
-          {this.props.categories.map((category, i) =>
+          {this.props.categories.map((category) =>
               <option 
-                key={category}
-                value={category}
+                key={category.id}
+                value={category.name}
               >
-                {category}
+                {category.name}
               </option>
           )}
         </select>

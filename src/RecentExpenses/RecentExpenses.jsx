@@ -44,32 +44,32 @@ function RecentExpenses(props){
         data-qa="recent-expenses"
       >
         {recentExpensesSorted.slice(0,numberOfRecentShown).map((expense) => {
-          const thisCategory = allCategories.filter((category) => {
-            return ( category.id === expense.categoryId );
-          }).pop(); /* just want the object inside */
+            const thisCategory = allCategories.filter((category) => {
+              return ( category.id === expense.categoryId );
+            }).pop(); /* just want the object inside */
 
-          return <Transition 
-            key={expense.id} 
-            active={!firstLoadFlag.current && (expense.id === latestExpenseId)}
-            className="tr"
-          >     
-            <div className="td pls pvs">
-              <span className="dollar inline-block">$</span>
-              <span className="inline-block">
-                {expense.amount}
-              </span>
-            </div>
-            <div className="td plm pvs">
-              {thisCategory.name}   
-            </div>
-            <div className="td text-right prs pvs">
-              {new Date(expense.datetime).getMonth() + 1}/                  
-              {new Date(expense.datetime).getDate()}
-            </div>           
-          </Transition>    
-          
-          }
-
+            return (
+              <Transition 
+                key={expense.id} 
+                active={!firstLoadFlag.current && (expense.id === latestExpenseId)}
+                className="tr"
+              >     
+                <div className="td pls pvs">
+                  <span className="dollar inline-block">$</span>
+                  <span className="inline-block">
+                    {expense.amount}
+                  </span>
+                </div>
+                <div className="td plm pvs">
+                  {thisCategory.name}   
+                </div>
+                <div className="td text-right prs pvs">
+                  {new Date(expense.datetime).getMonth() + 1}/                  
+                  {new Date(expense.datetime).getDate()}
+                </div>           
+              </Transition>
+            );
+          } 
         )}    
         
       </div>

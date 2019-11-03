@@ -22,6 +22,14 @@ const expensesReducer = (state = [], action = {}) => {
           return expense;
         });      
 
+    case 'SORT_EXPENSES':
+      let sortedExpenses = [...state];
+      sortedExpenses.sort(function(a, b) {
+        var dateA = new Date(a.datetime), dateB = new Date(b.datetime);
+        return dateB - dateA;
+      });
+      return sortedExpenses;
+
     case 'DELETE_EXPENSE':
         const updatedExpenses = state.filter((item, index) => item.id !== action.payload);
         return updatedExpenses;

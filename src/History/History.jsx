@@ -1,6 +1,7 @@
 import React, { Component} from "react";
 import { connect } from 'react-redux';
 import HistoryEditForm from "./HistoryEditForm.jsx";
+import { sortExpenses } from '../redux/actions/expenses-actions';
 
 class History extends Component{
   constructor(props) {
@@ -12,15 +13,11 @@ class History extends Component{
 
     /* Sort expenses by date by default only for initial load. Setting this up in the constructor so we're
       not sorting in edit form because we don't want state to update and rerender which could
-      yoink stuff around */
-    const allExpensesSorted = [...props.allExpenses];
-    // TODO: should replace with one sorted by id, or just assume they are already sorted and remove entirely
-    allExpensesSorted.sort(function(a, b) {
-      var dateA = new Date(a.datetime), dateB = new Date(b.datetime);
-      return dateB - dateA;
-    });
-
-    //this.props.handleHoistedExpensesChange(allExpensesSorted);
+      yoink stuff around -- in other words we save any edits made by HistoryEditForm to the store,
+      but we don't re-sort the expenses except on load/reload */
+    const allExpenses= [...props.allExpenses];
+    this.props.sortExpenses(allExpenses);
+  
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -128,4 +125,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(History);
+export default connect(mapStateToProps, { sortExpenses })(History);

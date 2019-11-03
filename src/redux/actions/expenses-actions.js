@@ -1,7 +1,8 @@
 import { 
     ADD_EXPENSE, 
     UPDATE_EXPENSE,
-    DELETE_EXPENSE, 
+    DELETE_EXPENSE,
+    SORT_EXPENSES, 
 } from '../constants/ActionTypes'
 
 export const addExpense = (expense = {}) => ({
@@ -18,4 +19,10 @@ export const deleteExpense = (id = 0) => ({
     type: DELETE_EXPENSE,
     payload: id,            
 });
+
+export const sortExpenses = (allExpenses = []) => ({
+    type: SORT_EXPENSES,
+    payload: allExpenses,
+});
+
   

@@ -31,8 +31,8 @@ class History extends Component{
     }
   }
 
-  handleClick(event) {
-    const thisId = parseInt(event.target.value, 10);
+  handleClick(event) {    
+    const thisId = event.target.value;
     (this.state.isBeingEditedId === thisId)
       ? this.setState({isBeingEditedId: null})
       : this.setState({isBeingEditedId: thisId})

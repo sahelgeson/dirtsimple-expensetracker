@@ -9,29 +9,18 @@ const expensesReducer = (state = [], action = {}) => {
     case 'ADD_EXPENSE':
       return [...state, payload]
 
-    // Catch all simple changes
-    // TODO: ugly, simplify this with curried functions in expenses-actions
-    case 'UPDATE_EXPENSE_AMOUNT':
+    /* To update expenses we are just replacing the expense entirely instead of
+      using different actions for different fields. This is because it's easier
+      than keeping track of what fields have changed in the form (users can change
+      multiple fields before submitting an updating the expense) 
+    */
+    case 'UPDATE_EXPENSE':
         return state.map(expense => {
-          if (expense.id === action.payload.id) {
-            expense["amount"] = action.payload.amount;
+          if (expense.id === payload.id) {
+            expense = payload;
           }
           return expense;
         });      
-    case 'UPDATE_EXPENSE_CATEGORY':
-        return state.map(expense => {
-          if (expense.id === action.payload.id) {
-            expense["category"] = action.payload.categoryId;
-          }
-          return expense;
-        });      
-    case 'UPDATE_EXPENSE_DATETIME':
-      return state.map(expense => {
-        if (expense.id === action.payload.id) {
-          expense["datetime"] = action.payload.datetime;
-        }
-        return expense;
-      });
 
     case 'DELETE_EXPENSE':
         const updatedExpenses = state.filter((item, index) => item.id !== action.payload);

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { PropTypes } from "prop-types";
+import { connect } from 'react-redux';
+import { updateExpense, deleteExpense } from '../redux/actions/expenses-actions';
 import HistoryEditFormAmount from "./HistoryEditFormAmount.jsx";
 import HistoryEditFormCategory from "./HistoryEditFormCategory.jsx";
 import HistoryEditFormDatetime from "./HistoryEditFormDatetime.jsx";
@@ -76,11 +78,7 @@ class HistoryEditForm extends Component{
   }
 
   deleteExpense() {
-    let allExpensesUpdated = [...this.props.allExpenses];
-    allExpensesUpdated = allExpensesUpdated.filter((expense) => {
-        return (expense.id !== this.props.thisExpense.id);
-    });
-    this.props.handleHoistedExpensesChange(allExpensesUpdated);
+    this.props.deleteExpense(this.props.thisExpense.id);
     this.closeModal();
   }
 
@@ -89,6 +87,7 @@ class HistoryEditForm extends Component{
     if (!this.state.amount) { return false; } 
     const id = this.props.thisExpense.id;
     const {amount, categoryId, datetime} = this.state;
+
     const editedExpense = {
       id,     
       datetime,
@@ -96,22 +95,11 @@ class HistoryEditForm extends Component{
       categoryId,
     }
 
-    /* "Unsorted" because user may edit datetime.
-       Not sorting in edit form because we don't want state to update and rerender which could
-       yoink stuff around */      
-    const allExpensesUnsorted = this.props.allExpenses.map((expense) => {
-          if (expense.id === id) {
-              expense = editedExpense;
-          }
-          return expense;
-    });
-
     this.setState({
-      allExpensesUnsorted,
       isSaved: true,
     })
 
-    this.props.handleHoistedExpensesChange(allExpensesUnsorted);
+    this.props.updateExpense(editedExpense);
   }  
 
   render(){
@@ -158,11 +146,15 @@ class HistoryEditForm extends Component{
 
 HistoryEditForm.propTypes = {
   thisExpense: PropTypes.object.isRequired,
-  categories: PropTypes.array.isRequired,
-  allExpenses: PropTypes.array.isRequired,
-  isBeingEditedId: PropTypes.number.isRequired,
+  isBeingEditedId: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired,
-  handleHoistedExpensesChange: PropTypes.func.isRequired,
 };
 
-export default HistoryEditForm;
+function mapStateToProps(state) {
+  return {
+    allExpenses: state.allExpenses,
+    categories:  state.categories,
+  };
+}
+
+export default connect(mapStateToProps, { deleteExpense, updateExpense })(HistoryEditForm);

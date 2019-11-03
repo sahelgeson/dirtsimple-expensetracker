@@ -1,5 +1,4 @@
 import React, { Component} from "react";
-//import { PropTypes } from "prop-types";
 import { connect } from 'react-redux';
 import { addExpense } from '../redux/actions/expenses-actions';
 import cuid from 'cuid';
@@ -17,7 +16,6 @@ class Form extends Component{
       }
     */
 
-    console.log(this.props.categories);
     /* TODO: change this eventually so user can set default category */
     const defaultCategory = this.props.categories[0] || [];
 
@@ -74,9 +72,7 @@ class Form extends Component{
       category
     }
 
-    //const allExpenses = [newExpense, ...this.props.allExpenses]
     this.props.addExpense(newExpense);
-    //this.props.handleHoistedExpensesChange(allExpenses);
   }  
   
   render(){
@@ -152,7 +148,6 @@ class Form extends Component{
   }
 }
 
-
 function mapStateToProps(state) {
   return {
     allExpenses: state.allExpenses,
@@ -160,11 +155,4 @@ function mapStateToProps(state) {
   };
 }
 
-/*
-Form.propTypes = {
-  //allExpenses: PropTypes.array.isRequired,
-  //categories: PropTypes.array.isRequired,
-  //handleHoistedExpensesChange: PropTypes.func.isRequired,
-};
-*/
 export default connect(mapStateToProps, { addExpense })(Form);

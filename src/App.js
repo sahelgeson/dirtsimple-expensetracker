@@ -16,7 +16,7 @@ class App extends Component{
         id,
         datetime,
         amount,
-        category
+        categoryId
       }
 
       Format for a category: 

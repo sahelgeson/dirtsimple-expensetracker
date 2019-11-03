@@ -69,7 +69,7 @@ class History extends Component{
                   className="ftable__cell pvm phs"
                   data-qa="history-category"   
                 >
-                  {expense.category}
+                  {expense.categoryId}
                 </div>
                 <div className="ftable__cell ftable__cell--date pvm prxs"> 
                   {days[new Date(expense.datetime).getDay()]},&nbsp; 

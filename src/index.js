@@ -6,21 +6,18 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux';
 import { createStore } from 'redux'
 import rootReducer from './redux/reducers/reducers';
+import { loadState, saveState } from './helpers/LocalStorage';
 import * as serviceWorker from './serviceWorker';
 
-/* undefined is used so redux will hydrate with default values if none already present */
-const allExpenses = JSON.parse(localStorage.getItem('myExpensesDebug')) || undefined;   
-const categories  = JSON.parse(localStorage.getItem('myCategoriesDebug')) || undefined;
-const initialState = {
-    allExpenses,
-    categories,
-}
-
-//debugger; 
+const initialState = loadState();
 
 const store = createStore(rootReducer, initialState,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()    // TODO: remove before deploying
 );
+
+store.subscribe(() => {
+    saveState(store.getState());
+});
 
 ReactDOM.render(
     <Provider store={store}>

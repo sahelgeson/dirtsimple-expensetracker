@@ -18,7 +18,7 @@ class HistoryEditForm extends Component{
  
     this.state = {
       amount: thisExpense.amount,
-      category: thisExpense.category,
+      categoryId: thisExpense.categoryId,
       datetime: thisExpense.datetime,
       isSaveDisabled: true,
       isSaved: false,
@@ -54,7 +54,7 @@ class HistoryEditForm extends Component{
   }
 
   handleCategoryChange(event) {
-    this.setState({category: event.target.value});
+    this.setState({categoryId: event.target.value});
     this.setButtonStates(isAmountValid(this.state.amount));     /* TODO: review this for possible async setState problems */
   }
 
@@ -88,12 +88,12 @@ class HistoryEditForm extends Component{
     event.preventDefault();
     if (!this.state.amount) { return false; } 
     const id = this.props.thisExpense.id;
-    const {amount, category, datetime} = this.state;
+    const {amount, categoryId, datetime} = this.state;
     const editedExpense = {
       id,     
       datetime,
       amount,
-      category
+      categoryId,
     }
 
     /* "Unsorted" because user may edit datetime.
@@ -115,7 +115,7 @@ class HistoryEditForm extends Component{
   }  
 
   render(){
-    const { amount, category, datetime } = this.state;
+    const { amount, categoryId, datetime } = this.state;
 
     return( 
       <form  
@@ -130,7 +130,7 @@ class HistoryEditForm extends Component{
             handleAmountChange={this.handleAmountChange} 
           />
           <HistoryEditFormCategory 
-            category={category} 
+            category={categoryId} 
             categories={this.props.categories} 
             handleCategoryChange={this.handleCategoryChange} 
           />

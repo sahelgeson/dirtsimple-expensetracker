@@ -27,8 +27,8 @@ class OptionsDeleteCategory extends Component{
     const allExpenses = this.props.allExpenses;
 
     return allExpenses.map((expense, i) => {
-        if (expense.category === oldValue) {
-          expense.category = newValue
+        if (expense.categoryId === oldValue) {
+          expense.categoryId = newValue
         }
         return expense;
       }

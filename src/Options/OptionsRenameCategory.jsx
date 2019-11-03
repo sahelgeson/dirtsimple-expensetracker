@@ -30,8 +30,8 @@ class OptionsRenameCategory extends Component {
     const allExpenses = this.props.allExpenses;
 
     return allExpenses.map((expense, i) => {
-        if (expense.category === originalValue) {
-          expense.category = newValue;
+        if (expense.categoryId === originalValue) {
+          expense.categoryId = newValue;
         }
         return expense;
       }

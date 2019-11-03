@@ -21,7 +21,7 @@ const expensesReducer = (state = [], action = {}) => {
     case 'UPDATE_EXPENSE_CATEGORY':
         return state.map(expense => {
           if (expense.id === action.payload.id) {
-            expense["category"] = action.payload.category;
+            expense["category"] = action.payload.categoryId;
           }
           return expense;
         });      
@@ -88,8 +88,8 @@ const handleSpecialCaseForCategories = (categories, action, allExpenses) => {
     const payload = action.payload;
 
     allExpenses = allExpenses.map((expense) => {
-      if (expense.category === payload) {   // payload or category?
-        expense.category = null;
+      if (expense.categoryId === payload) {   
+        expense.categoryId = null;
       }
       return expense;
     }); 

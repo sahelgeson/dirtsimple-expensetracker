@@ -8,7 +8,7 @@ import {
 
 export const addExpense = (expense = {}) => ({
     type: ADD_EXPENSE,
-    payload: { expense },      
+    payload: expense,      
 });
 
 
@@ -38,9 +38,9 @@ export const updateExpenseAmount = (id = 0, amount = 0) => ({
     payload: { id, amount },
 });
 
-export const updateExpenseCategory = (id = 0, category = 'Uncategorized') => ({
+export const updateExpenseCategory = (id = 0, categoryId = 0) => ({
     type: UPDATE_EXPENSE_CATEGORY,
-    payload: { id, category },
+    payload: { id, categoryId },
 });
 
 export const updateExpenseDatetime = (id = 0, datetime = 'Sat Jan 30 1971 12:46:47 GMT-0400 (Eastern Daylight Time)') => ({

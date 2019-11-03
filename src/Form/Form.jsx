@@ -12,16 +12,16 @@ class Form extends Component{
         id,
         datetime,
         amount,
-        category
+        categoryId
       }
     */
 
     /* TODO: change this eventually so user can set default category */
-    const defaultCategory = this.props.categories[0] || [];
+    const defaultCategoryId = (this.props.categories[0] && this.props.categories[0].id)  || [];
 
     this.state = {
       amount: '',
-      category: defaultCategory,
+      categoryId: defaultCategoryId,
       isSaved: false,
     }
 
@@ -36,7 +36,7 @@ class Form extends Component{
   }
 
   handleCategoryChange(event) {
-    this.setState({category: event.target.value});
+    this.setState({categoryId: event.target.value});
   }
 
   handleFocus() {
@@ -63,13 +63,13 @@ class Form extends Component{
     const datetime = new Date().toString();
 
     const id = cuid();
-    const {amount, category} = this.state;
+    const {amount, categoryId} = this.state;
 
     const newExpense = {
       id,
       datetime,
       amount,
-      category
+      categoryId
     }
 
     this.props.addExpense(newExpense);
@@ -122,14 +122,14 @@ class Form extends Component{
         <select
           id="category"
           className="select-css input input-secondary full-width font-25 mbm"
-          value={this.state.category} 
+          value={this.state.categoryId} 
           onChange={this.handleCategoryChange}
           data-qa="main-form-category-input" 
         >
           {this.props.categories.map((category) =>
               <option 
                 key={category.id}
-                value={category.name}
+                value={category.id}
               >
                 {category.name}
               </option>
@@ -151,7 +151,7 @@ class Form extends Component{
 function mapStateToProps(state) {
   return {
     allExpenses: state.allExpenses,
-    categories: state.categories,
+    categories:  state.categories,
   };
 }
 

@@ -132,11 +132,7 @@ class App extends Component{
           render={(props) => 
             <div className="history">
               <ScrollToTop />  
-              <History {...props} 
-                allExpenses={allExpenses} 
-                categories={categories} 
-                handleHoistedExpensesChange={this.handleHoistedExpensesChange}
-              />            
+              <History {...props} />            
             </div>}
         />
         <Route

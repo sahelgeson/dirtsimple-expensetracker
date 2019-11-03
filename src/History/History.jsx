@@ -101,11 +101,8 @@ class History extends Component{
                   {(expense.id === active) ?
                     <HistoryEditForm 
                       thisExpense={expense} 
-                      categories={this.props.categories} 
-                      allExpenses={this.props.allExpenses}
                       isBeingEditedId={this.state.isBeingEditedId}
                       handleClick={this.handleClick}
-                      handleHoistedExpensesChange={this.props.handleHoistedExpensesChange}
                     />
                     : null }
                 </div>

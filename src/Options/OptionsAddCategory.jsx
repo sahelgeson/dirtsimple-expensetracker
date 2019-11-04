@@ -1,5 +1,7 @@
 import React, { Component} from "react";
-import { PropTypes } from "prop-types";
+import { connect } from 'react-redux';
+import { addCategory } from '../redux/actions/categories-actions';
+import cuid from 'cuid';
 import ReactModal from 'react-modal';
 import ReactModalStyles from "../modals/ReactModalStyles.js";
 
@@ -47,12 +49,22 @@ class OptionsAddCategory extends Component{
     event.preventDefault();
     let categories = [...this.props.categories];
     /* Check if it is a duplicate category name */
-    if (categories.includes(this.state.newCategory)) { 
+    let isAlreadyACategory = false;
+    categories.forEach((category) => {
+      if (category.name === this.state.newCategory) {
+        isAlreadyACategory = true;
+      }
+    });
+
+    if (isAlreadyACategory) { 
       this.setState({isModalOpen: true})
       return false;
     } else {
-      categories.push(this.state.newCategory);
-      this.props.handleHoistedCategoriesChange(categories);
+      let newCategory = {
+        id: cuid(),
+        name: this.state.newCategory,
+      }
+      this.props.addCategory(newCategory);
       this.setState({isSaved: true});
     }
   }  
@@ -128,9 +140,10 @@ class OptionsAddCategory extends Component{
   }
 }
 
-OptionsAddCategory.propTypes = {
-  categories: PropTypes.array.isRequired,
-  handleHoistedCategoriesChange: PropTypes.func.isRequired,
-};
+function mapStateToProps(state) {
+  return {
+    categories: state.categories,
+  };
+}
 
-export default OptionsAddCategory;
+export default connect(mapStateToProps, { addCategory })(OptionsAddCategory);

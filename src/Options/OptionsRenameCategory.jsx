@@ -1,5 +1,5 @@
 import React, { Component} from "react";
-import { PropTypes } from "prop-types";
+import { connect } from 'react-redux';
 import ReactModal from 'react-modal';
 import ReactModalStyles from "../modals/ReactModalStyles.js";
 
@@ -70,7 +70,7 @@ class OptionsRenameCategory extends Component {
   handleRenameSubmit(event, isOkayFromModal = false) {
     event.preventDefault();
 
-    /* check for dupes first */
+    /* check for dupes first ? */
     const hasDupes = this.props.categories.includes(this.state.renamedCategoryNew);
     if (!isOkayFromModal && hasDupes) {
       this.setState({openModalName : 'rename-dupe'});
@@ -96,9 +96,11 @@ class OptionsRenameCategory extends Component {
       }
 
       // update the expenses and hoist both the expenses array and categories array
-      const updatedExpenses = this.changeCategoriesOfAllExpenses(this.state.renamedCategoryOriginal, this.state.renamedCategoryNew);
-      this.props.handleHoistedExpensesChange(updatedExpenses);
-      this.props.handleHoistedCategoriesChange(updatedCategories);
+      this.props.updateCategory(this.state.renamedCategoryNew);
+
+      //const updatedExpenses = this.changeCategoriesOfAllExpenses(this.state.renamedCategoryOriginal, this.state.renamedCategoryNew);
+      //this.props.handleHoistedExpensesChange(updatedExpenses);
+      //this.props.handleHoistedCategoriesChange(updatedCategories);
 
       this.setState({
           isChanging : false,
@@ -247,11 +249,13 @@ class OptionsRenameCategory extends Component {
   }
 }
 
-OptionsRenameCategory.propTypes = {
-  allExpenses: PropTypes.array.isRequired,
-  categories: PropTypes.array.isRequired,
-  handleHoistedExpensesChange: PropTypes.func.isRequired,
-  handleHoistedCategoriesChange: PropTypes.func.isRequired,
-};
 
-export default OptionsRenameCategory;
+
+function mapStateToProps(state) {
+  return {
+    allExpenses: state.allExpenses,
+    categories: state.categories,
+  };
+}
+
+export default connect(mapStateToProps)(OptionsRenameCategory);

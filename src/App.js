@@ -139,12 +139,7 @@ class App extends Component{
           exact path="/options"
           render={(props) => 
             <div className="options-page">        
-              <Options {...props} 
-                allExpenses={allExpenses} 
-                categories={categories} 
-                handleHoistedExpensesChange={this.handleHoistedExpensesChange}
-                handleHoistedCategoriesChange={this.handleHoistedCategoriesChange}
-              />
+              <Options {...props} />
             </div>}
         />          
       </div>

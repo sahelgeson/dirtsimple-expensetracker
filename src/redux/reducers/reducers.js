@@ -39,9 +39,6 @@ const expensesReducer = (state = [], action = {}) => {
   }
 };
 
-// array of names, need to add ids with cuid? 
-// setting up as an array, should it be an obj?
-// this is a function to get an array and not an array
 const getDefaultCategories = () => {
   const categories = DefaultCategoriesNames.map((categoryName) => {
     let obj = {
@@ -82,22 +79,28 @@ const handleSpecialCaseForCategories = (categories, action, allExpenses) => {
       https://redux.js.org/recipes/structuring-reducers/beyond-combinereducers
 
     */
-    const payload = action.payload;
+    const id = action.payload;
 
+    // set any expenses with deleted category to have a categoryId of null
     allExpenses = allExpenses.map((expense) => {
-      if (expense.categoryId === payload) {   
+      if (expense.categoryId === id) {   
         expense.categoryId = null;
       }
       return expense;
     }); 
+
+    // remove category from state
+    const updatedCategories = categories.filter(category => 
+      category.id !== id
+    );
     
     const state = {
       allExpenses,
-      categories
+      categories: updatedCategories,
     }
-    /* TODO: need to put together state */
-    // what about payload here?
-    return Object.assign({}, state, payload); // change this   
+
+    // will this also set the state.allExpenses? 
+    return Object.assign({}, state);    
 };
 
 const combinedReducer = combineReducers({  

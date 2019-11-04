@@ -6,7 +6,7 @@ import {
 
 export const addCategory = (category) => ({
   type: ADD_CATEGORY,
-  payload: { category },
+  payload: category,
 });
 
 export const updateCategory = (id = 0, name = '') => ({
@@ -16,6 +16,6 @@ export const updateCategory = (id = 0, name = '') => ({
 
 export const deleteCategory = (id = 0) => ({
     type: DELETE_CATEGORY_CROSS_SLICE,
-    payload: { id },                 
+    payload: id,                 
 });
   

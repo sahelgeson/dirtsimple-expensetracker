@@ -6,7 +6,7 @@ class OptionsViewAllCategories extends Component{
     super(props);
   
     this.state = {
-      isOpen: true,  
+      isOpen: false,  
     }
 
     this.handleAccordionClick = this.handleAccordionClick.bind(this);    

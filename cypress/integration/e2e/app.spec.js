@@ -5,7 +5,7 @@ describe('Check the easy path for the user entering in a new expense', function 
             cy.visit('/');
         });  
 
-        it('should enter in an amount and save the new expense with default category Food', function () {
+        it('should enter in an amount and save the new expense with default category Clothes', function () {
             cy.getQa('main-form-amount-input').type('8').then(() =>{
                 cy.getQa('main-form-category-input').select('Clothes').then(() =>{
                     cy.getQa('main-form-save-btn').click().then(() => {

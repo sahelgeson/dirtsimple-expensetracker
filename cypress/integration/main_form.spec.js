@@ -5,41 +5,15 @@ describe('Check the easy path for the user entering in a new expense for the mai
             cy.visit('/');
         });  
 
-        it('should enter in an amount and save the new expense with default category Food', function () {
-            cy.getQa('main-form-amount-input').type('6').then(() =>{
-                cy.getQa('main-form-category-input').should('have.value', 'Food')
-                cy.getQa('main-form-save-btn').click().then(() =>{
-                    // check localStorage to make sure it's added correctly
-                    const newExpense = JSON.parse(localStorage.getItem('myExpenses'))[0];
-                    expect(newExpense.amount).to.equal('6');
-                    //expect(newExpense.categoryId).to.equal('Food'); // TODO: need to change this to use category.name
-                });
-            });
-        });  
-
         it('should enter in an amount, change the category, and save the new expense', function () {
             cy.getQa('main-form-amount-input').type('7').then(() =>{
                 cy.getQa('main-form-category-input').select('Other').then(() =>{
-                    cy.getQa('main-form-save-btn').click().then(() =>{
-                        // check localStorage to make sure it's added correctly
-                        const newExpense = JSON.parse(localStorage.getItem('myExpenses'))[0];
-                        expect(newExpense.amount).to.equal('7');
-                        //expect(newExpense.categoryId).to.equal('Other'); // TODO: need to change this to use category.name
+                    cy.getQa('main-form-save-btn').click().then(() =>{                        
+                        cy.getQa('recent-expenses').get('.tr').eq(0).get('.td').eq(0).should('contain', '$7');
+                        cy.getQa('recent-expenses').get('.tr').eq(0).get('.td').eq(1).should('contain', 'Other');
                     });
                 });
             });
-        });  
-
-        it('should enter in an amount and save a new expense which shows up at the top of Recent Expenses', function () {
-            cy.getQa('main-form-amount-input').type('8').then(() =>{
-                cy.getQa('main-form-category-input').select('Clothes').then(() =>{
-                    cy.getQa('main-form-save-btn').click().then(() =>{
-                        // get the first item in recent expenses
-                        cy.getQa('recent-expenses').get('.tr').eq(0).get('.td').eq(0).should('contain', '$8')
-                        cy.getQa('recent-expenses').get('.tr').eq(0).get('.td').eq(1).should('contain', 'Clothes')
-                    });
-                });
-            });
-        });          
+        });         
     });
 });

@@ -1,5 +1,7 @@
 import React, { Component} from "react";
 import { connect } from 'react-redux';
+import { updateCategory, deleteCategory } from '../redux/actions/categories-actions';
+import { updateExpense } from '../redux/actions/expenses-actions';
 import ReactModal from 'react-modal';
 import ReactModalStyles from "../modals/ReactModalStyles.js";
 
@@ -11,31 +13,18 @@ class OptionsRenameCategory extends Component {
       isChanging: false,
       isSaved: false,
       isOpen: false,
-      renamedCategoryOriginal: '',
-      renamedCategoryNew: '',
+      renamedCategoryOriginalId: null,
+      renamedCategoryOriginalName: '',
+      renamedCategoryNewName: '',
       openModalName: null,
     }
 
-    this.changeCategoriesOfAllExpenses = this.changeCategoriesOfAllExpenses.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleAccordionClick = this.handleAccordionClick.bind(this);  
     this.handleFocus = this.handleFocus.bind(this);  
     this.handleRenameCategoryChange = this.handleRenameCategoryChange.bind(this);
     this.handleRenameCategoryNewChange = this.handleRenameCategoryNewChange.bind(this);
     this.handleRenameSubmit = this.handleRenameSubmit.bind(this);
-  }
-
-  /* TODO: this is also used in OptionsDeleteCategory */
-  changeCategoriesOfAllExpenses(originalValue, newValue) {
-    const allExpenses = this.props.allExpenses;
-
-    return allExpenses.map((expense, i) => {
-        if (expense.categoryId === originalValue) {
-          expense.categoryId = newValue;
-        }
-        return expense;
-      }
-    )
   }
 
   closeModal() {
@@ -57,50 +46,65 @@ class OptionsRenameCategory extends Component {
   }  
 
   handleRenameCategoryChange(event) {
+    // event gives id, need to set state with corresponding name for modal
+    const renamedCategoryOriginalId = event.target.value;
+
+    // get category name from id
+    const renamedCategoryOriginal = this.props.categories.filter((category) => {
+      return ( category.id === renamedCategoryOriginalId );
+    }).pop(); /* just want the object inside */
+
+    const renamedCategoryOriginalName = renamedCategoryOriginal.name;
+
     this.setState({
       isChanging: true,
-      renamedCategoryOriginal: event.target.value,
+      renamedCategoryOriginalId,
+      renamedCategoryOriginalName
     });
   } 
 
   handleRenameCategoryNewChange(event) {
-    this.setState({renamedCategoryNew: event.target.value});
+    this.setState({renamedCategoryNewName: event.target.value});
   }   
    
   handleRenameSubmit(event, isOkayFromModal = false) {
     event.preventDefault();
 
-    /* check for dupes first ? */
-    const hasDupes = this.props.categories.includes(this.state.renamedCategoryNew);
-    if (!isOkayFromModal && hasDupes) {
+    /* check for dupes first */
+    let isAlreadyACategory = false;
+    let existingCategoryId = null;
+    this.props.categories.forEach((category) => {
+      if (category.name === this.state.renamedCategoryNewName) {
+        isAlreadyACategory = true;
+        existingCategoryId = category.id;
+      }
+    });
+
+    if (!isOkayFromModal && isAlreadyACategory) {
       this.setState({openModalName : 'rename-dupe'});
       return false;
-    } else if (!isOkayFromModal && !hasDupes) {
+    } else if (!isOkayFromModal && !isAlreadyACategory) {
       // if no dupes, open rename modal for warning
       this.setState({openModalName : 'rename'});
       return false;
     } else if (isOkayFromModal) {
-      // update the categories array
-      let updatedCategories = [...this.props.categories];
-      if (hasDupes) {
-        /* just delete the old category from category array, we will update the expenses with new category (which
-            already exists in the category array because they are identical) */
-        updatedCategories = updatedCategories.filter((category) => category !== this.state.renamedCategoryOriginal)
-      } else {
-        updatedCategories = updatedCategories.map(category => {
-          if (category === this.state.renamedCategoryOriginal) {
-              category = this.state.renamedCategoryNew; 
+        if (isAlreadyACategory) {
+        // update expenses with renamedCategoryOriginalName id to use alreadyExisting id
+        [...this.props.allExpenses].forEach((expense) => {
+          if (expense.categoryId === this.state.renamedCategoryOriginalId) {
+            let editedExpense = { ...expense, categoryId: existingCategoryId }            
+            this.props.updateExpense(editedExpense);
           }
-          return category;
         });
+
+        // delete the category that was been selected in the dropdown because we're using 
+        // already existing category that already had that name
+        this.props.deleteCategory(this.state.renamedCategoryOriginalId);
+      } else {
+        // if no dupes just update category name
+        // TODO: need the categoryId as first parameter here
+        this.props.updateCategory(this.state.renamedCategoryOriginalId, this.state.renamedCategoryNewName);
       }
-
-      // update the expenses and hoist both the expenses array and categories array
-      this.props.updateCategory(this.state.renamedCategoryNew);
-
-      //const updatedExpenses = this.changeCategoriesOfAllExpenses(this.state.renamedCategoryOriginal, this.state.renamedCategoryNew);
-      //this.props.handleHoistedExpensesChange(updatedExpenses);
-      //this.props.handleHoistedCategoriesChange(updatedCategories);
 
       this.setState({
           isChanging : false,
@@ -137,19 +141,24 @@ class OptionsRenameCategory extends Component {
             <select
               id="renamecategory"
               className="select-css input input-secondary full-width font-16 mbm"
-              value={this.state.renamedCategoryOriginal} 
+              value={this.state.renamedCategoryOriginalId || ''} 
               onChange={this.handleRenameCategoryChange}
               onFocus={this.handleFocus}
               data-qa="options-rename-category-old-input"  
             >
               <option value="">Choose a category</option>
-              {this.props.categories.map((category, i) =>
-                  <option 
-                    key={category}
-                    value={category}
-                  >
-                    {category}
-                  </option>
+              {this.props.categories.map((category) => {
+                  if (category.id !== null) {
+                    return (
+                      <option 
+                        key={category.id}
+                        value={category.id}
+                      >
+                        {category.name}
+                      </option>
+                    )
+                  } else { return null; }
+                }
               )}
             </select>
             {this.state.isChanging ?   
@@ -173,7 +182,7 @@ class OptionsRenameCategory extends Component {
                 <button
                   className="input btn btn--blue full-width font-16 mvm"
                   type="submit" 
-                  disabled={this.state.renamedCategoryNew === ''}   
+                  disabled={this.state.renamedCategoryNewName === ''}   
                   value="Save" 
                   data-qa="options-rename-save-btn"          
                 >
@@ -188,8 +197,8 @@ class OptionsRenameCategory extends Component {
               style={ReactModalStyles}
               contentLabel="Renaming Modal"
             >
-              <div>Are you sure you want to rename the category "{this.state.renamedCategoryOriginal}" to "{this.state.renamedCategoryNew}"? 
-                Any expenses with the category "{this.state.renamedCategoryOriginal}"
+              <div>Are you sure you want to rename the category "{this.state.renamedCategoryOriginalName}" to "{this.state.renamedCategoryNewName}"? 
+                Any expenses with the category "{this.state.renamedCategoryOriginalName}"
                 will have their category renamed. This can't be undone.</div>
               <div className="pvl">
                 <button 
@@ -216,7 +225,7 @@ class OptionsRenameCategory extends Component {
               contentLabel="Duplication Modal"
             >
               <div>Warning: the new category name already exists. Any expenses with the original category name 
-                "{this.state.renamedCategoryOriginal}" will have their category renamed to "{this.state.renamedCategoryNew}" 
+                "{this.state.renamedCategoryOriginalName}" will have their category renamed to "{this.state.renamedCategoryNewName}" 
                 and combined with that category. This can't be undone.</div>
               <div className="pvl">
                 <button 
@@ -249,8 +258,6 @@ class OptionsRenameCategory extends Component {
   }
 }
 
-
-
 function mapStateToProps(state) {
   return {
     allExpenses: state.allExpenses,
@@ -258,4 +265,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(OptionsRenameCategory);
+export default connect(mapStateToProps, { updateCategory, deleteCategory, updateExpense })(OptionsRenameCategory);

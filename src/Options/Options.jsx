@@ -14,9 +14,7 @@ function Options(props){
       </h2>
       <OptionsAddCategory />
       <OptionsDeleteCategory />
-      {/*
       <OptionsRenameCategory />
-             */}
       <OptionsViewAllCategories />
 
     </div>

@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import styled, { keyframes, css } from "styled-components";
 
 function RecentExpenses(props){
-  // TODO: should replace with one sorted by id, or just assume they are already sorted and remove entirely
-  //  consider moving this function into separate file to be reused
+  // TODO: consider moving this function into separate file to be reused
   const recentExpensesSorted = [...props.allExpenses].sort(function(a, b) {
     var dateA = new Date(a.datetime), dateB = new Date(b.datetime);
     return dateB - dateA;

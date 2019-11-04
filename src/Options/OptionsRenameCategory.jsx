@@ -102,7 +102,6 @@ class OptionsRenameCategory extends Component {
         this.props.deleteCategory(this.state.renamedCategoryOriginalId);
       } else {
         // if no dupes just update category name
-        // TODO: need the categoryId as first parameter here
         this.props.updateCategory(this.state.renamedCategoryOriginalId, this.state.renamedCategoryNewName);
       }
 

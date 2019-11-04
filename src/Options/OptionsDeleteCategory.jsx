@@ -16,28 +16,12 @@ class OptionsDeleteCategory extends Component{
       isModalOpen: false,
     }
 
-    //this.changeCategoriesOfAllExpenses = this.changeCategoriesOfAllExpenses.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleAccordionClick = this.handleAccordionClick.bind(this);  
     this.handleFocus = this.handleFocus.bind(this);  
     this.handleDeleteCategoryChange = this.handleDeleteCategoryChange.bind(this);
     this.handleDeleteSubmit = this.handleDeleteSubmit.bind(this);
   }
-
-  /* TODO: move this to reducer 
-  
-  changeCategoriesOfAllExpenses(oldValue, newValue) {
-    const allExpenses = this.props.allExpenses;
-
-    return allExpenses.map((expense, i) => {
-        if (expense.categoryId === oldValue) {
-          expense.categoryId = newValue
-        }
-        return expense;
-      }
-    )
-  }*/
-
 
   closeModal() {
     this.setState({isModalOpen: false});
@@ -72,16 +56,6 @@ class OptionsDeleteCategory extends Component{
 
   handleDeleteSubmit(event) {
     event.preventDefault();
-
-    /*
-    const updatedCategories = this.props.categories.filter(category => 
-      category !== this.state.deletedCategory
-    );
-    */
-    //this.props.handleHoistedCategoriesChange(updatedCategories);
-
-    //const updatedExpenses = this.changeCategoriesOfAllExpenses(this.state.deletedCategory, 'Uncategorized')
-    //this.props.handleHoistedExpensesChange(updatedExpenses);
 
     this.props.deleteCategory(this.state.deletedCategoryId);
 

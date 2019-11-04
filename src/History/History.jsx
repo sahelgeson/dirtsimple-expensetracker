@@ -69,7 +69,9 @@ class History extends Component{
                     </span>
                   </div>
                   <div 
-                    className="ftable__cell pvm phs"
+                    className={(thisCategory.id !== null) ?
+                        "ftable__cell pvm phs"
+                      : "ftable__cell pvm phs italic gray-777" }
                     data-qa="history-category"   
                   >
                     {thisCategory.name}

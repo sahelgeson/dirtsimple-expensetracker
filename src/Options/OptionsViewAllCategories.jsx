@@ -43,13 +43,18 @@ class OptionsViewAllCategories extends Component{
           data-qa="options-view-all-category-container"
         >
           <ul className="gray-777 mvs">
-            {this.props.categories.map((category) =>
-              <li
-                key={category.id}
-              >
-                {category.name}
-              </li>
-            )}
+          {this.props.categories.map((category) => {
+              if (category.id !== null) {
+                return (
+                  <li
+                    key={category.id}
+                  >
+                    {category.name}
+                  </li>
+                )
+              } else { return null; }
+            }
+          )}
           </ul>
         </div>        
       : null }

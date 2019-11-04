@@ -126,13 +126,18 @@ class Form extends Component{
           onChange={this.handleCategoryChange}
           data-qa="main-form-category-input" 
         >
-          {this.props.categories.map((category) =>
-              <option 
-                key={category.id}
-                value={category.id}
-              >
-                {category.name}
-              </option>
+          {this.props.categories.map((category) => {
+              if (category.id !== null) {
+                return (
+                  <option 
+                    key={category.id}
+                    value={category.id}
+                  >
+                    {category.name}
+                  </option>
+                )
+              } else { return null; }
+            }
           )}
         </select>
 

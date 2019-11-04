@@ -48,6 +48,18 @@ const getDefaultCategories = () => {
     return obj;
   });
 
+  /* special case if user deletes a category that is already used by one or more expenses 
+      this category is only system level and should not show up in any category options
+      (users should not be able to delete, rename or view it on the options page), but 
+      should be editable on the expense level (e.g. change an 'Uncategorized' expense to the
+      'Food' category)
+  */
+  const uncategorized = {
+    id: null,
+    name: 'Uncategorized'
+  }
+  
+  categories.push(uncategorized);
   return categories;
 }
 
@@ -74,11 +86,6 @@ const categoriesReducer = (state = getDefaultCategories(), action = {}) => {
     that had that category id should be set to null. This requires
     a cross slice solution for a category action to update allExpenses */                                        
 const handleSpecialCaseForCategories = (categories, action, allExpenses) => {
-    /* action is in example in Redux docs, but where does it come into play here?
-    
-      https://redux.js.org/recipes/structuring-reducers/beyond-combinereducers
-
-    */
     const id = action.payload;
 
     // set any expenses with deleted category to have a categoryId of null
@@ -112,11 +119,8 @@ const combinedReducer = combineReducers({
 function crossSliceReducer(state, action) {
   switch (action.type) {
 
-    case 'DELETE_CATEGORY_CROSS_SLICE': {    
-      return {        
-        allExpenses: expensesReducer(state.allExpenses, action), 
-        categories:  handleSpecialCaseForCategories(state.categories, action, state.allExpenses),   // this should be category id?
-      }
+    case 'DELETE_CATEGORY_CROSS_SLICE': {  
+      return handleSpecialCaseForCategories(state.categories, action, state.allExpenses);  
     }
     default:
       return state;

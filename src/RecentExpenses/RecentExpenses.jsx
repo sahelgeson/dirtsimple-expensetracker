@@ -60,7 +60,11 @@ function RecentExpenses(props){
                     {expense.amount}
                   </span>
                 </div>
-                <div className="td plm pvs">
+                <div
+                    className={(thisCategory.id !== null) ?
+                      "td plm pvs"
+                    : "td plm pvs italic gray-777" }            
+                >
                   {thisCategory.name}   
                 </div>
                 <div className="td text-right prs pvs">

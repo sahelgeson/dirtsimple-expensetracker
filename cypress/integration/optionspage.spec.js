@@ -11,9 +11,15 @@ describe('Check that the options can be edited on the options page', function ()
                     cy.getQa('options-add-submit-btn').should('not.be.disabled');
                     cy.getQa('options-add-submit-btn').click().then(() =>{
                         // check localStorage to make sure it's added correctly
-                        const categories = JSON.parse(localStorage.getItem('myCategories'));
-                        const newCategory = categories[(categories.length - 1)];
-                        expect(newCategory).to.equal('TEST');
+                        const state = JSON.parse(localStorage.getItem('stateDebug'));
+                        const categories = state.categories;
+                        let hasThisCategory = false
+                        categories.forEach((category) => {
+                            if (category.name === 'TEST') {
+                                hasThisCategory = true;
+                            }
+                          });
+                        expect(hasThisCategory).to.equal(true);
                     });
                 });
             });
@@ -28,10 +34,21 @@ describe('Check that the options can be edited on the options page', function ()
                         cy.getQa('options-rename-save-btn').click().then(() => {
                             // choose "Yes, Rename" on the modal
                             cy.getQa('options-rename-modal-yes-button').click().then(() => {                   
-                                // check localStorage to make sure it's renamed correctly
-                                const categories = JSON.parse(localStorage.getItem('myCategories'));
-                                const newCategory = categories[(categories.length - 1)];
-                                expect(newCategory).to.equal('ABCD');
+                                // check localStorage to make sure it's added correctly
+                                const state = JSON.parse(localStorage.getItem('stateDebug'));
+                                const categories = state.categories;
+                                let hasNewCategory = false;
+                                let hasOldCategory = false;
+                                categories.forEach((category) => {
+                                    if (category.name === 'ABCD') {
+                                        hasNewCategory = true;
+                                    }
+                                    if (category.name === 'TEST') {
+                                        hasOldCategory = true;
+                                    }
+                                });
+                                expect(hasNewCategory).to.equal(true);
+                                expect(hasOldCategory).to.equal(false);
                             });
                         });
                     });
@@ -49,10 +66,16 @@ describe('Check that the options can be edited on the options page', function ()
             cy.getQa('options-delete-category-accordion').click().then(() => {
                 cy.getQa('options-delete-category-input').select('ABCD').then(() => {
                     cy.getQa('options-delete-submit-btn').click().then(() =>{
-                        // check localStorage to make sure it's deleted correctly
-                        const categories = JSON.parse(localStorage.getItem('myCategories'));
-                        const wasCategoryDeleted = categories.indexOf('ABCD') === -1;
-                        expect(wasCategoryDeleted).to.equal(true);
+                        // check localStorage to make sure it's added correctly
+                        const state = JSON.parse(localStorage.getItem('stateDebug'));
+                        const categories = state.categories;
+                        let hasOldCategory = false;
+                        categories.forEach((category) => {
+                            if (category.name === 'ABCD') {
+                                hasOldCategory = true;
+                            }
+                        });
+                        expect(hasOldCategory).to.equal(false);
                     });
                 });
             });

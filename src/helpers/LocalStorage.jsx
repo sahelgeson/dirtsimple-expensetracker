@@ -1,6 +1,6 @@
 export const loadState = () => {
   try { 
-    const serializedState = localStorage.getItem('stateDebug');
+    const serializedState = localStorage.getItem('state');
     if (serializedState === null) {
       return undefined; /* undefined is used so redux will hydrate with default values if none already present */
     }
@@ -13,6 +13,6 @@ export const loadState = () => {
 export const saveState = (state) => {
   try {
     const serializedState = JSON.stringify(state);
-    localStorage.setItem('stateDebug', serializedState);
+    localStorage.setItem('state', serializedState);
   } catch (err) {}
 }

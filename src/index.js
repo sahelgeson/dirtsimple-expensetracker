@@ -8,7 +8,6 @@ import { createStore } from 'redux'
 import rootReducer from './redux/reducers/reducers';
 import { loadState, saveState } from './helpers/LocalStorage';
 import { dataMigration } from './helpers/DataMigration';
-import * as serviceWorker from './serviceWorker';
 
 let initialState = loadState();
 

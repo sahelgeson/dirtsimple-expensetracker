@@ -1,7 +1,7 @@
 import React from "react";
 import { PropTypes } from "prop-types";
 import ReactModal from 'react-modal';
-import ReactModalStyles from "../modals/ReactModalStyles.js";
+import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
 
 ReactModal.defaultStyles.overlay.backgroundColor = 'rgba(80, 80, 80, 0.69)';
 ReactModal.setAppElement('#root');

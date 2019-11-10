@@ -1,9 +1,9 @@
 import React from "react";
 import './css/App.scss';
-import Home from "./Home.jsx";
-import History from "./History/History.jsx";
+import Home from "./routes/Home/Home.jsx";
+import History from "./routes/History/History.jsx";
 import ScrollToTop from "./helpers/ScrollToTop.jsx";
-import Options from "./Options/Options.jsx";
+import Options from "./routes/Options/Options.jsx";
 import { Route, NavLink } from "react-router-dom";
 
 function App(props){

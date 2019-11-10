@@ -1,7 +1,7 @@
 import React, { Component} from "react";
 import { connect } from 'react-redux';
 import HistoryEditForm from "./HistoryEditForm.jsx";
-import { sortExpenses } from '../redux/actions/expenses-actions';
+import { sortExpenses } from '../../redux/actions/expenses-actions';
 
 class History extends Component{
   constructor(props) {

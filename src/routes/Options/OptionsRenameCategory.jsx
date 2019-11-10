@@ -1,9 +1,9 @@
 import React, { Component} from "react";
 import { connect } from 'react-redux';
-import { updateCategory, deleteCategory } from '../redux/actions/categories-actions';
-import { updateExpense } from '../redux/actions/expenses-actions';
+import { updateCategory, deleteCategory } from '../../redux/actions/categories-actions';
+import { updateExpense } from '../../redux/actions/expenses-actions';
 import ReactModal from 'react-modal';
-import ReactModalStyles from "../modals/ReactModalStyles.js";
+import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
 
 class OptionsRenameCategory extends Component {
   constructor(props) {

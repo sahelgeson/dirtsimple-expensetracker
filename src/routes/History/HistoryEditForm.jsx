@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { PropTypes } from "prop-types";
 import { connect } from 'react-redux';
-import { updateExpense, deleteExpense } from '../redux/actions/expenses-actions';
+import { updateExpense, deleteExpense } from '../../redux/actions/expenses-actions';
 import HistoryEditFormAmount from "./HistoryEditFormAmount.jsx";
 import HistoryEditFormCategory from "./HistoryEditFormCategory.jsx";
 import HistoryEditFormDatetime from "./HistoryEditFormDatetime.jsx";

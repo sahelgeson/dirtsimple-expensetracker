@@ -1,9 +1,9 @@
 import React, { Component} from "react";
 import { connect } from 'react-redux';
-import { addCategory } from '../redux/actions/categories-actions';
+import { addCategory } from '../../redux/actions/categories-actions';
 import cuid from 'cuid';
 import ReactModal from 'react-modal';
-import ReactModalStyles from "../modals/ReactModalStyles.js";
+import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
 
 class OptionsAddCategory extends Component{
   constructor(props) {

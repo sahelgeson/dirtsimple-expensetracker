@@ -1,8 +1,8 @@
 import React, { Component} from "react";
 import { connect } from 'react-redux';
-import { deleteCategory } from '../redux/actions/categories-actions';
+import { deleteCategory } from '../../redux/actions/categories-actions';
 import ReactModal from 'react-modal';
-import ReactModalStyles from "../modals/ReactModalStyles.js";
+import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
 
 class OptionsDeleteCategory extends Component{
   constructor(props) {

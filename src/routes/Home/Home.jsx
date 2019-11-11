@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
-import Form from "./Form/Form.jsx";
-import RecentExpenses from "./RecentExpenses/RecentExpenses.jsx";
+import HomeForm from "./HomeForm.jsx";
+import HomeRecentExpenses from "./HomeRecentExpenses.jsx";
 
 function Home(props){
   return (
@@ -14,10 +14,10 @@ function Home(props){
         <br />
         expense tracker          
       </h1>
-      <Form/>
+      <HomeForm/>
 
       {props.allExpenses.length ? 
-        <RecentExpenses recentExpenses={props.allExpenses} /> 
+        <HomeRecentExpenses recentExpenses={props.allExpenses} /> 
       : null}
     </div>
   );

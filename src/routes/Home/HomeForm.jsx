@@ -1,6 +1,6 @@
 import React, { Component} from "react";
 import { connect } from 'react-redux';
-import { addExpense } from '../../../redux/actions/expenses-actions';
+import { addExpense } from '../../redux/actions/expenses-actions';
 import cuid from 'cuid';
 
 class Form extends Component{

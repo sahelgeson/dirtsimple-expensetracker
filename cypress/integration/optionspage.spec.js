@@ -27,7 +27,7 @@ describe('Check that the options can be edited on the options page', function ()
 
         it('should open the rename category accordion and rename TEST to ABCD', function () {
             cy.getQa('options-renamecategory-accordion').click().then(() => {
-                cy.getQa('options-rename-category-old-input').select('TEST').then(() => {
+                cy.getQa('options-renamecategory-old-input').select('TEST').then(() => {
                     cy.getQa('options-rename-category-new-input').type('ABCD').then(() => {                    
                         cy.getQa('options-rename-category-new-input').should('have.value', 'ABCD');
                         cy.getQa('options-rename-save-btn').should('not.be.disabled');
@@ -64,7 +64,7 @@ describe('Check that the options can be edited on the options page', function ()
 
         it('should open the delete category accordion and delete the ABCD category', function () {
             cy.getQa('options-deletecategory-accordion').click().then(() => {
-                cy.getQa('options-delete-category-input').select('ABCD').then(() => {
+                cy.getQa('options-deletecategory-input').select('ABCD').then(() => {
                     cy.getQa('options-delete-submit-btn').click().then(() =>{
                         // check localStorage to make sure it's added correctly
                         const state = JSON.parse(localStorage.getItem('state'));

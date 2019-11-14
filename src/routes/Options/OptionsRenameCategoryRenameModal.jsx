@@ -34,7 +34,7 @@ function OptionsRenameCategoryRenameModal(props){
 }
 
 OptionsRenameCategoryRenameModal.propTypes = {
-  isOpen: PropTypes.string.isRequired,
+  isOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
   handleRenameSubmit: PropTypes.func.isRequired,
 };

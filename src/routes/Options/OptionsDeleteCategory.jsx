@@ -2,6 +2,7 @@ import React, { Component} from "react";
 import { connect } from 'react-redux';
 import { deleteCategory } from '../../redux/actions/categories-actions';
 import OptionsAccordion from "./OptionsAccordion.jsx";
+import OptionsCategorySelect from "./OptionsCategorySelect.jsx";
 import ReactModal from 'react-modal';
 import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
 
@@ -84,29 +85,12 @@ class OptionsDeleteCategory extends Component{
 
         {this.state.isOpen ? 
           <div className="mhm">
-            <select
-              id="category"
-              className="select-css input input-secondary full-width font-16 mbm"
-              value="" 
-              onChange={this.handleDeleteCategoryChange}
-              onFocus={this.handleFocus}
-              data-qa="options-delete-category-input"  
-            >
-              <option value="">Choose a category</option>
-              {this.props.categories.map((category) => {
-                  if (category.id !== null) {
-                    return (
-                      <option 
-                        key={category.id}
-                        value={category.id}
-                      >
-                        {category.name}
-                      </option>
-                    )
-                  } else { return null; }
-                }
-              )}
-            </select>
+            <OptionsCategorySelect
+              htmlId="deletecategory"
+              value=""
+              handleFocus={this.handleFocus}
+              handleOnChange={this.handleDeleteCategoryChange}
+            />
             <ReactModal
               isOpen={(this.state.isModalOpen)}      
               onRequestClose={this.closeModal}

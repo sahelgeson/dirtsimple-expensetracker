@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { updateCategory, deleteCategory } from '../../redux/actions/categories-actions';
 import { renameExpensesCategory } from '../../redux/actions/expenses-actions';
 import OptionsAccordion from "./OptionsAccordion.jsx";
+import OptionsCategorySelect from "./OptionsCategorySelect.jsx";
 import OptionsRenameCategoryRenameModal from "./OptionsRenameCategoryRenameModal.jsx";
 
 class OptionsRenameCategory extends Component {
@@ -133,29 +134,12 @@ class OptionsRenameCategory extends Component {
 
         {this.state.isOpen ? 
           <div className="mhm">        
-            <select
-              id="renamecategory"
-              className="select-css input input-secondary full-width font-16 mbm"
-              value={this.state.renamedCategoryOriginalId || ''} 
-              onChange={this.handleRenameCategoryChange}
-              onFocus={this.handleFocus}
-              data-qa="options-rename-category-old-input"  
-            >
-              <option value="">Choose a category</option>
-              {this.props.categories.map((category) => {
-                  if (category.id !== null) {
-                    return (
-                      <option 
-                        key={category.id}
-                        value={category.id}
-                      >
-                        {category.name}
-                      </option>
-                    )
-                  } else { return null; }
-                }
-              )}
-            </select>
+            <OptionsCategorySelect
+              htmlId="renamecategory-old"
+              value={this.state.renamedCategoryOriginalId || ''}
+              handleFocus={this.handleFocus}
+              handleOnChange={this.handleRenameCategoryChange}
+            />
             {this.state.isChanging ?   
               <div>
                 <label 

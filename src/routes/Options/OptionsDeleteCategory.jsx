@@ -1,6 +1,7 @@
 import React, { Component} from "react";
 import { connect } from 'react-redux';
 import { deleteCategory } from '../../redux/actions/categories-actions';
+import OptionsAccordion from "./OptionsAccordion.jsx";
 import ReactModal from 'react-modal';
 import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
 
@@ -73,21 +74,13 @@ class OptionsDeleteCategory extends Component{
         onSubmit={this.handleDeleteSubmit}
         className="card mvl"
       >
-        <button 
-          type="button"
-          className="full-width text-left pam"
-          onClick={this.handleAccordionClick}
-          data-qa="options-delete-category-accordion"
+       <OptionsAccordion
+          isOpen={this.state.isOpen}
+          label="deletecategory"
+          handleAccordionClick={this.handleAccordionClick}
         >
-          <label
-            htmlFor="deletecategory"
-          >
-            Delete a category
-          </label>
-          <div className="right gray-777 bold">
-            {this.state.isOpen ? String.fromCharCode(65293) : String.fromCharCode(65291) }
-          </div>
-        </button>        
+          Delete a category
+        </OptionsAccordion>  
 
         {this.state.isOpen ? 
           <div className="mhm">

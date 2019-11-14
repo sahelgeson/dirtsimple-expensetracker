@@ -2,6 +2,7 @@ import React, { Component} from "react";
 import { connect } from 'react-redux';
 import { updateCategory, deleteCategory } from '../../redux/actions/categories-actions';
 import { renameExpensesCategory } from '../../redux/actions/expenses-actions';
+import OptionsAccordion from "./OptionsAccordion.jsx";
 import OptionsRenameCategoryRenameModal from "./OptionsRenameCategoryRenameModal.jsx";
 
 class OptionsRenameCategory extends Component {
@@ -122,21 +123,13 @@ class OptionsRenameCategory extends Component {
         onSubmit={this.handleRenameSubmit}
         className="card mvl"
       >
-        <button 
-          type="button"
-          className="full-width text-left pam"
-          onClick={this.handleAccordionClick}
-          data-qa="options-rename-category-accordion"
+        <OptionsAccordion
+          isOpen={this.state.isOpen}
+          label="renamecategory"
+          handleAccordionClick={this.handleAccordionClick}
         >
-          <label
-            htmlFor="renamecategory"
-          >
-            Rename a category
-          </label>
-          <div className="right gray-777 bold">
-            {this.state.isOpen ? String.fromCharCode(65293) : String.fromCharCode(65291) }
-          </div>
-        </button>           
+          Rename a category
+        </OptionsAccordion>         
 
         {this.state.isOpen ? 
           <div className="mhm">        

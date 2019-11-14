@@ -5,7 +5,7 @@ describe('Check that the options can be edited on the options page', function ()
 
     describe('Check that user can enter a new category', function () {
         it('should open the add category accordion and enter in TEST as a new category', function () {
-            cy.getQa('options-add-category-accordion').click().then(() => {
+            cy.getQa('options-addcategory-accordion').click().then(() => {
                 cy.getQa('options-add-category-input').type('TEST').then(() => {
                     cy.getQa('options-add-category-input').should('have.value', 'TEST');
                     cy.getQa('options-add-submit-btn').should('not.be.disabled');
@@ -26,7 +26,7 @@ describe('Check that the options can be edited on the options page', function ()
         });  
 
         it('should open the rename category accordion and rename TEST to ABCD', function () {
-            cy.getQa('options-rename-category-accordion').click().then(() => {
+            cy.getQa('options-renamecategory-accordion').click().then(() => {
                 cy.getQa('options-rename-category-old-input').select('TEST').then(() => {
                     cy.getQa('options-rename-category-new-input').type('ABCD').then(() => {                    
                         cy.getQa('options-rename-category-new-input').should('have.value', 'ABCD');
@@ -57,13 +57,13 @@ describe('Check that the options can be edited on the options page', function ()
         });  
   
         it('should open the view all categories accordion and check it contains the ABCD category', function () {
-            cy.getQa('options-view-all-category-accordion').click().then(() => {
-                cy.getQa('options-view-all-category-container').should('contain', 'ABCD');
+            cy.getQa('options-view-all-categories-accordion').click().then(() => {
+                cy.getQa('options-view-all-categories-container').should('contain', 'ABCD');
             });
         });  
 
         it('should open the delete category accordion and delete the ABCD category', function () {
-            cy.getQa('options-delete-category-accordion').click().then(() => {
+            cy.getQa('options-deletecategory-accordion').click().then(() => {
                 cy.getQa('options-delete-category-input').select('ABCD').then(() => {
                     cy.getQa('options-delete-submit-btn').click().then(() =>{
                         // check localStorage to make sure it's added correctly

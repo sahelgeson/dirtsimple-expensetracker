@@ -2,6 +2,7 @@ import React, { Component} from "react";
 import { connect } from 'react-redux';
 import { addCategory } from '../../redux/actions/categories-actions';
 import cuid from 'cuid';
+import OptionsAccordion from "./OptionsAccordion.jsx";
 import ReactModal from 'react-modal';
 import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
 
@@ -75,21 +76,13 @@ class OptionsAddCategory extends Component{
         onSubmit={this.handleAddSubmit}
         className="card mtm mbl"
       >
-        <button 
-          type="button"
-          className="full-width text-left pam"
-          onClick={this.handleAccordionClick}
-          data-qa="options-add-category-accordion"
+        <OptionsAccordion
+          isOpen={this.state.isOpen}
+          label="addcategory"
+          handleAccordionClick={this.handleAccordionClick}
         >
-          <label 
-            htmlFor="addcategory"         
-          >
-            Add a category
-          </label>
-          <div className="right gray-777 bold">
-            {this.state.isOpen ? String.fromCharCode(65293) : String.fromCharCode(65291) }
-          </div>
-        </button>
+          Add a category
+        </OptionsAccordion>          
 
       {this.state.isOpen ? 
         <div className="mhm">

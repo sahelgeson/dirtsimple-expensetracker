@@ -1,5 +1,6 @@
 import React, { Component} from "react";
 import { connect } from 'react-redux';
+import OptionsAccordion from "./OptionsAccordion.jsx";
 
 class OptionsViewAllCategories extends Component{
   constructor(props) {
@@ -23,24 +24,18 @@ class OptionsViewAllCategories extends Component{
       <div
         className="card mtm mbl"
       >
-        <button 
-          type="button"
-          className="full-width text-left pam"
-          onClick={this.handleAccordionClick}
-          data-qa="options-view-all-category-accordion"
+        <OptionsAccordion
+          isOpen={this.state.isOpen}
+          label="view-all-categories"
+          handleAccordionClick={this.handleAccordionClick}
         >
-          <span>
-            View all categories
-          </span>
-          <div className="right gray-777 bold">
-            {this.state.isOpen ? String.fromCharCode(65293) : String.fromCharCode(65291) }
-          </div>
-        </button>
+          View all categories
+        </OptionsAccordion>  
 
       {this.state.isOpen ? 
         <div 
           className="mhl mbl"
-          data-qa="options-view-all-category-container"
+          data-qa="options-view-all-categories-container"
         >
           <ul className="gray-777 mvs">
           {this.props.categories.map((category) => {

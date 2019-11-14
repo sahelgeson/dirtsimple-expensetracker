@@ -2,8 +2,7 @@ import React, { Component} from "react";
 import { connect } from 'react-redux';
 import { updateCategory, deleteCategory } from '../../redux/actions/categories-actions';
 import { renameExpensesCategory } from '../../redux/actions/expenses-actions';
-import ReactModal from 'react-modal';
-import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
+import OptionsRenameCategoryRenameModal from "./OptionsRenameCategoryRenameModal.jsx";
 
 class OptionsRenameCategory extends Component {
   constructor(props) {
@@ -181,7 +180,6 @@ class OptionsRenameCategory extends Component {
                   onChange={this.handleRenameCategoryNewChange}                 
                   data-qa="options-rename-category-new-input"    
                 />   
-
                 <button
                   className="input btn btn--blue full-width font-16 mvm"
                   type="submit" 
@@ -194,59 +192,28 @@ class OptionsRenameCategory extends Component {
               </div>       
 
             : null}
-            <ReactModal
+            <OptionsRenameCategoryRenameModal
               isOpen={(this.state.openModalName === 'rename')}
-              onRequestClose={this.closeModal}
-              style={ReactModalStyles}
-              contentLabel="Renaming Modal"
+              closeModal={this.closeModal}
+              handleRenameSubmit={this.handleRenameSubmit}
             >
-              <div>Are you sure you want to rename the category "{this.state.renamedCategoryOriginalName}" to "{this.state.renamedCategoryNewName}"? 
+              <div>
+                Are you sure you want to rename the category "{this.state.renamedCategoryOriginalName}" to "{this.state.renamedCategoryNewName}"? 
                 Any expenses with the category "{this.state.renamedCategoryOriginalName}"
-                will have their category renamed. This can't be undone.</div>
-              <div className="pvl">
-                <button 
-                  type="button"
-                  className="btn btn--red capitalize phm pvm mrxs left"
-                  onClick={(event) => this.handleRenameSubmit(event, {isOkayFromModal: true})}   
-                  data-qa="options-rename-modal-yes-button"
-                >
-                  Yes, Rename
-                </button>
-                <button 
-                  type="button"
-                  className="btn btn--outline capitalize phm pvm mrxs right"
-                  onClick={this.closeModal}
-                >
-                  No, Cancel
-                </button>
-              </div>
-            </ReactModal>
-            <ReactModal
+                will have their category renamed. This can't be undone.
+              </div>  
+            </OptionsRenameCategoryRenameModal>
+            <OptionsRenameCategoryRenameModal
               isOpen={(this.state.openModalName === 'rename-dupe')}
-              onRequestClose={this.closeModal}
-              style={ReactModalStyles}
-              contentLabel="Duplication Modal"
+              closeModal={this.closeModal}
+              handleRenameSubmit={this.handleRenameSubmit}
             >
-              <div>Warning: the new category name already exists. Any expenses with the original category name 
+              <div>
+                Warning: the new category name already exists. Any expenses with the original category name 
                 "{this.state.renamedCategoryOriginalName}" will have their category renamed to "{this.state.renamedCategoryNewName}" 
-                and combined with that category. This can't be undone.</div>
-              <div className="pvl">
-                <button 
-                  type="button"
-                  className="btn btn--red capitalize phm pvm mrxs left"
-                  onClick={(event) => this.handleRenameSubmit(event, {isOkayFromModal: true})} 
-                >
-                  Yes, Rename
-                </button>
-                <button 
-                  type="button"
-                  className="btn btn--outline capitalize phm pvm mrxs right"
-                  onClick={this.closeModal}
-                >
-                  No, Cancel
-                </button>
+                and combined with that category. This can't be undone.
               </div>
-            </ReactModal>
+            </OptionsRenameCategoryRenameModal>            
           </div>
         : null }   
         
@@ -256,7 +223,6 @@ class OptionsRenameCategory extends Component {
           </div>
         : null }   
       </form>
-
     );
   }
 }

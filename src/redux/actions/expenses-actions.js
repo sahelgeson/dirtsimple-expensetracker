@@ -1,6 +1,7 @@
 import { 
     ADD_EXPENSE, 
     UPDATE_EXPENSE,
+    RENAME_EXPENSES_CATEGORY,
     DELETE_EXPENSE,
     SORT_EXPENSES, 
 } from '../constants/ActionTypes'
@@ -13,6 +14,11 @@ export const addExpense = (expense = {}) => ({
 export const updateExpense = (updatedExpense = {}) => ({
     type: UPDATE_EXPENSE,
     payload: updatedExpense,
+});
+
+export const renameExpensesCategory = (oldCategoryId = '', newCategoryId = '') => ({
+    type: RENAME_EXPENSES_CATEGORY,
+    payload: { oldCategoryId, newCategoryId },
 });
 
 export const deleteExpense = (id = 0) => ({

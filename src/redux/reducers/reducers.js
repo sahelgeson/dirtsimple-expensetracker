@@ -20,7 +20,15 @@ const expensesReducer = (state = [], action = {}) => {
             expense = payload;
           }
           return expense;
-        });      
+        });   
+    
+    case 'RENAME_EXPENSES_CATEGORY':
+        return state.map(expense => {
+          if (expense.categoryId === payload.oldCategoryId) {
+            expense.categoryId = payload.newCategoryId;
+          }
+          return expense;
+        });           
 
     case 'SORT_EXPENSES':
       let sortedExpenses = [...state];

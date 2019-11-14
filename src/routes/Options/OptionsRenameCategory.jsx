@@ -1,7 +1,7 @@
 import React, { Component} from "react";
 import { connect } from 'react-redux';
 import { updateCategory, deleteCategory } from '../../redux/actions/categories-actions';
-import { updateExpense } from '../../redux/actions/expenses-actions';
+import { renameExpensesCategory } from '../../redux/actions/expenses-actions';
 import ReactModal from 'react-modal';
 import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
 
@@ -20,6 +20,7 @@ class OptionsRenameCategory extends Component {
     }
 
     this.closeModal = this.closeModal.bind(this);
+    this.getExistingCategoryId = this.getExistingCategoryId.bind(this);
     this.handleAccordionClick = this.handleAccordionClick.bind(this);  
     this.handleFocus = this.handleFocus.bind(this);  
     this.handleRenameCategoryChange = this.handleRenameCategoryChange.bind(this);
@@ -29,6 +30,16 @@ class OptionsRenameCategory extends Component {
 
   closeModal() {
     this.setState({openModalName: null});
+  }
+
+  getExistingCategoryId() {
+    let existingCategoryId = '';
+    this.props.categories.forEach((category) => {
+      if (category.name === this.state.renamedCategoryNewName) {
+        existingCategoryId = category.id;
+      }
+    });
+    return existingCategoryId;
   }
 
   handleAccordionClick() {
@@ -70,41 +81,34 @@ class OptionsRenameCategory extends Component {
   handleRenameSubmit(event, isOkayFromModal = false) {
     event.preventDefault();
 
-    /* check for dupes first */
-    let isAlreadyACategory = false;
-    let existingCategoryId = null;
-    this.props.categories.forEach((category) => {
-      if (category.name === this.state.renamedCategoryNewName) {
-        isAlreadyACategory = true;
-        existingCategoryId = category.id;
-      }
-    });
+    // before we submit, we need to check if the new category name already exists
+    let existingCategoryId = this.getExistingCategoryId();
 
-    if (!isOkayFromModal && isAlreadyACategory) {
-      this.setState({openModalName : 'rename-dupe'});
-      return false;
-    } else if (!isOkayFromModal && !isAlreadyACategory) {
-      // if no dupes, open rename modal for warning
-      this.setState({openModalName : 'rename'});
-      return false;
-    } else if (isOkayFromModal) {
-        if (isAlreadyACategory) {
+    if (existingCategoryId.length) {      
+      if (!isOkayFromModal) {
+        // if there is a duplicate and the user has not clicked the okay button, warn them about the dupe
+        this.setState({openModalName : 'rename-dupe'});
+        return false;
+      } else {
         // update expenses with renamedCategoryOriginalName id to use alreadyExisting id
-        [...this.props.allExpenses].forEach((expense) => {
-          if (expense.categoryId === this.state.renamedCategoryOriginalId) {
-            let editedExpense = { ...expense, categoryId: existingCategoryId }            
-            this.props.updateExpense(editedExpense);
-          }
-        });
-
+        this.props.renameExpensesCategory(this.state.renamedCategoryOriginalId, existingCategoryId);  // TODO: where do we get existingCategoryId?
+        
         // delete the category that was been selected in the dropdown because we're using 
         // already existing category that already had that name
-        this.props.deleteCategory(this.state.renamedCategoryOriginalId);
-      } else {
-        // if no dupes just update category name
-        this.props.updateCategory(this.state.renamedCategoryOriginalId, this.state.renamedCategoryNewName);
+        this.props.deleteCategory(this.state.renamedCategoryOriginalId);        
       }
-
+    } else {
+      if (!isOkayFromModal) {
+          // if no dupes, open rename modal for general warning
+          this.setState({openModalName : 'rename'});
+          return false;
+      } else {
+          // if no dupes just update category name
+          this.props.updateCategory(this.state.renamedCategoryOriginalId, this.state.renamedCategoryNewName);
+      }
+    }
+  
+    if (isOkayFromModal) {
       this.setState({
           isChanging : false,
           isSaved : true,
@@ -264,4 +268,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { updateCategory, deleteCategory, updateExpense })(OptionsRenameCategory);
+export default connect(mapStateToProps, { updateCategory, deleteCategory, renameExpensesCategory })(OptionsRenameCategory);

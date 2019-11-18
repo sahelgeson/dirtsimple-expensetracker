@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import styled, { keyframes, css } from "styled-components";
+import HomeRecentExpensesListing from "./HomeRecentExpensesListing.jsx";
 
-function RecentExpenses(props){
+function HomeRecentExpenses(props){
   // TODO: consider moving this function into separate file to be reused
   const recentExpensesSorted = [...props.allExpenses].sort(function(a, b) {
     var dateA = new Date(a.datetime), dateB = new Date(b.datetime);
@@ -14,24 +14,6 @@ function RecentExpenses(props){
   const numberOfRecentShown = 7; 
 
   const allCategories = [...props.categories];
-
-  const firstLoadFlag = useRef(true);
-
-  const highlightfade = keyframes`{
-      from { background: rgba(255, 220, 110, 0.8); }
-      to { background: transparent; }
-    }
-  `;
-
-  const Transition = styled.div`
-    ${props => props.active && css`
-      animation: 1.5s ${highlightfade};
-    `}
-  `;
-
-  useEffect(() => {
-    firstLoadFlag.current = false;
-  });
 
   return(
     <div className="card phm pvm mbl">
@@ -48,33 +30,14 @@ function RecentExpenses(props){
             }).pop(); /* just want the object inside */
 
             return (
-              <Transition 
-                key={expense.id} 
-                active={!firstLoadFlag.current && (expense.id === latestExpenseId)}
-                className="tr"
-              >     
-                <div className="td pls pvs">
-                  <span className="dollar inline-block">$</span>
-                  <span className="inline-block">
-                    {expense.amount}
-                  </span>
-                </div>
-                <div
-                    className={(thisCategory.id !== null) ?
-                      "td plm pvs"
-                    : "td plm pvs italic gray-777" }            
-                >
-                  {thisCategory.name}   
-                </div>
-                <div className="td text-right prs pvs">
-                  {new Date(expense.datetime).getMonth() + 1}/                  
-                  {new Date(expense.datetime).getDate()}
-                </div>           
-              </Transition>
+              <HomeRecentExpensesListing
+                expense={expense}
+                latestExpenseId={latestExpenseId}
+                thisCategory={thisCategory}
+              />
             );
           } 
-        )}    
-        
+        )}            
       </div>
 
       <div className="text-center mvm">
@@ -96,5 +59,5 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(RecentExpenses);
+export default connect(mapStateToProps)(HomeRecentExpenses);
 

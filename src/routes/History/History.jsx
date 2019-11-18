@@ -2,6 +2,7 @@ import React, { Component} from "react";
 import { connect } from 'react-redux';
 import HistoryEditForm from "./HistoryEditForm.jsx";
 import { sortExpenses } from '../../redux/actions/expenses-actions';
+import HistoryListing from "./HistoryListing.jsx";
 
 class History extends Component{
   constructor(props) {
@@ -38,7 +39,6 @@ class History extends Component{
   render(){
     const allExpenses = [...this.props.allExpenses]; 
     const allCategories = [...this.props.categories];
-    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const active = this.state.isBeingEditedId;
 
     return(
@@ -53,61 +53,29 @@ class History extends Component{
               }).pop(); /* just want the object inside */
 
               return (
-                <div 
-                  className={(expense.id === active) ? 
-                      "ftable__row phs editing"
-                      : "ftable__row phs" }
-                  key={expense.id}
-                >
-                  <div 
-                    className="ftable__cell ftable__cell--amount text-right pvm phxs"
-                    data-qa="history-amount"   
-                  >
-                    <span className="dollar inline-block">$</span>
-                    <span className="inline-block">
-                      {expense.amount}
-                    </span>
-                  </div>
-                  <div 
-                    className={(thisCategory.id !== null) ?
-                        "ftable__cell pvm phs"
-                      : "ftable__cell pvm phs italic gray-777" }
-                    data-qa="history-category"   
-                  >
-                    {thisCategory.name}
-                  </div>
-                  <div className="ftable__cell ftable__cell--date pvm prxs"> 
-                    {days[new Date(expense.datetime).getDay()]},&nbsp; 
-                    {new Date(expense.datetime).getMonth() + 1}/                  
-                    {new Date(expense.datetime).getDate()}
-                  </div>
-                  <div className="ftable__cell ftable__cell--edit text-right">
-                    <button
-                      className="btn btn--outline btn--edit paxs"
-                      onClick={this.handleClick}                  
-                      value={expense.id} 
-                      data-qa="history-edit-btn"     
-                    >
-                      Edit 
-                    </button>
-                  </div>
-
-                  {/* Adds visibility hidden to element instead of returning null so the space doesn't
-                      collapse and have text move a pixel or two */}
-                  <div className={(expense.id !== active - 1) && (expense.id !== active) ?
-                        "full-width divider divider--dotted mvn"
-                      : "full-width divider divider--dotted mvn visibility-hidden" }
-                  >
-                  </div>
-
-                  {(expense.id === active) ?
-                    <HistoryEditForm 
-                      thisExpense={expense} 
-                      isBeingEditedId={this.state.isBeingEditedId}
+                  <>
+                    <HistoryListing
+                      expense={expense}
+                      active={active}
+                      thisCategory={thisCategory}
                       handleClick={this.handleClick}
                     />
-                    : null }
-                </div>
+
+                    {/* Adds visibility hidden to element instead of returning null so the space doesn't
+                        collapse and have text move a pixel or two */}
+                    <div className={(expense.id !== active - 1) && (expense.id !== active) ?
+                          "full-width divider divider--dotted mvn"
+                        : "full-width divider divider--dotted mvn visibility-hidden" }
+                    />
+
+                    {(expense.id === active) ?
+                      <HistoryEditForm 
+                        thisExpense={expense} 
+                        isBeingEditedId={this.state.isBeingEditedId}
+                        handleClick={this.handleClick}
+                      />
+                      : null }
+                  </>
               );
             }
           )}

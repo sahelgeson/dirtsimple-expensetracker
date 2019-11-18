@@ -4,6 +4,7 @@ import { updateCategory, deleteCategory } from '../../redux/actions/categories-a
 import { renameExpensesCategory } from '../../redux/actions/expenses-actions';
 import OptionsAccordion from "./OptionsAccordion.jsx";
 import OptionsCategorySelect from "./OptionsCategorySelect.jsx";
+import OptionsRenameCategoryFormContents from "./OptionsRenameCategoryFormContents.jsx";
 import OptionsRenameCategoryRenameModal from "./OptionsRenameCategoryRenameModal.jsx";
 
 class OptionsRenameCategory extends Component {
@@ -141,33 +142,10 @@ class OptionsRenameCategory extends Component {
               handleOnChange={this.handleRenameCategoryChange}
             />
             {this.state.isChanging ?   
-              <div>
-                <label 
-                  htmlFor="renamecategory-new"           
-                  className="sr-only"
-                >
-                  Rename this category to 
-                </label>
-                <input 
-                  id="renamecategory-new"
-                  className="input gray-border full-width font-16 mvm"
-                  type="text" 
-                  spellCheck="true"
-                  placeholder="Rename Category to..."
-                  onChange={this.handleRenameCategoryNewChange}                 
-                  data-qa="options-rename-category-new-input"    
-                />   
-                <button
-                  className="input btn btn--blue full-width font-16 mvm"
-                  type="submit" 
-                  disabled={this.state.renamedCategoryNewName === ''}   
-                  value="Save" 
-                  data-qa="options-rename-save-btn"          
-                >
-                  Save
-                </button>
-              </div>       
-
+              <OptionsRenameCategoryFormContents
+                handleRenameCategoryNewChange={this.handleRenameCategoryNewChange}
+                isDisabled={this.state.renamedCategoryNewName === ''}
+              />   
             : null}
             <OptionsRenameCategoryRenameModal
               isOpen={(this.state.openModalName === 'rename')}

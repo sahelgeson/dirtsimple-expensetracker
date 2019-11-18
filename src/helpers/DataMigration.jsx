@@ -1,4 +1,5 @@
 import DefaultCategoriesNames from "../redux/constants/DefaultCategoriesNames";
+import { createUncategorizedCategory } from "./CreateUncategorizedCategory.jsx";
 import cuid from 'cuid';
 
 // these are data migrations to move expenses to the new redux store
@@ -18,6 +19,7 @@ export const dataMigration = () => {
       }
       return newCategory;
     });
+    categories = createUncategorizedCategory(categories);
   } else if (categories === undefined && allExpenses !== undefined) {
     /* myCategories is only saved if there was a change to the categories
       so you could have myExpenses with no myCategories, the following

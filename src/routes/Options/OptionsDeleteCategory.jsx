@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { deleteCategory } from '../../redux/actions/categories-actions';
 import OptionsAccordion from "./OptionsAccordion.jsx";
 import OptionsCategorySelect from "./OptionsCategorySelect.jsx";
-import ReactModal from 'react-modal';
-import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
+import OptionsDeleteCategoryModal from "./OptionsDeleteCategoryModal.jsx";
 
 class OptionsDeleteCategory extends Component{
   constructor(props) {
@@ -91,39 +90,16 @@ class OptionsDeleteCategory extends Component{
               handleFocus={this.handleFocus}
               handleOnChange={this.handleDeleteCategoryChange}
             />
-            <ReactModal
-              isOpen={(this.state.isModalOpen)}      
-              onRequestClose={this.closeModal}
-              shouldFocusAfterRender={false}
-              style={ReactModalStyles}
-              contentLabel="Deletion Modal"
+            <OptionsDeleteCategoryModal
+              isOpen={this.state.isModalOpen}      
+              closeModal={this.closeModal}
+              handleDeleteSubmit={this.handleDeleteSubmit}
             >
               <div>
                 Are you sure you want to delete the category "{this.state.deletedCategoryName}"? Any expenses with this category
                 will still exist and have the category "Uncategorized".
               </div>
-              <div className="pvl">
-                {/* doing onClick instead of just button type="submit" because a normal submit will
-                  make the submit button focussed after submission, and that interferes with the handleFocus 
-                  handler used to reset the success messaging */}
-                <button 
-                  type="button"
-                  form="deleteform"
-                  className="btn btn--red capitalize phm pvm mrxs left"
-                  onClick={(event) => this.handleDeleteSubmit(event)}
-                  data-qa="options-delete-submit-btn"
-                >
-                  Yes, Delete  
-                </button>     
-                <button 
-                  type="button"
-                  className="btn btn--outline capitalize phm pvm mrxs right"
-                  onClick={this.closeModal}
-                >
-                  No, Cancel
-                </button>
-              </div>
-            </ReactModal>
+            </OptionsDeleteCategoryModal>
           </div>
         : null }      
 

@@ -8,6 +8,9 @@ import rootReducer from './redux/reducers/reducers';
 import { loadState, saveState } from './helpers/LocalStorage';
 import { dataMigration } from './helpers/DataMigration';
 
+import { DirtSimpleHomePage } from "./routes/DirtSimpleHome";
+import { Route } from "react-router-dom";
+
 let initialState = loadState();
 
 if (initialState === undefined) {
@@ -61,7 +64,14 @@ store.subscribe(() => {
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
-            <App />
+            <Route
+                exact path="/"
+                render={() => <DirtSimpleHomePage />}
+            />
+            <Route
+                path="/app/expensetracker"
+                render={() => <App />}
+            />
         </BrowserRouter>
     </Provider>
 , document.getElementById('root'));

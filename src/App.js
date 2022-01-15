@@ -12,7 +12,7 @@ function App(props){
       <nav className="main-nav mbm">
         <ul className="flex">
           <li className="flex__1 main-nav__item">
-            <NavLink exact to="/"
+            <NavLink exact to="/app/expensetracker"
               className="main-nav__link pvm"
               data-qa="app-home-link"
             >
@@ -23,7 +23,7 @@ function App(props){
             </NavLink>
           </li>
           <li className="flex__1 main-nav__item">
-            <NavLink exact to="/history"
+            <NavLink exact to="/app/expensetracker/history"
               className="main-nav__link pvm"
               data-qa="app-history-link"
             >
@@ -31,7 +31,7 @@ function App(props){
             </NavLink> 
           </li>
           <li className="flex__1 main-nav__item">
-            <NavLink exact to="/options"
+            <NavLink exact to="/app/expensetracker/options"
               className="main-nav__link pvm"
               data-qa="app-options-link"
             >
@@ -41,14 +41,7 @@ function App(props){
         </ul>
       </nav>  
       <Route
-        exact path="/"
-        render={(props) => 
-          <div className="history-page">  
-            <Home {...props} />
-          </div>}
-      />
-      <Route
-        exact path="/history"
+        path="/app/expensetracker/history"
         render={(props) => 
           <div className="history">
             <ScrollToTop />  
@@ -56,12 +49,19 @@ function App(props){
           </div>}
       />
       <Route
-        exact path="/options"
+        path="/app/expensetracker/options"
         render={(props) => 
           <div className="options-page">        
             <Options {...props} />
           </div>}
-      />          
+      />       
+      <Route
+        exact path="/app/expensetracker/"
+        render={(props) => 
+          <div className="history-page">  
+            <Home {...props} />
+          </div>}
+      />   
     </div>
   );
 }

@@ -1,15 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Provider } from 'react-redux';
 import { createStore } from 'redux'
 import rootReducer from './redux/reducers/reducers';
 import { loadState, saveState } from './helpers/LocalStorage';
 import { dataMigration } from './helpers/DataMigration';
 
-import { DirtSimpleHomePage } from "./routes/DirtSimpleHome";
-import { Route } from "react-router-dom";
+import { DirtSimpleHomePage } from "./routes/DirtSimpleHome/DirtSimpleHome";
 
 let initialState = loadState();
 
@@ -59,19 +58,19 @@ store.subscribe(() => {
       of view)
     */
 
-
-
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
-            <Route
-                exact path="/"
-                render={() => <DirtSimpleHomePage />}
-            />
-            <Route
-                path="/app/expensetracker"
-                render={() => <App />}
-            />
+            <Routes>
+                <Route
+                    exact path="/"
+                    element={<DirtSimpleHomePage />}
+                />
+                <Route
+                    path="/app/expensetracker/*"
+                    element={<App />}
+                />
+            </Routes>
         </BrowserRouter>
     </Provider>
 , document.getElementById('root'));

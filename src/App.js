@@ -4,15 +4,29 @@ import Home from "./routes/Home/Home.jsx";
 import History from "./routes/History/History.jsx";
 import ScrollToTop from "./helpers/ScrollToTop.jsx";
 import Options from "./routes/Options/Options.jsx";
-import { Route, NavLink } from "react-router-dom";
+import { Route, Routes, NavLink } from "react-router-dom";
 
-function App(props){
+export const TEST = (props) => {
+  return (
+    <div className="container margin-0-auto phl">
+      <h1 
+        className="font-24 text-center gray-777 mtl pts"
+      >
+        <span className="logo-dirt">dirt</span>
+        <span className="logo-simple">simple</span>    
+      </h1>
+
+    </div>
+  );
+}
+
+function App(){
   return (
     <div>    
       <nav className="main-nav mbm">
         <ul className="flex">
           <li className="flex__1 main-nav__item">
-            <NavLink exact to="/app/expensetracker"
+            <NavLink end to="/app/expensetracker"
               className="main-nav__link pvm"
               data-qa="app-home-link"
             >
@@ -23,7 +37,7 @@ function App(props){
             </NavLink>
           </li>
           <li className="flex__1 main-nav__item">
-            <NavLink exact to="/app/expensetracker/history"
+            <NavLink end to="/app/expensetracker/history"
               className="main-nav__link pvm"
               data-qa="app-history-link"
             >
@@ -31,7 +45,7 @@ function App(props){
             </NavLink> 
           </li>
           <li className="flex__1 main-nav__item">
-            <NavLink exact to="/app/expensetracker/options"
+            <NavLink end to="/app/expensetracker/options"
               className="main-nav__link pvm"
               data-qa="app-options-link"
             >
@@ -40,28 +54,30 @@ function App(props){
           </li>
         </ul>
       </nav>  
-      <Route
-        path="/app/expensetracker/history"
-        render={(props) => 
-          <div className="history">
-            <ScrollToTop />  
-            <History {...props} />            
-          </div>}
-      />
-      <Route
-        path="/app/expensetracker/options"
-        render={(props) => 
-          <div className="options-page">        
-            <Options {...props} />
-          </div>}
-      />       
-      <Route
-        exact path="/app/expensetracker/"
-        render={(props) => 
-          <div className="history-page">  
-            <Home {...props} />
-          </div>}
-      />   
+      <Routes>
+        <Route
+          path="/app/expensetracker/history"
+          element={
+            <div className="history">
+              <ScrollToTop />  
+              <History />            
+            </div>}
+        />
+        <Route
+          path="/app/expensetracker/options"
+          element={
+            <div className="options-page">        
+              <Options />
+            </div>}
+        />       
+        <Route
+          path="/*"
+          element={
+            <div className="history-page">  
+              <Home />
+            </div>}
+        />
+      </Routes>   
     </div>
   );
 }

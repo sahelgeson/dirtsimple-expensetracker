@@ -4,7 +4,16 @@ const { format } = require('date-fns');
 
 function HistoryEditFormDatetime(props){
   /* The HTML input type="datetime-local" takes a custom format that is only part of the standard ISO format */
-  const formattedDatetime = format(props.datetime, 'YYYY-MM-DDTHH:mm');
+  //const TEST = parse(props.datetime);
+  //console.log(TEST);
+  //const formattedDatetime = format(parse(props.datetime), 'YYYY-MM-DDTHH:mm');
+
+  /* TODO xkcd infinite loop, this changes value which triggers onChange
+    s/b 2018-06-12T19:30 */
+
+  const formattedDatetime = format(new Date(props.datetime), "yyyy-MM-dd'T'HH:mm");
+
+  console.log(formattedDatetime);
 
   return( 
     <div className="mvm">

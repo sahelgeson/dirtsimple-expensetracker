@@ -56,7 +56,7 @@ function App(){
       </nav>  
       <Routes>
         <Route
-          path="/app/expensetracker/history"
+          path="/history"
           element={
             <div className="history">
               <ScrollToTop />  
@@ -64,7 +64,7 @@ function App(){
             </div>}
         />
         <Route
-          path="/app/expensetracker/options"
+          path="/options"
           element={
             <div className="options-page">        
               <Options />

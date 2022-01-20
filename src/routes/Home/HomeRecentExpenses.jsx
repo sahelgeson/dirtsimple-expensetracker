@@ -41,7 +41,7 @@ function HomeRecentExpenses(props){
       </div>
 
       <div className="text-center mvm">
-        <Link to="/history"
+        <Link to="history"
           className="link link--arrow relative phm"
           data-qa="main-form-see-all-btn"
         >

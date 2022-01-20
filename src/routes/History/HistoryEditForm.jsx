@@ -6,6 +6,8 @@ import HistoryEditFormAmount from "./HistoryEditFormAmount.jsx";
 import HistoryEditFormCategory from "./HistoryEditFormCategory.jsx";
 import HistoryEditFormDatetime from "./HistoryEditFormDatetime.jsx";
 import HistoryEditFormButtons from "./HistoryEditFormButtons.jsx";
+  
+const { format } = require('date-fns');
 
 /* if the amount entered is 0 or '' or invalid, save button will be disabled (isSaveDisabled) */
 function isAmountValid(amount) {
@@ -62,8 +64,10 @@ class HistoryEditForm extends Component{
 
   handleDateChange(event) {
     try {
-      const date = new Date(event.target.value).toString();
-      this.setState({datetime: date});  
+      const date = new Date(event.target.value);
+      // set state to formattedDatetime as temp hacky way to prevent onChange infinite loop
+      const formattedDatetime = format(date, "yyyy-MM-dd'T'HH:mm");
+      this.setState({datetime: formattedDatetime});  
       this.setButtonStates(isAmountValid(this.state.amount));   /* TODO: review this for possible async setState problems */
     } catch (e) { /* Chrome's datepicker is buggy and will sometimes have an empty string value */ }
   }

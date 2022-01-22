@@ -1,13 +1,25 @@
 import React from "react";
-import { PropTypes } from "prop-types";
 import ReactModal from 'react-modal';
 import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
 
-function OptionsCategoryDeleteModal(props){
+/*
+interface IProps {
+  isOpen: boolean;
+  closeModal: () => void;
+  handleDeleteSubmit: () => void;
+}
+*/
+export const OptionsDeleteCategoryModal = (props) => {
+  const {
+    isOpen,
+    closeModal,
+    handleDeleteSubmit,
+  } = props;
+
   return (
       <ReactModal
-        isOpen={props.isOpen}
-        onRequestClose={props.closeModal}
+        isOpen={isOpen}
+        onRequestClose={closeModal}
         shouldFocusAfterRender={false}
         style={ReactModalStyles}
         contentLabel="Deletion Modal"
@@ -21,7 +33,7 @@ function OptionsCategoryDeleteModal(props){
             type="button"
             form="deleteform"
             className="btn btn--red capitalize phm pvm mrxs left"
-            onClick={(event) => props.handleDeleteSubmit(event)}
+            onClick={(event) => handleDeleteSubmit(event)}
             data-qa="options-delete-submit-btn"
           >
             Yes, Delete  
@@ -29,7 +41,7 @@ function OptionsCategoryDeleteModal(props){
           <button 
             type="button"
             className="btn btn--outline capitalize phm pvm mrxs right"
-            onClick={props.closeModal}
+            onClick={closeModal}
           >
             No, Cancel
           </button>
@@ -37,11 +49,3 @@ function OptionsCategoryDeleteModal(props){
       </ReactModal>
   );
 }
-
-OptionsCategoryDeleteModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  closeModal: PropTypes.func.isRequired,
-  handleDeleteSubmit: PropTypes.func.isRequired,
-};
-
-export default OptionsCategoryDeleteModal;

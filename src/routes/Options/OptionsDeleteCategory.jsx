@@ -1,125 +1,89 @@
-import React, { Component} from "react";
-import { connect } from 'react-redux';
-import { deleteCategory } from '../../redux/actions/categories-actions';
-import OptionsAccordion from "./OptionsAccordion.jsx";
-import OptionsCategorySelect from "./OptionsCategorySelect.jsx";
-import OptionsDeleteCategoryModal from "./OptionsDeleteCategoryModal.jsx";
+import React, { useState } from "react";
+import { useGlobalState } from 'contexts';
+import { UNCATEGORIZED } from 'lib/constants';
+import { OptionsAccordion } from './OptionsAccordion';
+import { OptionsCategorySelect } from './OptionsCategorySelect';
+import { OptionsDeleteCategoryModal } from './OptionsDeleteCategoryModal';
 
-class OptionsDeleteCategory extends Component{
-  constructor(props) {
-    super(props);
-  
-    this.state = {
-      deletedCategoryId: 0,
-      deletedCategoryName: '',
-      isSaved: false,
-      isOpen: false,
-      isModalOpen: false,
-    }
+export const OptionsDeleteCategory = () => {
+  const { allCategories, deleteCategory } = useGlobalState();
+  const [deletedCategoryId, setDeletedCategoryId] = useState(null); // TODO: s/b Uuid type, see interfaces.ts comment
+  const [deletedCategoryName, setDeletedCategoryName] = useState('');
+  const [isSaved, setIsSaved] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    this.closeModal = this.closeModal.bind(this);
-    this.handleAccordionClick = this.handleAccordionClick.bind(this);  
-    this.handleFocus = this.handleFocus.bind(this);  
-    this.handleDeleteCategoryChange = this.handleDeleteCategoryChange.bind(this);
-    this.handleDeleteSubmit = this.handleDeleteSubmit.bind(this);
+  const closeModal = () => {
+    setIsModalOpen(false);
   }
 
-  closeModal() {
-    this.setState({isModalOpen: false});
-  }
-
-  handleAccordionClick() {
-    this.setState({
-      isOpen: !this.state.isOpen,
-      isSaved: false,
-    });
+  const handleAccordionClick = () => {
+    setIsOpen((prev) => !prev);
+    setIsSaved(false);
   } 
 
-  handleFocus() {
-    this.setState({
-        isSaved: false,
-        isModalOpen: false,
-    });
+  const handleFocus = () => {
+    setIsSaved(false);
+    setIsModalOpen(false);
   }  
   
-  handleDeleteCategoryChange(event) {
-    const allCategories = [...this.props.categories];
+  const handleDeleteCategoryChange = (event) => {
     const deletedCategory = allCategories.filter((category) => {
       return ( category.id === event.target.value );
     }).pop(); /* just want the object inside */
 
-    this.setState({
-      deletedCategoryId: event.target.value,
-      deletedCategoryName: deletedCategory.name,
-      isModalOpen: true,
-    });
+    setDeletedCategoryId(event.target.value);
+    setDeletedCategoryName(deletedCategory.name);
+    setIsModalOpen(true);
   } 
 
-  handleDeleteSubmit(event) {
+  const handleDeleteSubmit = (event) => {
     event.preventDefault();
-
-    this.props.deleteCategory(this.state.deletedCategoryId);
-
-    this.setState({
-        isModalOpen: false,
-        isSaved: true,
-    });
+    deleteCategory(deletedCategoryId);
+    setIsSaved(true);
+    setIsModalOpen(false);
   }  
 
- 
-  render(){
-    return(
-      <form
-        id="deleteform"
-        onSubmit={this.handleDeleteSubmit}
-        className="card mvl"
+  return (
+    <form
+      id="deleteform"
+      onSubmit={handleDeleteSubmit}
+      className="card mvl"
+    >
+      <OptionsAccordion
+        isOpen={isOpen}
+        label="deletecategory"
+        handleAccordionClick={handleAccordionClick}
       >
-       <OptionsAccordion
-          isOpen={this.state.isOpen}
-          label="deletecategory"
-          handleAccordionClick={this.handleAccordionClick}
-        >
-          Delete a category
-        </OptionsAccordion>  
+        Delete a category
+      </OptionsAccordion>  
 
-        {this.state.isOpen ? 
-          <div className="mhm">
-            <OptionsCategorySelect
-              htmlId="deletecategory"
-              value=""
-              handleFocus={this.handleFocus}
-              handleOnChange={this.handleDeleteCategoryChange}
-            />
-            <OptionsDeleteCategoryModal
-              isOpen={this.state.isModalOpen}      
-              closeModal={this.closeModal}
-              handleDeleteSubmit={this.handleDeleteSubmit}
-            >
-              <div>
-                Are you sure you want to delete the category "{this.state.deletedCategoryName}"? Any expenses with this category
-                will still exist and have the category "Uncategorized".
-              </div>
-            </OptionsDeleteCategoryModal>
-          </div>
-        : null }      
+      {isOpen && 
+        <div className="mhm">
+          <OptionsCategorySelect
+            htmlId="deletecategory"
+            value={deletedCategoryId || ''}   /* TODO rethink sending this down via props */
+            handleFocus={handleFocus}
+            handleOnChange={handleDeleteCategoryChange}
+          />
+          <OptionsDeleteCategoryModal
+            isOpen={isModalOpen}      
+            closeModal={closeModal}
+            handleDeleteSubmit={handleDeleteSubmit}
+          >
+            <div>
+              Are you sure you want to delete the category "{deletedCategoryName}"? Any expenses with this category
+              will still exist and have the category "{UNCATEGORIZED}". 
+            </div>
+          </OptionsDeleteCategoryModal>
+        </div>
+      }      
 
-        {this.state.isSaved && this.state.isOpen ?
-          <div className="status text-center gray-777 font-14 mbm">
-            Deleted!
-          </div>
-        : null }            
-      </form>
-
-    );
-  }
+      {isSaved && isOpen &&
+        <div className="status text-center gray-777 font-14 mbm">
+          Deleted!
+        </div>
+      }            
+    </form>
+  );
 }
-
-
-function mapStateToProps(state) {
-  return {
-    allExpenses: state.allExpenses,
-    categories: state.categories,
-  };
-}
-
-export default connect(mapStateToProps, { deleteCategory })(OptionsDeleteCategory);

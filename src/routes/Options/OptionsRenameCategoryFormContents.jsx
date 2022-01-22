@@ -1,7 +1,13 @@
-import React from "react";
-import { PropTypes } from "prop-types";
+import React from 'react';
 
-function OptionsRenameCategoryFormContents(props){
+/* 
+interface {
+  handleRenameCategoryNewChange: () => void;
+  isDisabled: string;
+}
+*/
+
+export const OptionsRenameCategoryFormContents = (props) => {
   return(
     <div>
       <label 
@@ -31,10 +37,3 @@ function OptionsRenameCategoryFormContents(props){
     </div>       
   );
 }
-
-OptionsRenameCategoryFormContents.propTypes = {
-  handleRenameCategoryNewChange: PropTypes.func.isRequired,
-  isDisabled: PropTypes.string.isRequired,
-};
-
-export default OptionsRenameCategoryFormContents;

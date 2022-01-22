@@ -1,9 +1,16 @@
-import React from "react";
-import { PropTypes } from "prop-types";
+import React from 'react';
 import ReactModal from 'react-modal';
 import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
 
-function OptionsRenameCategoryRenameModal(props){
+/*
+interface {
+  isOpen: boolean;
+  closeModal: () => void;
+  handleRenameSubmit: () => void;
+}
+*/
+
+export const OptionsRenameCategoryRenameModal = (props) => {
   return (
       <ReactModal
         isOpen={props.isOpen}
@@ -16,7 +23,7 @@ function OptionsRenameCategoryRenameModal(props){
           <button 
             type="button"
             className="btn btn--red capitalize phm pvm mrxs left"
-            onClick={(event) => props.handleRenameSubmit(event, {isOkayFromModal: true})}   
+            onClick={(event) => props.handleRenameSubmit(event, { isOkayFromModal: true })}   
             data-qa="options-rename-modal-yes-button"
           >
             Yes, Rename
@@ -32,11 +39,3 @@ function OptionsRenameCategoryRenameModal(props){
       </ReactModal>
   );
 }
-
-OptionsRenameCategoryRenameModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  closeModal: PropTypes.func.isRequired,
-  handleRenameSubmit: PropTypes.func.isRequired,
-};
-
-export default OptionsRenameCategoryRenameModal;

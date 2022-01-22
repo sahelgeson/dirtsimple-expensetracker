@@ -1,13 +1,26 @@
-import React from "react";
-import { PropTypes } from "prop-types";
+import React from 'react';
+import { 
+  Uuid,
+  ICategory,
+  IExpense,
+} from 'interfaces';
 
-function HistoryListing(props){
-  const expense = props.expense;
-  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+interface IProps {
+  expense: IExpense;
+  thisCategory: ICategory;
+  isBeingEditedId: Uuid;
+  handleClick: () => void;
+}
+
+// TODO: move this or see if we can use date-fns instead
+const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+export const HistoryListing = (props: IProps) => {
+  const { expense, thisCategory, isBeingEditedId, handleClick } = props;
 
   return (
     <div 
-      className={(expense.id === props.active) ? 
+      className={(expense.id === isBeingEditedId) ? 
           "ftable__row phs editing"
           : "ftable__row phs" }
       key={expense.id}
@@ -22,12 +35,12 @@ function HistoryListing(props){
         </span>
       </div>
       <div 
-        className={(props.thisCategory.id !== null) ?
+        className={(thisCategory.id !== null) ?
             "ftable__cell pvm phs"
           : "ftable__cell pvm phs italic gray-777" }
         data-qa="history-category"   
       >
-        {props.thisCategory.name}
+        {thisCategory.name}
       </div>
       <div className="ftable__cell ftable__cell--date pvm prxs"> 
         {days[new Date(expense.datetime).getDay()]},&nbsp; 
@@ -37,7 +50,7 @@ function HistoryListing(props){
       <div className="ftable__cell ftable__cell--edit text-right">
         <button
           className="btn btn--outline btn--edit paxs"
-          onClick={props.handleClick}                  
+          onClick={handleClick}                  
           value={expense.id} 
           data-qa="history-edit-btn"     
         >
@@ -47,12 +60,3 @@ function HistoryListing(props){
     </div>
   );
 }
-
-HistoryListing.propTypes = {
-  expense: PropTypes.object.isRequired,
-  active: PropTypes.bool.isRequired,
-  thisCategory: PropTypes.object.isRequired,
-  handleClick: PropTypes.func.isRequired,
-};
-
-export default HistoryListing;

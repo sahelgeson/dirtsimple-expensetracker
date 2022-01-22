@@ -1,10 +1,10 @@
 import React from "react";
-import OptionsAddCategory from "./OptionsAddCategory.jsx";
-import OptionsDeleteCategory from "./OptionsDeleteCategory.jsx";
-import OptionsRenameCategory from "./OptionsRenameCategory.jsx";
-import OptionsViewAllCategories from "./OptionsViewAllCategories.jsx";
+import { OptionsAddCategory } from './OptionsAddCategory';
+import { OptionsDeleteCategory } from './OptionsDeleteCategory';
+import { OptionsRenameCategory } from './OptionsRenameCategory.jsx';
+import { OptionsViewAllCategories } from './OptionsViewAllCategories';
 
-function Options(props){
+export const Options = () => {
   return(
     <div className="container margin-0-auto phl">
 
@@ -20,5 +20,3 @@ function Options(props){
     </div>
   );
 }
-
-export default Options;

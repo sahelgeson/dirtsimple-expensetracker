@@ -1,142 +1,110 @@
-import React, { Component} from "react";
-import { connect } from 'react-redux';
-import { addCategory } from '../../redux/actions/categories-actions';
+import React, { useState } from "react";
 import cuid from 'cuid';
-import OptionsAccordion from "./OptionsAccordion.jsx";
+import { useGlobalState } from 'contexts';
+import { OptionsAccordion } from './OptionsAccordion';
 import ReactModal from 'react-modal';
 import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
 
-class OptionsAddCategory extends Component{
-  constructor(props) {
-    super(props);
-  
-    this.state = {
-      isSaved: false,   
-      isOpen: false,   
-      newCategory: null,
-      isModalOpen: false,
-    }
+export const OptionsAddCategory = () => {
+  const { allCategories, addCategory } = useGlobalState();
+  const [newCategoryName, setNewCategoryName] = useState(null); // TODO: review usage of null
+  const [isSaved, setIsSaved] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    this.closeModal = this.closeModal.bind(this);
-    this.handleAccordionClick = this.handleAccordionClick.bind(this);    
-    this.handleAddCategoryChange = this.handleAddCategoryChange.bind(this);
-    this.handleFocus = this.handleFocus.bind(this);    
-    this.handleAddSubmit = this.handleAddSubmit.bind(this);
+  const closeModal = () => {
+    setIsModalOpen(false);
   }
 
-  closeModal() {
-    this.setState({isModalOpen: null});
-  }
-
-  handleAccordionClick() {
-    this.setState({
-      isOpen: !this.state.isOpen,
-      isSaved: false,
-    });
+  const handleAccordionClick = () => {
+    setIsOpen((prev) => !prev);
+    setIsSaved(false);
   } 
 
-  handleAddCategoryChange(event) {
-    this.setState({newCategory: event.target.value});
+  const handleAddCategoryChange = (event) => {
+    setNewCategoryName(event.target.value);
   } 
 
-  handleFocus() {
-    this.setState({
-        isSaved: false,
-        isModalOpen: false,
-    });
+  const handleFocus = () => {
+    setIsSaved(false);
+    setIsModalOpen(false);
   }  
 
-  handleAddSubmit(event) {
+  const handleAddSubmit = (event) => {
     event.preventDefault();
-    let categories = [...this.props.categories];
+
     /* Check if it is a duplicate category name */
-    let isAlreadyACategory = false;
-    categories.forEach((category) => {
-      if (category.name === this.state.newCategory) {
-        isAlreadyACategory = true;
-      }
-    });
+    const isAlreadyACategory = allCategories.some((category) => (category.name === newCategoryName));
 
     if (isAlreadyACategory) { 
-      this.setState({isModalOpen: true})
+      setIsModalOpen(true);
       return false;
     } else {
       let newCategory = {
         id: cuid(),
-        name: this.state.newCategory,
+        name: newCategoryName,
       }
-      this.props.addCategory(newCategory);
-      this.setState({isSaved: true});
+      addCategory(newCategory);
+      setIsSaved(true);
     }
   }  
 
-  render(){
-    return(
-      <form
-        onSubmit={this.handleAddSubmit}
-        className="card mtm mbl"
+  return(
+    <form
+      onSubmit={handleAddSubmit}
+      className="card mtm mbl"
+    >
+      <OptionsAccordion
+        isOpen={isOpen}
+        label="addcategory"
+        handleAccordionClick={handleAccordionClick}
       >
-        <OptionsAccordion
-          isOpen={this.state.isOpen}
-          label="addcategory"
-          handleAccordionClick={this.handleAccordionClick}
+        Add a category
+      </OptionsAccordion>          
+
+    {isOpen && 
+      <div className="mhm">
+        <input 
+          id="addcategory"
+          className="input gray-border full-width font-16 mvm"
+          type="text" 
+          spellCheck="true"
+          placeholder="New Category"
+          onChange={handleAddCategoryChange}
+          onFocus={handleFocus}
+          data-qa="options-add-category-input"    
+        />          
+        <ReactModal
+          isOpen={(isModalOpen)}
+          onRequestClose={closeModal}
+          style={ReactModalStyles}
+          contentLabel="Duplication Modal"
         >
-          Add a category
-        </OptionsAccordion>          
-
-      {this.state.isOpen ? 
-        <div className="mhm">
-          <input 
-            id="addcategory"
-            className="input gray-border full-width font-16 mvm"
-            type="text" 
-            spellCheck="true"
-            placeholder="New Category"
-            onChange={this.handleAddCategoryChange}
-            onFocus={this.handleFocus}
-            data-qa="options-add-category-input"    
-          />          
-          <ReactModal
-            isOpen={(this.state.isModalOpen)}
-            onRequestClose={this.closeModal}
-            style={ReactModalStyles}
-            contentLabel="Duplication Modal"
-          >
-            <div>
-              Warning: There is already a category with this name. No new category will be added.
-              <br />
-              <button 
-                className="btn btn--outline gray-777 block capitalize phm pvm mtm margin-0-auto"
-                onClick={this.closeModal}>Okay
-              </button>
-            </div>
-          </ReactModal>
+          <div>
+            Warning: There is already a category with this name. No new category will be added.
+            <br />
+            <button 
+              className="btn btn--outline gray-777 block capitalize phm pvm mtm margin-0-auto"
+              onClick={closeModal}>Okay
+            </button>
+          </div>
+        </ReactModal>
+  
+        <input 
+          className="input btn btn--blue full-width font-16 mvm"
+          type="submit" 
+          disabled={!newCategoryName?.length}
+          value="Save" 
+          data-qa="options-add-submit-btn"          
+        />
+      </div>        
+    }
     
-          <input 
-            className="input btn btn--blue full-width font-16 mvm"
-            type="submit" 
-            disabled={(this.state.newCategory && this.state.newCategory !== '') ? false : true}
-            value="Save" 
-            data-qa="options-add-submit-btn"          
-          />
-        </div>        
-      : null }
-
-      
-      {this.state.isSaved && this.state.isOpen ?
-        <div className="status text-center gray-777 font-14 mbm">
-          Saved!
-        </div>
-        : null }
-      </form>
-    );
-  }
+    {isSaved && isOpen &&
+      <div className="status text-center gray-777 font-14 mbm">
+        Saved!
+      </div>
+    }
+    </form>
+  );
 }
-
-function mapStateToProps(state) {
-  return {
-    categories: state.categories,
-  };
-}
-
-export default connect(mapStateToProps, { addCategory })(OptionsAddCategory);

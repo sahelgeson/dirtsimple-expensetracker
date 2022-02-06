@@ -1,7 +1,13 @@
-import React from "react";
-import { PropTypes } from "prop-types";
+import React from 'react';
+/* 
+interface IProps {
+  isOpen: boolean;
+  label: string;
+  handleAccordionClick: () => void;
+}
+*/
 
-function OptionsAccordion(props){
+export const OptionsAccordion = (props) => {
   return (
       <button 
         type="button"
@@ -20,11 +26,3 @@ function OptionsAccordion(props){
       </button>           
   );
 }
-
-OptionsAccordion.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  label: PropTypes.string.isRequired,
-  handleAccordionClick: PropTypes.func.isRequired,
-};
-
-export default OptionsAccordion;

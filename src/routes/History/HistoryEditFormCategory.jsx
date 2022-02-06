@@ -1,8 +1,14 @@
-import React from "react";
-import { PropTypes } from "prop-types";
+import React from 'react';
+import { UNCATEGORIZED } from 'lib/constants';
 
-function HistoryEditFormCategory(props){
-  return( 
+/*
+interface IProps {
+  category: ICategory;
+  allCategories: ICategory[];
+}
+*/
+export const HistoryEditFormCategory = (props) => {
+  return ( 
     <div className="mvm">
       <label 
         htmlFor="category" 
@@ -15,14 +21,14 @@ function HistoryEditFormCategory(props){
         className={(props.category !== null) ?
             "edit-input select-css gray-border font-16 plm pvs prxs"
           : "edit-input select-css gray-border font-16 plm pvs prxs italic gray-777" }
-        value={props.category || 'Uncategorized'} 
+        value={props.category || UNCATEGORIZED} 
         onChange={props.handleCategoryChange}
       >
         {/* filter out Uncategorized like normal, unless this expense's category
             is already 'Uncategorized'. In that case Uncategorized should show 
             up in the select */}
         {(props.category === null) ?
-            props.categories.map((category) =>
+            props.allCategories.map((category) =>
                 <option 
                   key={category.id}
                   value={category.id}
@@ -31,7 +37,7 @@ function HistoryEditFormCategory(props){
                 </option>
             )
           :
-            props.categories.map((category) => {
+            props.allCategories.map((category) => {
                 if (category.id !== null) {
                   return (
                     <option 
@@ -49,10 +55,3 @@ function HistoryEditFormCategory(props){
     </div>  
   );
 }
-
-HistoryEditFormCategory.propTypes = {
-  category: PropTypes.string,
-  categories: PropTypes.array.isRequired,
-};
-
-export default HistoryEditFormCategory;

@@ -1,19 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { connect } from 'react-redux';
-import HomeRecentExpensesListing from "./HomeRecentExpensesListing.jsx";
+import { useGlobalState } from 'contexts';
+import { HomeRecentExpensesListing } from './HomeRecentExpensesListing';
 
-function HomeRecentExpenses(props){
+const NUMBER_OF_RECENT_SHOWN = 7; 
+
+export const HomeRecentExpenses = () => {
+  const { allExpenses, allCategories } = useGlobalState();
   // TODO: consider moving this function into separate file to be reused
-  const recentExpensesSorted = [...props.allExpenses].sort(function(a, b) {
-    var dateA = new Date(a.datetime), dateB = new Date(b.datetime);
+  // spread array because sort sorts array in-place
+  const recentExpensesSorted = [...allExpenses].sort(function(a, b) {
+    let dateA = new Date(a.datetime), dateB = new Date(b.datetime);
     return dateB - dateA;
   });
 
   const latestExpenseId = recentExpensesSorted.length && recentExpensesSorted[0].id;
-  const numberOfRecentShown = 7; 
-
-  const allCategories = [...props.categories];
 
   return(
     <div className="card phm pvm mbl">
@@ -24,13 +25,14 @@ function HomeRecentExpenses(props){
         className="table font-14 full-width mbl"
         data-qa="recent-expenses"
       >
-        {recentExpensesSorted.slice(0,numberOfRecentShown).map((expense) => {
+        {recentExpensesSorted.slice(0,NUMBER_OF_RECENT_SHOWN).map((expense) => {
             const thisCategory = allCategories.filter((category) => {
               return ( category.id === expense.categoryId );
             }).pop(); /* just want the object inside */
 
             return (
               <HomeRecentExpensesListing
+                key={expense.id}
                 expense={expense}
                 latestExpenseId={latestExpenseId}
                 thisCategory={thisCategory}
@@ -51,13 +53,3 @@ function HomeRecentExpenses(props){
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return {
-    allExpenses: state.allExpenses,
-    categories: state.categories,
-  };
-}
-
-export default connect(mapStateToProps)(HomeRecentExpenses);
-

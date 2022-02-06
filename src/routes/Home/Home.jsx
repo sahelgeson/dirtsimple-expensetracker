@@ -1,9 +1,10 @@
 import React from "react";
-import { connect } from 'react-redux';
-import HomeForm from "./HomeForm.jsx";
-import HomeRecentExpenses from "./HomeRecentExpenses.jsx";
+import { useGlobalState } from 'contexts';
+import { HomeForm } from './HomeForm';
+import { HomeRecentExpenses } from './HomeRecentExpenses';
 
-function Home(props){
+export const Home = () => {
+  const { allExpenses } = useGlobalState();
   return (
     <div className="container margin-0-auto phl">
       <h1 
@@ -16,18 +17,9 @@ function Home(props){
       </h1>
       <HomeForm/>
 
-      {props.allExpenses.length ? 
-        <HomeRecentExpenses recentExpenses={props.allExpenses} /> 
-      : null}
+      {!!allExpenses.length && 
+        <HomeRecentExpenses recentExpenses={allExpenses} />
+      }
     </div>
   );
-}
-
-function mapStateToProps(state) {
-  return {
-    allExpenses: state.allExpenses,
-    categories:  state.categories,
-  };
-}
-
-export default connect(mapStateToProps)(Home);
+};

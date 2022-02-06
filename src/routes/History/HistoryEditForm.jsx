@@ -1,96 +1,96 @@
-import React, { Component } from "react";
-import { PropTypes } from "prop-types";
-import { connect } from 'react-redux';
-import { updateExpense, deleteExpense } from '../../redux/actions/expenses-actions';
-import HistoryEditFormAmount from "./HistoryEditFormAmount.jsx";
-import HistoryEditFormCategory from "./HistoryEditFormCategory.jsx";
-import HistoryEditFormDatetime from "./HistoryEditFormDatetime.jsx";
-import HistoryEditFormButtons from "./HistoryEditFormButtons.jsx";
+import React, { useState, useEffect } from 'react';
+import { useGlobalState } from 'contexts';
+import { isAmountValid } from 'helpers';
+import { DATETIME_FORMAT } from 'lib/constants';
+import { HistoryEditFormAmount } from './HistoryEditFormAmount';
+import { HistoryEditFormCategory } from './HistoryEditFormCategory';
+import { HistoryEditFormDatetime } from './HistoryEditFormDatetime';
+import { HistoryEditFormButtons } from './HistoryEditFormButtons';
   
-const { format } = require('date-fns');
+import { format } from 'date-fns';
 
-/* if the amount entered is 0 or '' or invalid, save button will be disabled (isSaveDisabled) */
-function isAmountValid(amount) {
-  return !!parseInt(amount, 10);
+/*
+interface IProps {
+  thisExpense: IExpense;
+  handleClick: () => void;
 }
+*/
 
-class HistoryEditForm extends Component{
-  constructor(props) {
-    super(props);
-  
-    const thisExpense = this.props.thisExpense; 
- 
-    this.state = {
-      amount: thisExpense.amount,
-      categoryId: thisExpense.categoryId,
-      datetime: thisExpense.datetime,
-      isSaveDisabled: true,
-      isSaved: false,
-      isModalOpen: false,
+export const HistoryEditForm = (props) => {
+  const { allCategories, updateExpense, deleteExpense } = useGlobalState();
+  const { thisExpense, handleClick } = props;
+
+  // okay to initialize state with props here because props won't change due to UI flow
+  // also we want the initial amount for disabling the save button
+  const [amount, setAmount] = useState(thisExpense.amount);
+  const [categoryId, setCategoryId] = useState(thisExpense.categoryId);
+  const [datetime, setDatetime] = useState(thisExpense.datetime);
+
+  const [isSaved, setIsSaved] = useState(false);
+  const [isSaveDisabled, setIsSaveDisabled] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const isValid = isAmountValid(amount);
+    /* if a user changes values back to original disable save button as affordance */
+    if (
+      amount === thisExpense.amount && 
+      categoryId === thisExpense.categoryId && 
+      datetime === thisExpense.datetime
+    ) {
+      setIsSaveDisabled(true);
+      setIsSaved(false);  
+    } else {
+      setIsSaveDisabled(!isValid);
+      setIsSaved(false);
     }
+  }, [amount, categoryId, datetime]);
 
-    this.handleAmountChange = this.handleAmountChange.bind(this);
-    this.handleCategoryChange = this.handleCategoryChange.bind(this);
-    this.handleDateChange = this.handleDateChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.setButtonStates = this.setButtonStates.bind(this);
-    this.deleteExpense = this.deleteExpense.bind(this);
+  /* 
+    when a user opens the form, the save button is disabled, but as soon as any of the inputs are changed
+    the save button should be enabled (as long as the amount is valid) 
+  */
+  useEffect(() => {
+    setIsSaveDisabled(true);
+    setIsSaved(false);
+  }, []);
+
+  // TODO review handlers
+  const handleAmountChange = (event) => {
+    setAmount(event.target.value);
   }
 
-  setButtonStates(isAmountValid) {
-    /* isSaveDisabled is in here and called by all change handlers because the initial state is disabled
-        so when a user opens the form, the save button is disabled, but as soon as any of the inputs are changed
-        the save button should be enabled (as long as the amount is valid) 
-    */
-    this.setState({
-      isSaveDisabled: !isAmountValid, 
-      isSaved: false,    
-    });
+  const handleCategoryChange = (event) => {
+    setCategoryId(event.target.value);
   }
 
-
-  handleAmountChange(event) {
-    const amount = event.target.value;
-    this.setState({amount: amount});
-    this.setButtonStates(isAmountValid(amount));
-  }
-
-  handleCategoryChange(event) {
-    this.setState({categoryId: event.target.value});
-    this.setButtonStates(isAmountValid(this.state.amount));     /* TODO: review this for possible async setState problems */
-  }
-
-  handleDateChange(event) {
+  const handleDateChange = (event) => {
     try {
       const date = new Date(event.target.value);
       // set state to formattedDatetime as temp hacky way to prevent onChange infinite loop
-      const formattedDatetime = format(date, "yyyy-MM-dd'T'HH:mm");
-      this.setState({datetime: formattedDatetime});  
-      this.setButtonStates(isAmountValid(this.state.amount));   /* TODO: review this for possible async setState problems */
+      const formattedDatetime = format(date, DATETIME_FORMAT);
+      setDatetime(formattedDatetime);  
     } catch (e) { /* Chrome's datepicker is buggy and will sometimes have an empty string value */ }
   }
 
-  openModal(event) {
+  const openModal = (event) => {
     event.preventDefault();
-    this.setState({isModalOpen: true});
+    setIsModalOpen(true);
   }
 
-  closeModal() {
-    this.setState({isModalOpen: false});
+  const closeModal = () => {
+    setIsModalOpen(false);
   }
 
-  deleteExpense() {
-    this.props.deleteExpense(this.props.thisExpense.id);
-    this.closeModal();
+  const deleteThisExpense = () => {
+    deleteExpense(thisExpense.id);
+    closeModal();
   }
 
-  handleSubmit(event) {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    if (!this.state.amount) { return false; } 
-    const id = this.props.thisExpense.id;
-    const {amount, categoryId, datetime} = this.state;
+    if (!amount) { return false; } 
+    const id = thisExpense.id;
 
     const editedExpense = {
       id,     
@@ -99,66 +99,44 @@ class HistoryEditForm extends Component{
       categoryId,
     }
 
-    this.setState({
-      isSaved: true,
-    })
-
-    this.props.updateExpense(editedExpense);
+    updateExpense(editedExpense);
+    setIsSaved(true);
   }  
 
-  render(){
-    const { amount, categoryId, datetime } = this.state;
-
-    return( 
-      <form  
-        className="ftable__row phm pbm pts mbs"
-      >
-        <legend className="legend pvn pbs mbs">
-            Edit
-        </legend>
-        <div className="full-width pbm">
-          <HistoryEditFormAmount  
-            amount={amount} 
-            handleAmountChange={this.handleAmountChange} 
-          />
-          <HistoryEditFormCategory 
-            category={categoryId} 
-            categories={this.props.categories} 
-            handleCategoryChange={this.handleCategoryChange} 
-          />
-          <HistoryEditFormDatetime 
-            datetime={datetime} 
-            handleDateChange={this.handleDateChange} 
-          />
-        </div>
-
-        <HistoryEditFormButtons 
-          amount={amount}
-          handleClick={this.props.handleClick}
-          handleSubmit={this.handleSubmit}
-          isSaveDisabled={this.state.isSaveDisabled}
-          isSaved={this.state.isSaved}
-          isModalOpen={this.state.isModalOpen}          
-          openModal={this.openModal}
-          closeModal={this.closeModal}
-          deleteExpense={this.deleteExpense}
+  return( 
+    <form  
+      className="ftable__row phm pbm pts mbs"
+    >
+      <legend className="legend pvn pbs mbs">
+        Edit
+      </legend>
+      <div className="full-width pbm">
+        <HistoryEditFormAmount  
+          amount={amount} 
+          handleAmountChange={handleAmountChange} 
         />
-      </form>
-    );
-  }
+        <HistoryEditFormCategory 
+          category={categoryId} 
+          allCategories={allCategories} 
+          handleCategoryChange={handleCategoryChange} 
+        />
+        <HistoryEditFormDatetime 
+          datetime={datetime} 
+          handleDateChange={handleDateChange} 
+        />
+      </div>
+
+      <HistoryEditFormButtons 
+        amount={amount}
+        handleClick={handleClick}
+        handleSubmit={handleSubmit}
+        isSaveDisabled={isSaveDisabled}
+        isSaved={isSaved}
+        isModalOpen={isModalOpen}          
+        openModal={openModal}
+        closeModal={closeModal}
+        deleteThisExpense={deleteThisExpense}
+      />
+    </form>
+  );
 }
-
-HistoryEditForm.propTypes = {
-  thisExpense: PropTypes.object.isRequired,
-  isBeingEditedId: PropTypes.string.isRequired,
-  handleClick: PropTypes.func.isRequired,
-};
-
-function mapStateToProps(state) {
-  return {
-    allExpenses: state.allExpenses,
-    categories:  state.categories,
-  };
-}
-
-export default connect(mapStateToProps, { deleteExpense, updateExpense })(HistoryEditForm);

@@ -1,67 +1,54 @@
-import React, { Component} from "react";
-import { connect } from 'react-redux';
-import OptionsAccordion from "./OptionsAccordion.jsx";
+import React, { useState } from 'react';
+import { useGlobalState } from 'contexts';
+import { OptionsAccordion } from './OptionsAccordion';
 
-class OptionsViewAllCategories extends Component{
-  constructor(props) {
-    super(props);
-  
-    this.state = {
-      isOpen: false,  
-    }
+export const OptionsViewAllCategories = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const { allCategories } = useGlobalState();
 
-    this.handleAccordionClick = this.handleAccordionClick.bind(this);    
-  }
-
-  handleAccordionClick() {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    });
+  const handleAccordionClick = () => {
+    setIsOpen((prev) => !prev);
   } 
 
-  render(){
-    return(
-      <div
-        className="card mtm mbl"
+  return (
+    <div className="card mtm mbl">
+      <OptionsAccordion
+        isOpen={isOpen}
+        label="view-all-categories"
+        handleAccordionClick={handleAccordionClick}
       >
-        <OptionsAccordion
-          isOpen={this.state.isOpen}
-          label="view-all-categories"
-          handleAccordionClick={this.handleAccordionClick}
-        >
-          View all categories
-        </OptionsAccordion>  
+        View all categories
+      </OptionsAccordion>  
 
-      {this.state.isOpen ? 
-        <div 
-          className="mhl mbl"
-          data-qa="options-view-all-categories-container"
-        >
-          <ul className="gray-777 mvs">
-          {this.props.categories.map((category) => {
-              if (category.id !== null) {
+    {isOpen && (
+      <div 
+        className="mhl mbl"
+        data-qa="options-view-all-categories-container"
+      >
+        <ul className="gray-777 mvs">
+          {/* allCategories will always have at least the Uncategorized category */}  
+          {allCategories.length === 1 ? (
+            <li>
+              No categories set up
+            </li>
+          ) : (
+            <>
+              {/* don't show Uncategorized category if there are any other categories */}
+              {allCategories.map((category) => {
                 return (
-                  <li
-                    key={category.id}
-                  >
-                    {category.name}
-                  </li>
-                )
-              } else { return null; }
-            }
-          )}
-          </ul>
-        </div>        
-      : null }
-      </div>
-    );
-  }
-}
+                  (category.id !== null) ? (
+                    <li key={category.id}>
+                      {category.name}
+                    </li>
+                  ) : null
+                )}
+              )}
+            </>
+          )}  
+        </ul>
+      </div>        
+    )}
+    </div>
+  );
+};
 
-function mapStateToProps(state) {
-  return {
-    categories: state.categories,
-  };
-}
-
-export default connect(mapStateToProps)(OptionsViewAllCategories);

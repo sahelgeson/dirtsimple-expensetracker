@@ -1,32 +1,43 @@
-import React, { useEffect, useRef } from "react";
-import { PropTypes } from "prop-types";
-import styled, { keyframes, css } from "styled-components";
+import React, { useEffect, useRef } from 'react';
+import styled, { keyframes, css } from 'styled-components';
 
-function HomeRecentExpensesListing(props){
-  const firstLoadFlag = useRef(true);
+const highlightfade = keyframes`{
+    from { background: rgba(255, 220, 110, 0.8); }
+    to { background: transparent; }
+  }
+`;
 
-  const highlightfade = keyframes`{
-      from { background: rgba(255, 220, 110, 0.8); }
-      to { background: transparent; }
-    }
-  `;
+const Transition = styled.div`
+  ${props => props.active && css`
+    animation: 1.5s ${highlightfade};
+  `}
+`;
 
-  const Transition = styled.div`
-    ${props => props.active && css`
-      animation: 1.5s ${highlightfade};
-    `}
-  `;
+/*
+interface {
+  expense: IExpense;
+  latestExpenseId: string;
+  thisCategory: ICategory;
+}
+*/
+
+export const HomeRecentExpensesListing = (props) => {
+  const firstLoadFlagForAnimation = useRef(true);
 
   useEffect(() => {
-    firstLoadFlag.current = false;
+    firstLoadFlagForAnimation.current = false;
   });
 
-  const expense = props.expense;
+  const { 
+    expense,
+    latestExpenseId,
+    thisCategory, 
+   } = props;
 
   return(
     <Transition 
       key={expense.id} 
-      active={!firstLoadFlag.current && (expense.id === props.latestExpenseId)}
+      active={!firstLoadFlagForAnimation.current && (expense.id === latestExpenseId)}
       className="tr"
     >     
       <div className="td pls pvs">
@@ -36,11 +47,11 @@ function HomeRecentExpensesListing(props){
         </span>
       </div>
       <div
-          className={(props.thisCategory.id !== null) ?
+          className={(thisCategory.id !== null) ?
             "td plm pvs"
           : "td plm pvs italic gray-777" }            
       >
-        {props.thisCategory.name}   
+        {thisCategory.name}   
       </div>
       <div className="td text-right prs pvs">
         {new Date(expense.datetime).getMonth() + 1}/                  
@@ -50,11 +61,4 @@ function HomeRecentExpensesListing(props){
   );
 }
 
-HomeRecentExpensesListing.propTypes = {
-  expense: PropTypes.object.isRequired,
-  latestExpenseId: PropTypes.string.isRequired,
-  thisCategory: PropTypes.object.isRequired,
-};
-
-export default HomeRecentExpensesListing;
 

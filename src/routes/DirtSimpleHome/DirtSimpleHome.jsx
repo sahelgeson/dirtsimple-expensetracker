@@ -12,7 +12,7 @@ const RightTriangle = styled.span`
   margin-left: .025rem;
 `
 
-export const DirtSimpleHomePage = (props) => {
+export const DirtSimpleHomePage = () => {
   return (
     <div className="container margin-0-auto phl">
       <h1 

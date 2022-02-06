@@ -1,8 +1,14 @@
-import React from "react";
-import { PropTypes } from "prop-types";
+import React from 'react';
 
-function HistoryEditFormAmount(props){
-  return( 
+/*
+interface IProps {
+  amount: string;
+  handleAmountChange: () => void;
+}
+*/
+
+export const HistoryEditFormAmount = (props) => {
+  return ( 
       <div className="mvm">
         <label 
           htmlFor="amount"   
@@ -25,10 +31,3 @@ function HistoryEditFormAmount(props){
       </div>
   );
 }
-
-HistoryEditFormAmount.propTypes = {
-  amount: PropTypes.string.isRequired,  
-  handleAmountChange: PropTypes.func.isRequired,
-};
-
-export default HistoryEditFormAmount;

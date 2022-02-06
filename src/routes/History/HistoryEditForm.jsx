@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useGlobalState } from 'contexts';
-import { isAmountValid } from 'helpers';
-import { DATETIME_FORMAT } from 'lib/constants';
+import { isAmountValid, formatDatetime } from 'helpers';
 import { HistoryEditFormAmount } from './HistoryEditFormAmount';
 import { HistoryEditFormCategory } from './HistoryEditFormCategory';
 import { HistoryEditFormDatetime } from './HistoryEditFormDatetime';
 import { HistoryEditFormButtons } from './HistoryEditFormButtons';
-  
-import { format } from 'date-fns';
 
 /*
 interface IProps {
@@ -65,11 +62,10 @@ export const HistoryEditForm = (props) => {
   }
 
   const handleDateChange = (event) => {
+    console.count('date change');
     try {
-      const date = new Date(event.target.value);
-      // set state to formattedDatetime as temp hacky way to prevent onChange infinite loop
-      const formattedDatetime = format(date, DATETIME_FORMAT);
-      setDatetime(formattedDatetime);  
+      const date = formatDatetime(event.target.value);
+      setDatetime(date);  
     } catch (e) { /* Chrome's datepicker is buggy and will sometimes have an empty string value */ }
   }
 
@@ -92,6 +88,7 @@ export const HistoryEditForm = (props) => {
     if (!amount) { return false; } 
     const id = thisExpense.id;
 
+    // TODO xkcd here
     const editedExpense = {
       id,     
       datetime,

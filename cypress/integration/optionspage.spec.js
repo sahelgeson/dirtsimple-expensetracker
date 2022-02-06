@@ -12,7 +12,7 @@ describe('Check that the options can be edited on the options page', function ()
                     cy.getQa('options-add-submit-btn').click().then(() =>{
                         // check localStorage to make sure it's added correctly
                         const state = JSON.parse(localStorage.getItem('state'));
-                        const categories = state.allCategories;
+                        const categories = state.categories;    // TODO: decouple keys from state variables
                         let hasThisCategory = false
                         categories.forEach((category) => {
                             if (category.name === 'TEST') {
@@ -37,7 +37,7 @@ describe('Check that the options can be edited on the options page', function ()
                             cy.getQa('options-rename-modal-yes-button').click().then(() => {                   
                                 // check localStorage to make sure it's added correctly
                                 const state = JSON.parse(localStorage.getItem('state'));
-                                const categories = state.allCategories;
+                                const categories = state.categories;    // TODO: decouple keys from state variables
                                 let hasNewCategory = false;
                                 let hasOldCategory = false;
                                 categories.forEach((category) => {
@@ -70,7 +70,7 @@ describe('Check that the options can be edited on the options page', function ()
                     cy.getQa('options-delete-submit-btn').click().then(() =>{
                         // check localStorage to make sure it's added correctly
                         const state = JSON.parse(localStorage.getItem('state'));
-                        const categories = state.allCategories;
+                        const categories = state.categories;     // TODO: decouple keys from state variables
                         let hasOldCategory = false;
                         
                         categories.forEach((category) => {

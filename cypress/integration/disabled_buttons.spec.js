@@ -27,25 +27,32 @@ describe('Check that save buttons are disabled when amount is zero, empty, or Na
         }); 
 
     });
-});    
-/*
+//});    
+
     describe('Check the save button on the edit form on the history page', function () {
         before(() => {
-            cy.visit('/', {
-                onBeforeLoad: window => {
-                    window.localStorage.setItem('myExpensesWithIds', JSON.stringify(testExpensesWithIds));
-                }
-              }).then(() => {
+            cy.visit('/');
+            /* TODO change this to add some expenses manually */
+            cy.getQa('main-form-amount-input').type('8').then(() =>{
+                cy.getQa('main-form-category-input').select('Clothes').then(() =>{
+                    cy.getQa('main-form-save-btn').click();
+                });
+            });                
+            cy.getQa('main-form-amount-input').type('12').then(() =>{
+                cy.getQa('main-form-category-input').select('Home').then(() =>{
+                    cy.getQa('main-form-save-btn').click();
+                });
+            }).then(() => {
                 cy.visit('/history/').then(() => {
                     cy.getQa('history-edit-btn').eq(0).click();
                 });
-            });            
+            });
         });   
 
         it('should open the first entry and check the button is disabled on open', function () {
             cy.getQa('history-form-save-btn').should('be.disabled');
         });  
-/*
+
         it('should open the first entry and check the button is disabled if user enters 0', function () {
             cy.getQa('history-form-amount-input').clear().type('0');
             cy.getQa('history-form-save-btn').should('be.disabled');
@@ -67,7 +74,7 @@ describe('Check that save buttons are disabled when amount is zero, empty, or Na
                 cy.getQa('history-form-saved-message').should('contain', 'Saved!')
             }); 
         }); 
-    */   
-    //});
+    
+    });
      
-//});
+});

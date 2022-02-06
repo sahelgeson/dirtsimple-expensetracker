@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import cuid from 'cuid';
 
 import { useGlobalState } from 'contexts';
-import { isAmountValid } from 'helpers';
+import { isAmountValid, formatDatetime } from 'helpers';
 
 export const HomeForm = () => {
   const { allCategories, addExpense } = useGlobalState();
@@ -41,7 +41,7 @@ export const HomeForm = () => {
         in a different timezone at 11pm, we don't need to convert it or have it show up as a 
         different time or even day in the UI. We use toString because JSON.stringify will use
         Date.toISOString on Date objects but not strings, and we don't want the timezone info */
-    const datetime = new Date().toString();
+    const datetime = formatDatetime();
 
     const id = cuid();
 

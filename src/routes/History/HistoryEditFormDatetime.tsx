@@ -9,7 +9,7 @@ interface IProps {
 }
 
 export const HistoryEditFormDatetime = (props: IProps) => {
-  /* The HTML input type="datetime-local" takes a custom format that is only part of the standard ISO format */
+  /* The HTML input type="datetime-local" takes a custom format that is a truncated part of the standard ISO format */
   /* e.g. 2018-06-12T19:30 */
 
   const { datetime, handleDateChange } = props;

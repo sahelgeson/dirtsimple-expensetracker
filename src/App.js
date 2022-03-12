@@ -3,6 +3,7 @@ import './css/App.scss';
 import { Home } from 'routes/Home/Home';
 import { History } from 'routes/History/History';
 import ScrollToTop from "./helpers/ScrollToTop.jsx";
+import { Stats } from 'routes/Stats/Stats';
 import { Options } from 'routes/Options/Options';
 import { Route, Routes, NavLink } from "react-router-dom";
 import { GlobalProvider } from 'contexts';
@@ -58,6 +59,13 @@ export const App = () => {
                 <Options />
               </div>}
           />       
+          <Route
+            path="/stats"
+            element={
+              <div className="stats-page">        
+                <Stats />
+              </div>}
+          />
           <Route
             path="/*"
             element={

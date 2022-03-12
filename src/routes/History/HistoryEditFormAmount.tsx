@@ -1,13 +1,11 @@
 import React from 'react';
 
-/*
 interface IProps {
   amount: string;
   handleAmountChange: () => void;
 }
-*/
 
-export const HistoryEditFormAmount = (props) => {
+export const HistoryEditFormAmount = (props: IProps) => {
   return ( 
       <div className="mvm">
         <label 

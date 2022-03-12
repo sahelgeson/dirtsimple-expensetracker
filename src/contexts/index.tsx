@@ -1,11 +1,12 @@
 import React, { useState, useContext, createContext, useCallback, useEffect, ReactNode } from 'react';
-import { compareAsc } from 'date-fns'
+import { compareAsc } from 'date-fns';
 import { createUncategorizedCategory } from 'helpers/CreateUncategorizedCategory';
 import { ICategory, IExpense, Uuid } from 'interfaces';
 import { DefaultCategories } from 'contexts/DefaultCategories';
 
 /* 
   For datetime, value is stored in localStorage, which means it has to go through JSON.stringify.
+  // TODO fix this, stick with one format
   JSON.stringify converts Date objects to an ISO format ( Date.toISOString => YYYY-MM-DDTHH:mm:ss.sssZ)
 
   We don't want timezones/GMT, just the local datetime, so we use Date.toString and just save the
@@ -29,6 +30,14 @@ import { DefaultCategories } from 'contexts/DefaultCategories';
 interface IGlobalContext {
   allExpenses: IExpense[];
   allCategories: ICategory[];
+  addExpense: (newExpense: IExpense) => void;
+  addCategory: (newCategory: ICategory) => void;
+  renameCategory: (renamedCategoryId: Uuid, newCategoryName: string) => void;
+  deleteCategory: (deletedCategoryId: Uuid) => void;
+  dedupeCategories: (originalCategoryId: Uuid, renamedCategoryId: Uuid) => void;
+  sortExpenses: () => void;
+  updateExpense: (updatedExpense: IExpense) => void;
+  deleteExpense: (deletedExpense: IExpense) => void;  
 }
 
 export const GlobalContext = createContext({} as IGlobalContext);

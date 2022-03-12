@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { HistoryEditForm } from './HistoryEditForm';
-import { HistoryListing } from "./HistoryListing";
+import { HistoryListing } from './HistoryListing';
 import { useGlobalState } from 'contexts';
 
 export const History = () => {
@@ -30,6 +31,15 @@ export const History = () => {
 
   return(
     <div className="container margin-0-auto phs">
+      <div className="mvm">
+        <Link to="../stats"    /* TODO this could be better */
+          className="link link--arrow relative phm"
+          data-qa="main-form-see-all-btn"
+        >
+          Stats
+        </Link>              
+      </div> 
+
       {(!allExpenses.length) 
         ? <div className="text-center">No expenses entered yet</div>
         : <div className="ftable font-16">

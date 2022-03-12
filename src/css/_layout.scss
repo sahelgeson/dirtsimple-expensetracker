@@ -7,6 +7,12 @@
   margin: 0 auto;
 }
 
+/* for certain elements on mobile to allow user to scroll down and give a visual
+  cue that there is nothing left to see */
+.mobile-margin-bottom {
+  margin-bottom: 4rem;
+}
+
 .block {
   display: block !important;
 }

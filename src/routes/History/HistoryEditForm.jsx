@@ -88,7 +88,6 @@ export const HistoryEditForm = (props) => {
     if (!amount) { return false; } 
     const id = thisExpense.id;
 
-    // TODO xkcd here
     const editedExpense = {
       id,     
       datetime,

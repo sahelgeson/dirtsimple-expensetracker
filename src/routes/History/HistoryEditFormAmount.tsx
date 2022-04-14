@@ -1,6 +1,8 @@
+import { ChangeEvent } from 'react';
+
 interface IProps {
   amount: string;
-  handleAmountChange: () => void;
+  handleAmountChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const HistoryEditFormAmount = (props: IProps): JSX.Element => {

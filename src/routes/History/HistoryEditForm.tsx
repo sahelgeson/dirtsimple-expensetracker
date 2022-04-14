@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { useGlobalState } from 'contexts';
 import { isAmountValid, formatDatetime } from 'helpers';
 import { HistoryEditFormAmount } from './HistoryEditFormAmount';
 import { HistoryEditFormCategory } from './HistoryEditFormCategory';
 import { HistoryEditFormDatetime } from './HistoryEditFormDatetime';
 import { HistoryEditFormButtons } from './HistoryEditFormButtons';
+import { IExpense } from 'interfaces';
 
-/*
 interface IProps {
   thisExpense: IExpense;
   handleClick: () => void;
 }
-*/
 
-export const HistoryEditForm = (props) => {
+export const HistoryEditForm = (props: IProps) => {
   const { allCategories, updateExpense, deleteExpense } = useGlobalState();
   const { thisExpense, handleClick } = props;
 
@@ -53,24 +52,24 @@ export const HistoryEditForm = (props) => {
   }, []);
 
   // TODO review handlers
-  const handleAmountChange = (event) => {
-    setAmount(event.target.value);
+  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setAmount(e.target.value);
   }
 
-  const handleCategoryChange = (event) => {
-    setCategoryId(event.target.value);
+  const handleCategoryChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setCategoryId(e.target.value);
   }
 
-  const handleDateChange = (event) => {
+  const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.count('date change');
     try {
-      const date = formatDatetime(event.target.value);
+      const date = formatDatetime(e.target.value);
       setDatetime(date);  
     } catch (e) { /* Chrome's datepicker is buggy and will sometimes have an empty string value */ }
   }
 
-  const openModal = (event) => {
-    event.preventDefault();
+  const openModal = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     setIsModalOpen(true);
   }
 
@@ -79,11 +78,11 @@ export const HistoryEditForm = (props) => {
   }
 
   const deleteThisExpense = () => {
-    deleteExpense(thisExpense.id);
+    deleteExpense(thisExpense);
     closeModal();
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!amount) { return false; } 
     const id = thisExpense.id;
@@ -97,6 +96,7 @@ export const HistoryEditForm = (props) => {
 
     updateExpense(editedExpense);
     setIsSaved(true);
+    return;    
   }  
 
   return( 

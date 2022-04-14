@@ -1,10 +1,11 @@
+import { ChangeEvent } from 'react';
 import { Datetime } from 'interfaces';
 import { DATETIME_FORMAT } from 'lib/constants';
 import { format } from 'date-fns';
 
 interface IProps {
   datetime: Datetime;
-  handleDateChange: () => void;
+  handleDateChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const HistoryEditFormDatetime = (props: IProps): JSX.Element => {

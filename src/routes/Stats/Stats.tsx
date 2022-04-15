@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { sub, isAfter } from 'date-fns';
 import { useGlobalState } from 'contexts';
@@ -51,7 +51,7 @@ const formatUsd = (dollars: number) => {
   return dollars ? `$${dollars.toFixed(2)}` : '---';
 }
 
-export const Stats = () => {
+export const Stats = (): JSX.Element => {
 
   const { allExpenses, allCategories } = useGlobalState();
 

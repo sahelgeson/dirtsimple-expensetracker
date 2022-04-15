@@ -51,7 +51,7 @@ interface IProps {
   children?: ReactNode;
 }
 
-export const GlobalProvider = (props: IProps) => {
+export const GlobalProvider: React.FC = (props: IProps) => {
 
   // TODO this will need to change based on what's in localStorage
   const [allExpenses, setAllExpenses] = useState<IExpense[]>([]);
@@ -201,4 +201,4 @@ export const GlobalProvider = (props: IProps) => {
   )
 };
 
-export const useGlobalState = () => useContext(GlobalContext);
+export const useGlobalState = (): IGlobalContext => useContext(GlobalContext);

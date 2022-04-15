@@ -1,4 +1,3 @@
-import React from 'react';
 import { 
   Uuid,
   ICategory,
@@ -15,7 +14,7 @@ interface IProps {
 // TODO: move this or see if we can use date-fns instead
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-export const HistoryListing = (props: IProps) => {
+export const HistoryListing = (props: IProps): JSX.Element => {
   const { expense, thisCategory, isBeingEditedId, handleClick } = props;
 
   return (

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useGlobalState } from 'contexts';
 
 interface IProps {
@@ -8,7 +7,7 @@ interface IProps {
   handleOnChange: () => void;
 }
 
-export const OptionsCategorySelect = (props: IProps) => {
+export const OptionsCategorySelect = (props: IProps): JSX.Element => {
   const { allCategories } = useGlobalState();
   const { htmlId, value, handleFocus, handleOnChange } = props;
 

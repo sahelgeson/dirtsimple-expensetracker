@@ -62,7 +62,7 @@ export const GlobalProvider: React.FC = (props: IProps) => {
     let savedState;
     try { 
       const serializedState = localStorage.getItem('state');
-      if (process.env.NODE_ENV === 'development') {
+      if (process.env.REACT_APP_TESTING === 'development') {
         savedState = test_state;
       } else if (serializedState !== null) {
         savedState = JSON.parse(serializedState);
@@ -75,7 +75,7 @@ export const GlobalProvider: React.FC = (props: IProps) => {
       setAllCategories(savedState.categories); // TODO: decouple keys from state variables
 
     } catch (err) { 
-      if (process.env.NODE_ENV === 'development') {
+      if (process.env.REACT_APP_TESTING === 'development') {
         savedState = test_state;
         // TODO ensure there is an "Uncategorized" category
         savedState.categories = createUncategorizedCategory(savedState.categories); // TODO: decouple keys from state variables
@@ -97,7 +97,7 @@ export const GlobalProvider: React.FC = (props: IProps) => {
         categories: allCategories,  // TODO: decouple keys from state variables
       }
       const serializedState = JSON.stringify(state);
-      if (process.env.NODE_ENV !== 'development') {    // don't save test data to localStorage
+      if (process.env.REACT_APP_TESTING !== 'development') {    // don't save test data to localStorage
         localStorage.setItem('state', serializedState);
       }
     } catch (err) { console.error(err); }

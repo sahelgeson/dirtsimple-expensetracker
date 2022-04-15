@@ -70,6 +70,7 @@ export const Stats = (): JSX.Element => {
         {filteredCategories.map((category) => {
           return (
             <CategoryStats 
+              key={category.id}
               category={category}
               selectedTimePeriod={selectedTimePeriod} 
             />

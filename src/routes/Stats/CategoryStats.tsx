@@ -14,13 +14,14 @@ const ListItem = styled.li`
 `;
 
 interface IProps {
+  key: string | number | null;
   category: ICategory;
   selectedTimePeriod: number;
 }
 
 export const CategoryStats = (props: IProps): JSX.Element => {
   const { allExpenses } = useGlobalState();
-  const { category, selectedTimePeriod } = props;
+  const { key, category, selectedTimePeriod } = props;
 
   interface IProps {
     allExpenses: IExpense[];
@@ -74,9 +75,7 @@ export const CategoryStats = (props: IProps): JSX.Element => {
   formatDifference = `${isPositiveDifference ? '+' : ''}${formatDifference}`;
 
   return (
-    <ListItem 
-      key={category.id}
-    >
+    <ListItem key={key}>
       <span>{category.name}</span>
 
       <span className="text-right italic">

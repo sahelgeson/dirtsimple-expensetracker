@@ -12,7 +12,7 @@ interface IProps {
   handleClick: () => void;
 }
 
-export const HistoryEditForm = (props: IProps) => {
+export const HistoryEditForm = (props: IProps): JSX.Element => {
   const { allCategories, updateExpense, deleteExpense } = useGlobalState();
   const { thisExpense, handleClick } = props;
 

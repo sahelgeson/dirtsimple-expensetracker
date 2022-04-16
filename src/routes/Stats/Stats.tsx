@@ -40,10 +40,6 @@ export const Stats = (): JSX.Element => {
 
   return (
     <div className="container margin-0-auto phl">
-      <h2 className="mtm text-center bold">
-        Stats
-      </h2>
-
       <ButtonBox>
         <TimeFrameButton
           className={selectedTimePeriod === 30 ? 'active' : ''}

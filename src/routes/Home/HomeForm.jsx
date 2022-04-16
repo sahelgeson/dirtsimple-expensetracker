@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import cuid from 'cuid';
 
 import { useGlobalState } from 'contexts';
@@ -8,11 +8,26 @@ export const HomeForm = () => {
   const { allCategories, addExpense } = useGlobalState();
 
   /* TODO: change this eventually so user can set default category */
-  const defaultCategoryId = allCategories[0]?.id  || [];
+  //const defaultCategoryId = allCategories[0]?.id  || [];
+
+/*
+
+export interface IExpense {
+  id: Uuid;
+  amount: Dollars;   // TODO migrate to Cents string
+  datetime: Datetime;
+  categoryId: number | string | null; // TODO change null to Symbol?
+}
+
+*/
 
   const [amount, setAmount] = useState('');
-  const [categoryId, setCategoryId] = useState(defaultCategoryId);
+  const [categoryId, setCategoryId] = useState('');
   const [isSaved, setIsSaved] = useState(false);
+
+  useEffect(() => {
+    setCategoryId(allCategories[0]?.id);
+  }, [allCategories]);
 
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
@@ -27,12 +42,15 @@ export const HomeForm = () => {
     setIsSaved(false);
   }
 
+  /* TODO xkcd change this to have deps? */
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!amount) { 
       setIsSaved(false);
       return false; 
     }  
+
+    if (!categoryId) { return false; }
       
     setIsSaved(true);
 
@@ -45,6 +63,11 @@ export const HomeForm = () => {
 
     const id = cuid();
 
+    /* 
+      do these exist:
+      datetime YES
+      categoryid
+    */
     const newExpense = {
       id,
       datetime,
@@ -90,13 +113,13 @@ export const HomeForm = () => {
         value={amount}
         data-qa="main-form-amount-input"    
       />
+
       <label
         htmlFor="category"
         className="block text-center gray-777 mbs"
       >
         Category
       </label>
-
       <select
         id="category"
         className="select-css input input-secondary full-width font-25 mbm"

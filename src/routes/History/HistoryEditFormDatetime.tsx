@@ -1,14 +1,14 @@
-import React from 'react';
+import { ChangeEvent } from 'react';
 import { Datetime } from 'interfaces';
 import { DATETIME_FORMAT } from 'lib/constants';
 import { format } from 'date-fns';
 
 interface IProps {
   datetime: Datetime;
-  handleDateChange: () => void;
+  handleDateChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const HistoryEditFormDatetime = (props: IProps) => {
+export const HistoryEditFormDatetime = (props: IProps): JSX.Element => {
   /* The HTML input type="datetime-local" takes a custom format that is a truncated part of the standard ISO format */
   /* e.g. 2018-06-12T19:30 */
 

@@ -3,7 +3,7 @@ import { compareAsc } from 'date-fns';
 import { createUncategorizedCategory } from 'helpers/CreateUncategorizedCategory';
 import { ICategory, IExpense, Uuid } from 'interfaces';
 import { DefaultCategories } from 'contexts/DefaultCategories';
-
+import { test_state } from 'test-state.js';
 /* 
   For datetime, value is stored in localStorage, which means it has to go through JSON.stringify.
   // TODO fix this, stick with one format
@@ -51,26 +51,43 @@ interface IProps {
   children?: ReactNode;
 }
 
-export const GlobalProvider = (props: IProps) => {
+export const GlobalProvider: React.FC = (props: IProps) => {
 
   // TODO this will need to change based on what's in localStorage
   const [allExpenses, setAllExpenses] = useState<IExpense[]>([]);
   const [allCategories, setAllCategories] = useState<ICategory[]>(initialState.allCategories);
-  
+
   // load saved data if it exists
   useEffect(() => {
+    let savedState;
     try { 
       const serializedState = localStorage.getItem('state');
-      if (serializedState !== null) {
-        const savedState = JSON.parse(serializedState);
+      if (process.env.REACT_APP_TESTING === 'development') {
+        savedState = test_state;
+      } else if (serializedState !== null) {
+        savedState = JSON.parse(serializedState);
+      }
+
+      // TODO ensure there is an "Uncategorized" category
+      savedState.categories = createUncategorizedCategory(savedState.categories); // TODO: decouple keys from state variables
+      // only setState if serializedState exists
+      setAllExpenses(savedState.allExpenses);
+      setAllCategories(savedState.categories); // TODO: decouple keys from state variables
+
+    } catch (err) { 
+      if (process.env.REACT_APP_TESTING === 'development') {
+        savedState = test_state;
         // TODO ensure there is an "Uncategorized" category
         savedState.categories = createUncategorizedCategory(savedState.categories); // TODO: decouple keys from state variables
         // only setState if serializedState exists
         setAllExpenses(savedState.allExpenses);
         setAllCategories(savedState.categories); // TODO: decouple keys from state variables
+      } else {
+        console.error(err); 
       }
-    } catch (err) { console.error(err); }
+    }
   }, []);
+
 
   // save data to localStorage whenever it changes
   useEffect(() => {
@@ -80,7 +97,9 @@ export const GlobalProvider = (props: IProps) => {
         categories: allCategories,  // TODO: decouple keys from state variables
       }
       const serializedState = JSON.stringify(state);
-      localStorage.setItem('state', serializedState);
+      if (process.env.REACT_APP_TESTING !== 'development') {    // don't save test data to localStorage
+        localStorage.setItem('state', serializedState);
+      }
     } catch (err) { console.error(err); }
   }, [allExpenses, allCategories]);
   
@@ -201,4 +220,4 @@ export const GlobalProvider = (props: IProps) => {
   )
 };
 
-export const useGlobalState = () => useContext(GlobalContext);
+export const useGlobalState = (): IGlobalContext => useContext(GlobalContext);

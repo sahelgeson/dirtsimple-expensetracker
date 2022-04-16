@@ -16,15 +16,14 @@ export const DefaultCategoriesNames = [
   'Other',
 ];
 
-export const DefaultCategories: ICategory[] = DefaultCategoriesNames.map((name) => {
+export const DefaultCategories: ICategory[] = DefaultCategoriesNames.map((name: string) => {
   return {
     id: cuid(),
     name,
   };
 });
 
-
-export const getDefaultCategories = (DefaultCategoriesNames: string[]) => {
+export const getDefaultCategories = (DefaultCategoriesNames: string[]): ICategory[] => {
   const categories: ICategory[] = DefaultCategoriesNames.map((name: string) => {
     return {
       id: cuid(),

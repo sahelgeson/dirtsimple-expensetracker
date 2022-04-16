@@ -31,15 +31,6 @@ export const History = () => {
 
   return(
     <div className="container margin-0-auto phs">
-      <div className="mvm">
-        <Link to="../stats"    /* TODO this could be better */
-          className="link link--arrow relative phm"
-          data-qa="main-form-see-all-btn"
-        >
-          Stats
-        </Link>              
-      </div> 
-
       {(!allExpenses.length) 
         ? <div className="text-center">No expenses entered yet</div>
         : <div className="ftable font-16">

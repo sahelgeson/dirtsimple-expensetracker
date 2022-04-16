@@ -10,6 +10,16 @@ describe('Check that the top nav item is properly highlighted depending on the p
             cy.getQa('app-history-link').click().then(() => {
                 cy.getQa('app-home-link').should('have.css', 'border-bottom-width').and('match', /0/);
                 cy.getQa('app-history-link').should('have.css', 'border-bottom-width').and('match', /2/);
+                cy.getQa('app-stats-link').should('have.css', 'border-bottom-width').and('match', /0/);
+                cy.getQa('app-options-link').should('have.css', 'border-bottom-width').and('match', /0/);
+            });
+        });   
+        it('should click on the Stats nav selection and then check that Stats has a bottom border and no other', function () {
+            cy.getQa('app-stats-link').should('have.css', 'border-bottom-width').and('match', /0/);
+            cy.getQa('app-stats-link').click().then(() => {
+                cy.getQa('app-home-link').should('have.css', 'border-bottom-width').and('match', /0/);
+                cy.getQa('app-history-link').should('have.css', 'border-bottom-width').and('match', /0/);
+                cy.getQa('app-stats-link').should('have.css', 'border-bottom-width').and('match', /2/);
                 cy.getQa('app-options-link').should('have.css', 'border-bottom-width').and('match', /0/);
             });
         });   
@@ -18,6 +28,7 @@ describe('Check that the top nav item is properly highlighted depending on the p
             cy.getQa('app-options-link').click().then(() => {
                 cy.getQa('app-home-link').should('have.css', 'border-bottom-width').and('match', /0/);
                 cy.getQa('app-history-link').should('have.css', 'border-bottom-width').and('match', /0/);
+                cy.getQa('app-stats-link').should('have.css', 'border-bottom-width').and('match', /0/);
                 cy.getQa('app-options-link').should('have.css', 'border-bottom-width').and('match', /2/);
             });
         });     
@@ -27,6 +38,7 @@ describe('Check that the top nav item is properly highlighted depending on the p
                 cy.getQa('app-home-link').click().then(() => {
                     cy.getQa('app-home-link').should('have.css', 'border-bottom-width').and('match', /2/);
                     cy.getQa('app-history-link').should('have.css', 'border-bottom-width').and('match', /0/);
+                    cy.getQa('app-stats-link').should('have.css', 'border-bottom-width').and('match', /0/);
                     cy.getQa('app-options-link').should('have.css', 'border-bottom-width').and('match', /0/);
                 });
             });

@@ -4,3 +4,8 @@ export const UNCATEGORIZED = 'Uncategorized'; // used in text display
   see comments in contexts/index
 */
 export const DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm";
+
+export const ONE_MONTH = 30;
+export const ONE_WEEK = 7;
+export const ONE_DAY = 1;
+export const DEFAULT_TIME_FRAME_IN_DAYS = ONE_WEEK;

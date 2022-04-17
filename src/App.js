@@ -26,19 +26,19 @@ export const App = () => {
               </NavLink>
             </li>
             <li className="flex__1 main-nav__item">
-              <NavLink end to="/app/expensetracker/history"
-                className="main-nav__link pvm"
-                data-qa="app-history-link"
-              >
-                All Expenses
-              </NavLink> 
-            </li>
-            <li className="flex__1 main-nav__item">
               <NavLink end to="/app/expensetracker/stats"
                 className="main-nav__link pvm"
                 data-qa="app-stats-link"
               >
                 Stats
+              </NavLink> 
+            </li>
+            <li className="flex__1 main-nav__item">
+              <NavLink end to="/app/expensetracker/history"
+                className="main-nav__link pvm"
+                data-qa="app-history-link"
+              >
+                All Expenses
               </NavLink> 
             </li>
             <li className="flex__1 main-nav__item">

@@ -4,6 +4,7 @@ export const UNCATEGORIZED = 'Uncategorized'; // used in text display
   see comments in contexts/index
 */
 export const DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm";
+export const EXPORT_DATETIME_FORMAT = "MM-dd-yyyy";
 
 export const ONE_MONTH = 30;
 export const ONE_WEEK = 7;

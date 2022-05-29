@@ -1,13 +1,14 @@
-import React from 'react';
-/* 
+import { ReactNode } from 'react';
+
 interface IProps {
+  children?: ReactNode;
   isOpen: boolean;
   label: string;
   handleAccordionClick: () => void;
 }
-*/
 
-export const OptionsAccordion = (props) => {
+
+export const OptionsAccordion = (props: IProps): JSX.Element => {
   return (
       <button 
         type="button"

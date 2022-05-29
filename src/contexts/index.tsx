@@ -88,7 +88,6 @@ export const GlobalProvider: React.FC = (props: IProps) => {
     }
   }, []);
 
-
   // save data to localStorage whenever it changes
   useEffect(() => {
     try {

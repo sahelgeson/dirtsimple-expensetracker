@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { ListItemGrid } from './styles';
 import { useGlobalState } from 'contexts';
 import { CategoryStats } from './CategoryStats';
-import { Total } from './Total';
+import { TotalStats } from './TotalStats';
+import { DEFAULT_TIME_FRAME_IN_DAYS, ONE_MONTH, ONE_WEEK } from 'lib/constants';
 
 const ButtonBox = styled.div`
   display: flex;
@@ -22,12 +23,13 @@ const TimeFrameButton = styled.button`
 
 const ListHeader = styled.h4`
   ${ListItemGrid}
+  color: #777;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
 `;
 
 export const Stats = (): JSX.Element => {
   const { allCategories } = useGlobalState();
-
-  const DEFAULT_TIME_FRAME_IN_DAYS = 30;
 
   const [selectedTimePeriod, setSelectedTimePeriod] = useState(DEFAULT_TIME_FRAME_IN_DAYS);
 
@@ -42,20 +44,22 @@ export const Stats = (): JSX.Element => {
     <div className="container margin-0-auto phl">
       <ButtonBox>
         <TimeFrameButton
-          className={selectedTimePeriod === 30 ? 'active' : ''}
-          onClick={() => setSelectedTimePeriod(30)}
-        >
-          Past 30 days
-        </TimeFrameButton>
-        <TimeFrameButton
-          className={selectedTimePeriod === 7 ? 'active' : ''}
-          onClick={() => setSelectedTimePeriod(7)}
+          className={selectedTimePeriod === ONE_WEEK ? 'active' : ''}
+          onClick={() => setSelectedTimePeriod(ONE_WEEK)}
         >
           Past week
         </TimeFrameButton>
+        <TimeFrameButton
+          className={selectedTimePeriod === ONE_MONTH ? 'active' : ''}
+          onClick={() => setSelectedTimePeriod(ONE_MONTH)}
+        >
+          Past 30 days
+        </TimeFrameButton>
       </ButtonBox>
       
-      <Total selectedTimePeriod={selectedTimePeriod} />
+      <TotalStats 
+        selectedTimePeriod={selectedTimePeriod} 
+      />
 
       <ListHeader>
         <span>Category</span>

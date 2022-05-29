@@ -42,7 +42,6 @@ export interface IExpense {
     setIsSaved(false);
   }
 
-  /* TODO xkcd change this to have deps? */
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!amount) { 
@@ -63,11 +62,6 @@ export interface IExpense {
 
     const id = cuid();
 
-    /* 
-      do these exist:
-      datetime YES
-      categoryid
-    */
     const newExpense = {
       id,
       datetime,

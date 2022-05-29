@@ -1,6 +1,972 @@
 export const test_state = {
   "allExpenses": [
     {
+      "id": "cl3ge7qnl000b3t5drvq6cnl2",
+      "datetime": "Sat May 21 2022 17:38:47 GMT-0400 (EDT)",
+      "amount": "22",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl3f3go06000j3t5dgrg74lqy",
+      "datetime": "Fri May 20 2022 19:50:02 GMT-0400 (EDT)",
+      "amount": "4",
+      "categoryId": "ckyj6www7000t3t5cqizacy0h"
+    },
+    {
+      "id": "cl3f34vcw000i3t5d06rhlf7d",
+      "datetime": "Fri May 20 2022 19:40:51 GMT-0400 (EDT)",
+      "amount": "12",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl3dmg3bf000h3t5domkeb71u",
+      "datetime": "Thu May 19 2022 19:05:55 GMT-0400 (EDT)",
+      "amount": "6",
+      "categoryId": "ckyn04ep0000m3t5ce9cxisv6"
+    },
+    {
+      "id": "cl3dmfs3z000g3t5dzyzx8mey",
+      "datetime": "Thu May 19 2022 19:05:41 GMT-0400 (EDT)",
+      "amount": "5",
+      "categoryId": "ckyj6www7000o3t5czh1t5rjo"
+    },
+    {
+      "id": "cl3dm850e000f3t5difsxx5w6",
+      "datetime": "Thu May 19 2022 18:59:44 GMT-0400 (EDT)",
+      "amount": "60",
+      "categoryId": "ckyj6www7000o3t5czh1t5rjo"
+    },
+    {
+      "id": "cl3d6dths000e3t5de9n40w0u",
+      "datetime": "Thu May 19 2022 11:36:15 GMT-0400 (EDT)",
+      "amount": "14",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl3d6dpjw000d3t5d8q1qwtvx",
+      "datetime": "Thu May 19 2022 11:36:10 GMT-0400 (EDT)",
+      "amount": "6",
+      "categoryId": "ckyn04ep0000m3t5ce9cxisv6"
+    },
+    {
+      "id": "cl3cbu7e5000c3t5dtc6fxsy1",
+      "datetime": "Wed May 18 2022 21:21:12 GMT-0400 (EDT)",
+      "amount": "56",
+      "categoryId": "ckyj6www7000o3t5czh1t5rjo"
+    },
+    {
+      "id": "cl3cbsps0000b3t5d2gk1715y",
+      "datetime": "Wed May 18 2022 21:20:02 GMT-0400 (EDT)",
+      "amount": "3",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl3c4ig1w000f3t5djhr27mh8",
+      "datetime": "Wed May 18 2022 17:56:06 GMT-0400 (EDT)",
+      "amount": "52",
+      "categoryId": "ckyj6www7000o3t5czh1t5rjo"
+    },
+    {
+      "id": "cl3brx77t000e3t5d0ktrj4cz",
+      "datetime": "Wed May 18 2022 12:03:39 GMT-0400 (EDT)",
+      "amount": "4",
+      "categoryId": "ckyj6www7000p3t5c2p976q9a"
+    },
+    {
+      "id": "cl3brx1ku000d3t5ddizh1n1y",
+      "datetime": "Wed May 18 2022 12:03:32 GMT-0400 (EDT)",
+      "amount": "2",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl3brw1q4000c3t5d19k8w92l",
+      "datetime": "Wed May 18 2022 12:02:45 GMT-0400 (EDT)",
+      "amount": "12",
+      "categoryId": "ckyj6www7000r3t5c7qzr7wo2"
+    },
+    {
+      "id": "cl3bk4s5d000b3t5dbggwldgl",
+      "datetime": "Wed May 18 2022 08:25:36 GMT-0400 (EDT)",
+      "amount": "6",
+      "categoryId": "ckyj6www7000w3t5cqzlwevil"
+    },
+    {
+      "id": "cl37hficv000m3t5d5wvoldv6",
+      "datetime": "Sun May 15 2022 11:58:53 GMT-0400 (EDT)",
+      "amount": "34",
+      "categoryId": "ckyj6www7000q3t5cra77vr8o"
+    },
+    {
+      "id": "cl37hfbnv000l3t5dpadiugen",
+      "datetime": "Sun May 15 2022 11:58:44 GMT-0400 (EDT)",
+      "amount": "6",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl37fh0yv000k3t5dxhzfw4st",
+      "datetime": "Sun May 15 2022 11:04:04 GMT-0400 (EDT)",
+      "amount": "2",
+      "categoryId": "ckyj6www7000w3t5cqzlwevil"
+    },
+    {
+      "id": "cl37fca8k000j3t5dur7i8hd7",
+      "datetime": "Sun May 15 2022 11:00:23 GMT-0400 (EDT)",
+      "amount": "6",
+      "categoryId": "ckyn04ep0000m3t5ce9cxisv6"
+    },
+    {
+      "id": "cl37fbpzz000i3t5d8uqg1g5a",
+      "datetime": "Sun May 15 2022 10:59:57 GMT-0400 (EDT)",
+      "amount": "10",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl36jajgi000h3t5dutv8hv3v",
+      "datetime": "Sat May 14 2022 20:03:14 GMT-0400 (EDT)",
+      "amount": "6",
+      "categoryId": "ckyj6www7000v3t5cajc88b3x"
+    },
+    {
+      "id": "cl36h1220000g3t5d75oyxg6h",
+      "datetime": "Sat May 14 2022 18:59:52 GMT-0400 (EDT)",
+      "amount": "47",
+      "categoryId": "ckyj6www7000w3t5cqzlwevil"
+    },
+    {
+      "id": "cl36f07hv000f3t5d6qwxm6ud",
+      "datetime": "Sat May 14 2022 18:03:14 GMT-0400 (EDT)",
+      "amount": "29",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl368q1l5000e3t5dartpe5wf",
+      "datetime": "Sat May 14 2022 15:07:22 GMT-0400 (EDT)",
+      "amount": "37",
+      "categoryId": "ckyj6www7000r3t5c7qzr7wo2"
+    },
+    {
+      "id": "cl367n62v000d3t5dyte26m81",
+      "datetime": "Sat May 14 2022 14:37:08 GMT-0400 (EDT)",
+      "amount": "54",
+      "categoryId": "ckyj6www7000t3t5cqizacy0h"
+    },
+    {
+      "id": "cl3607dg9000c3t5d6qc791fi",
+      "datetime": "Fri May 13 2022 11:08:00 GMT-0400 (EDT)",
+      "amount": "16",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl3607ag1000b3t5dvz2ak00x",
+      "datetime": "Fri May 13 2022 11:08:00 GMT-0400 (EDT)",
+      "amount": "17",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl337eujm000c3t5djgcv9xu4",
+      "datetime": "Thu May 12 2022 11:07:21 GMT-0500 (CDT)",
+      "amount": "4",
+      "categoryId": "ckyj6www7000v3t5cajc88b3x"
+    },
+    {
+      "id": "cl337eplz000b3t5durmt6w0s",
+      "datetime": "Thu May 12 2022 11:07:15 GMT-0500 (CDT)",
+      "amount": "20",
+      "categoryId": "ckyj6www7000t3t5cqizacy0h"
+    },
+    {
+      "id": "cl32f1ykh000b3t5dktx63tk2",
+      "datetime": "Wed May 11 2022 21:53:31 GMT-0500 (CDT)",
+      "amount": "9",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl31unqco000b3t5dovidwwbt",
+      "datetime": "Wed May 11 2022 12:22:34 GMT-0500 (CDT)",
+      "amount": "7",
+      "categoryId": "ckyn04ep0000m3t5ce9cxisv6"
+    },
+    {
+      "id": "cl31pfo7a000d3t5d1q2itgby",
+      "datetime": "Wed May 11 2022 09:56:20 GMT-0500 (CDT)",
+      "amount": "5",
+      "categoryId": "ckyn0ja5i00173t5cwv337rwb"
+    },
+    {
+      "id": "cl31kwv05000c3t5de3vmr49o",
+      "datetime": "Wed May 11 2022 07:49:44 GMT-0500 (CDT)",
+      "amount": "7",
+      "categoryId": "ckyn04ep0000m3t5ce9cxisv6"
+    },
+    {
+      "id": "cl3074vpw000b3t5dvgf91q1r",
+      "datetime": "Tue May 10 2022 08:36:18 GMT-0500 (CDT)",
+      "amount": "9",
+      "categoryId": "ckyn04ep0000m3t5ce9cxisv6"
+    },
+    {
+      "id": "cl31hnxbr000b3t5dxzl4xtcn",
+      "datetime": "Tue May 10 2022 06:18:00 GMT-0500 (CDT)",
+      "amount": "21",
+      "categoryId": "ckyj6www7000v3t5cajc88b3x"
+    },
+    {
+      "id": "cl2ziysj7000c3t5dt3tyeywc",
+      "datetime": "Mon May 09 2022 21:19:43 GMT-0500 (CDT)",
+      "amount": "36",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl2zitm2d000b3t5d6zde2q1e",
+      "datetime": "Mon May 09 2022 21:15:41 GMT-0500 (CDT)",
+      "amount": "39",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl2z3xv8m000d3t5dx74hz7oc",
+      "datetime": "Mon May 09 2022 14:19:05 GMT-0500 (CDT)",
+      "amount": "7",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl2z3xi1r000c3t5dy2rdd3a9",
+      "datetime": "Mon May 09 2022 14:18:48 GMT-0500 (CDT)",
+      "amount": "10",
+      "categoryId": "ckyj6www7000r3t5c7qzr7wo2"
+    },
+    {
+      "id": "cl2z3wqqm000b3t5dvs87iuoj",
+      "datetime": "Mon May 09 2022 14:18:13 GMT-0500 (CDT)",
+      "amount": "6",
+      "categoryId": "ckyj6www7000q3t5cra77vr8o"
+    },
+    {
+      "id": "cl2yoqhry000c3t5dlb5uizaz",
+      "datetime": "Mon May 09 2022 08:13:27 GMT-0400 (EDT)",
+      "amount": "8",
+      "categoryId": "ckyj6www7000v3t5cajc88b3x"
+    },
+    {
+      "id": "cl2ynaqrg000b3t5d97lviuoq",
+      "datetime": "Mon May 09 2022 07:33:13 GMT-0400 (EDT)",
+      "amount": "6",
+      "categoryId": "ckyj6www7000v3t5cajc88b3x"
+    },
+    {
+      "id": "cl2xg5t09000c3t5dexhp3nv6",
+      "datetime": "Sun May 08 2022 11:25:39 GMT-0400 (EDT)",
+      "amount": "16",
+      "categoryId": "ckyj6www7000v3t5cajc88b3x"
+    },
+    {
+      "id": "cl2xg5odd000b3t5djq0fu2r3",
+      "datetime": "Sun May 08 2022 11:25:33 GMT-0400 (EDT)",
+      "amount": "5",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl2wax2nl000b3t5dnfbc1ynv",
+      "datetime": "Sat May 07 2022 16:11:07 GMT-0400 (EDT)",
+      "amount": "51",
+      "categoryId": "ckyj6www7000o3t5czh1t5rjo"
+    },
+    {
+      "id": "cl2vbt8s7000d3t5d44d8dy9k",
+      "datetime": "Fri May 06 2022 23:48:22 GMT-0400 (EDT)",
+      "amount": "9",
+      "categoryId": "cl2vc4o28000e3t5dooru8a71"
+    },
+    {
+      "id": "cl2v13fpe000c3t5d4vm7jtkx",
+      "datetime": "Fri May 06 2022 18:48:22 GMT-0400 (EDT)",
+      "amount": "44",
+      "categoryId": "ckyj6www7000o3t5czh1t5rjo"
+    },
+    {
+      "id": "cl2v0tf3r000b3t5d18mp3ts3",
+      "datetime": "Fri May 06 2022 18:40:34 GMT-0400 (EDT)",
+      "amount": "4",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl2uxsu8o000h3t5du51zwqeu",
+      "datetime": "Fri May 06 2022 17:16:08 GMT-0400 (EDT)",
+      "amount": "36",
+      "categoryId": "ckyj6www7000o3t5czh1t5rjo"
+    },
+    {
+      "id": "cl2uxsshs000g3t5dey8f59nh",
+      "datetime": "Fri May 06 2022 17:16:06 GMT-0400 (EDT)",
+      "amount": "10",
+      "categoryId": "ckyj6www7000o3t5czh1t5rjo"
+    },
+    {
+      "id": "cl2uxco8q000f3t5disq4rq5k",
+      "datetime": "Fri May 06 2022 17:03:34 GMT-0400 (EDT)",
+      "amount": "15",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl2uxcfj0000e3t5dwjf5a6pm",
+      "datetime": "Fri May 06 2022 17:03:23 GMT-0400 (EDT)",
+      "amount": "4",
+      "categoryId": "ckyn0gtxg000z3t5cfol5xzf3"
+    },
+    {
+      "id": "cl2uxc42t000d3t5do9vkyudt",
+      "datetime": "Fri May 06 2022 17:03:08 GMT-0400 (EDT)",
+      "amount": "3",
+      "categoryId": "ckyn0gtxg000z3t5cfol5xzf3"
+    },
+    {
+      "id": "cl2uxajmq000c3t5d84y4h3na",
+      "datetime": "Fri May 06 2022 17:01:55 GMT-0400 (EDT)",
+      "amount": "15",
+      "categoryId": "ckyj6www7000w3t5cqzlwevil"
+    },
+    {
+      "id": "cl2uxac5j000b3t5d6wxx7p5y",
+      "datetime": "Fri May 06 2022 17:01:45 GMT-0400 (EDT)",
+      "amount": "6",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl2t4e6sr000h3t5dv3aekd8o",
+      "datetime": "Thu May 05 2022 10:45:10 GMT-0400 (EDT)",
+      "amount": "7",
+      "categoryId": "ckyn04ep0000m3t5ce9cxisv6"
+    },
+    {
+      "id": "cl2t4e111000g3t5drah6a61b",
+      "datetime": "Thu May 05 2022 10:45:02 GMT-0400 (EDT)",
+      "amount": "5",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl2scqmqu000f3t5dv2ikzmhe",
+      "datetime": "Wed May 04 2022 21:51:01 GMT-0400 (EDT)",
+      "amount": "5",
+      "categoryId": "ckyj6www7000w3t5cqzlwevil"
+    },
+    {
+      "id": "cl2scqhmc000e3t5ddhhf6s88",
+      "datetime": "Wed May 04 2022 21:50:54 GMT-0400 (EDT)",
+      "amount": "78",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl2s34zj9000d3t5dalic8vpr",
+      "datetime": "Wed May 04 2022 17:22:15 GMT-0400 (EDT)",
+      "amount": "9",
+      "categoryId": "ckyj6www7000v3t5cajc88b3x"
+    },
+    {
+      "id": "cl2s06k6w000c3t5dn0d9x1vo",
+      "datetime": "Wed May 04 2022 15:59:29 GMT-0400 (EDT)",
+      "amount": "11",
+      "categoryId": "ckyj6www7000t3t5cqizacy0h"
+    },
+    {
+      "id": "cl2rvcjor000b3t5dztn3amh8",
+      "datetime": "Wed May 04 2022 13:44:10 GMT-0400 (EDT)",
+      "amount": "2",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl2rnk2t2000i3t5d06132py8",
+      "datetime": "Wed May 04 2022 10:06:05 GMT-0400 (EDT)",
+      "amount": "18",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl2rnju6w000h3t5dcjejz5gs",
+      "datetime": "Wed May 04 2022 10:05:54 GMT-0400 (EDT)",
+      "amount": "9",
+      "categoryId": "ckyj6www7000p3t5c2p976q9a"
+    },
+    {
+      "id": "cl2rnjmxo000g3t5dee2mrpr6",
+      "datetime": "Wed May 04 2022 10:05:44 GMT-0400 (EDT)",
+      "amount": "18",
+      "categoryId": "ckyn0ja5i00173t5cwv337rwb"
+    },
+    {
+      "id": "cl2rkhx1x000f3t5d6lx14x45",
+      "datetime": "Wed May 04 2022 08:40:25 GMT-0400 (EDT)",
+      "amount": "4",
+      "categoryId": "ckyn0gtxg000z3t5cfol5xzf3"
+    },
+    {
+      "id": "cl2qsyxxy000e3t5dct4ne1u4",
+      "datetime": "Tue May 03 2022 19:49:50 GMT-0400 (EDT)",
+      "amount": "150",
+      "categoryId": "ckyj6www7000w3t5cqzlwevil"
+    },
+    {
+      "id": "cl2qjjs31000d3t5d8vtng79k",
+      "datetime": "Tue May 03 2022 15:26:06 GMT-0400 (EDT)",
+      "amount": "4",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl2p892uy000c3t5djt9ajdnx",
+      "datetime": "Mon May 02 2022 17:22:05 GMT-0400 (EDT)",
+      "amount": "17",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl2opm8bu000b3t5daetnyyt5",
+      "datetime": "Mon May 02 2022 08:40:26 GMT-0400 (EDT)",
+      "amount": "18",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl2nsx83b000c3t5dm2s2pr36",
+      "datetime": "Sun May 01 2022 17:25:12 GMT-0400 (EDT)",
+      "amount": "55",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl2nhqu5y000b3t5dt6v8uq07",
+      "datetime": "Sun May 01 2022 12:12:18 GMT-0400 (EDT)",
+      "amount": "41",
+      "categoryId": "ckyj6www7000t3t5cqizacy0h"
+    },
+    {
+      "id": "cl2l4o34u000c3t5dr8lr08lp",
+      "datetime": "Fri Apr 29 2022 20:30:42 GMT-0400 (EDT)",
+      "amount": "54",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl2kx9cb0000b3t5dui79bwb6",
+      "datetime": "Fri Apr 29 2022 17:03:17 GMT-0400 (EDT)",
+      "amount": "9",
+      "categoryId": "ckyj6www7000v3t5cajc88b3x"
+    },
+    {
+      "id": "cl2jqzn22000f3t5d2ddo9u7s",
+      "datetime": "Thu Apr 28 2022 21:20:00 GMT-0400 (EDT)",
+      "amount": "11",
+      "categoryId": "ckyj6www7000t3t5cqizacy0h"
+    },
+    {
+      "id": "cl2jqubsq000e3t5dp3mtghrp",
+      "datetime": "Thu Apr 28 2022 21:15:53 GMT-0400 (EDT)",
+      "amount": "53",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl2jqtxj0000d3t5dvj4oyun4",
+      "datetime": "Thu Apr 28 2022 21:15:34 GMT-0400 (EDT)",
+      "amount": "6",
+      "categoryId": "ckyj6www7000v3t5cajc88b3x"
+    },
+    {
+      "id": "cl2ixp9l3000c3t5dgz5sc6sf",
+      "datetime": "Thu Apr 28 2022 07:40:08 GMT-0400 (EDT)",
+      "amount": "33",
+      "categoryId": "ckyj6www7000w3t5cqzlwevil"
+    },
+    {
+      "id": "cl2i8q5ub000b3t5d9g2rzwx4",
+      "datetime": "Wed Apr 27 2022 20:00:59 GMT-0400 (EDT)",
+      "amount": "18",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl2guz2co000c3t5d4kbkfzzx",
+      "datetime": "Tue Apr 26 2022 20:48:13 GMT-0400 (EDT)",
+      "amount": "5",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl2guyxu9000b3t5d6oqsx4wf",
+      "datetime": "Tue Apr 26 2022 20:48:08 GMT-0400 (EDT)",
+      "amount": "7",
+      "categoryId": "ckyj6www7000p3t5c2p976q9a"
+    },
+    {
+      "id": "cl2gfqrhj000j3t5dm5dspqwp",
+      "datetime": "Tue Apr 26 2022 13:41:52 GMT-0400 (EDT)",
+      "amount": "11",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl2gfqmpa000i3t5d6ma0tu87",
+      "datetime": "Tue Apr 26 2022 13:41:46 GMT-0400 (EDT)",
+      "amount": "13",
+      "categoryId": "ckyn0ja5i00173t5cwv337rwb"
+    },
+    {
+      "id": "cl2gfqfga000h3t5d3i6s5otl",
+      "datetime": "Tue Apr 26 2022 13:41:36 GMT-0400 (EDT)",
+      "amount": "7",
+      "categoryId": "ckyn04ep0000m3t5ce9cxisv6"
+    },
+    {
+      "id": "cl2fcvig7000g3t5d55pnax5t",
+      "datetime": "Mon Apr 25 2022 19:33:48 GMT-0400 (EDT)",
+      "amount": "4",
+      "categoryId": "ckyj6www7000w3t5cqzlwevil"
+    },
+    {
+      "id": "cl2eunifi000f3t5d3rl778o4",
+      "datetime": "Mon Apr 25 2022 11:03:42 GMT-0400 (EDT)",
+      "amount": "4",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl2dnb82e000d3t5d6c5quxtv",
+      "datetime": "Sun Apr 24 2022 14:50:25 GMT-0400 (EDT)",
+      "amount": "14",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl2dnb6h7000c3t5dttlti4nr",
+      "datetime": "Sun Apr 24 2022 14:50:23 GMT-0400 (EDT)",
+      "amount": "12",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl2dhn0vo000b3t5diqx2aa2s",
+      "datetime": "Sun Apr 24 2022 12:11:38 GMT-0400 (EDT)",
+      "amount": "35",
+      "categoryId": "ckyj6www7000w3t5cqzlwevil"
+    },
+    {
+      "id": "cl2drlngk000e3t5dbaadjd6b",
+      "datetime": "Sat Apr 23 2022 16:50:00 GMT-0400 (EDT)",
+      "amount": "27",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl2bz6gz9000f3t5dixy7gaam",
+      "datetime": "Sat Apr 23 2022 10:47:07 GMT-0400 (EDT)",
+      "amount": "22",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl2bz69an000e3t5dagbno44x",
+      "datetime": "Sat Apr 23 2022 10:46:57 GMT-0400 (EDT)",
+      "amount": "5",
+      "categoryId": "ckyn0gtxg000z3t5cfol5xzf3"
+    },
+    {
+      "id": "cl2b5r1df000b3t5d7mi54zw0",
+      "datetime": "Fri Apr 22 2022 21:03:18 GMT-0400 (EDT)",
+      "amount": "20",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl2awhg68000b3t5d2ps0xinw",
+      "datetime": "Fri Apr 22 2022 16:43:54 GMT-0400 (EDT)",
+      "amount": "5",
+      "categoryId": "ckyn0ja5i00173t5cwv337rwb"
+    },
+    {
+      "id": "cl2anipkv000b3t5drmvazeen",
+      "datetime": "Fri Apr 22 2022 12:32:56 GMT-0400 (EDT)",
+      "amount": "15",
+      "categoryId": "ckyj6www7000v3t5cajc88b3x"
+    },
+    {
+      "id": "cl2brch3m000d3t5d6zgsabyk",
+      "datetime": "Fri Apr 22 2022 07:07:00 GMT-0400 (EDT)",
+      "amount": "20",
+      "categoryId": "ckyj6www7000t3t5cqizacy0h"
+    },
+    {
+      "id": "cl2brcet0000c3t5dbxuzgidz",
+      "datetime": "Fri Apr 22 2022 07:07:00 GMT-0400 (EDT)",
+      "amount": "53",
+      "categoryId": "ckyj6www7000t3t5cqizacy0h"
+    },
+    {
+      "id": "cl29r8xeo000g3t5dv1wozt1v",
+      "datetime": "Thu Apr 21 2022 21:29:32 GMT-0400 (EDT)",
+      "amount": "7",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl29c8wy2000f3t5dsdbxd1z5",
+      "datetime": "Thu Apr 21 2022 14:29:37 GMT-0400 (EDT)",
+      "amount": "22",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl29bzn7k000e3t5dbm9a4rfx",
+      "datetime": "Thu Apr 21 2022 14:22:25 GMT-0400 (EDT)",
+      "amount": "2",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl2958qab000d3t5dlw3576f8",
+      "datetime": "Thu Apr 21 2022 11:13:31 GMT-0400 (EDT)",
+      "amount": "2",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl285m1rc000c3t5du4c0ouvr",
+      "datetime": "Wed Apr 20 2022 18:36:06 GMT-0400 (EDT)",
+      "amount": "70",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl27ojqc9000b3t5dyokcx4dc",
+      "datetime": "Wed Apr 20 2022 10:38:25 GMT-0400 (EDT)",
+      "amount": "4",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl26j1q7o000f3t5dsljs8rrb",
+      "datetime": "Tue Apr 19 2022 15:16:41 GMT-0400 (EDT)",
+      "amount": "13",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl264woqm000e3t5dz1rqvfcw",
+      "datetime": "Tue Apr 19 2022 08:40:51 GMT-0400 (EDT)",
+      "amount": "24",
+      "categoryId": "ckyj6www7000r3t5c7qzr7wo2"
+    },
+    {
+      "id": "cl264qsnz000d3t5d0lxqbue7",
+      "datetime": "Tue Apr 19 2022 08:36:16 GMT-0400 (EDT)",
+      "amount": "1",
+      "categoryId": "ckyj6www7000w3t5cqzlwevil"
+    },
+    {
+      "id": "cl264qqwv000c3t5dfue04qth",
+      "datetime": "Tue Apr 19 2022 08:36:14 GMT-0400 (EDT)",
+      "amount": "122",
+      "categoryId": "ckyj6www7000w3t5cqzlwevil"
+    },
+    {
+      "id": "cl24vo9i0000b3t5d2cfwq9db",
+      "datetime": "Mon Apr 18 2022 11:34:35 GMT-0400 (EDT)",
+      "amount": "16",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl23odbfd000d3t5dlk7m3hkv",
+      "datetime": "Sun Apr 17 2022 15:22:21 GMT-0400 (EDT)",
+      "amount": "29",
+      "categoryId": "ckyj6www7000t3t5cqizacy0h"
+    },
+    {
+      "id": "cl23d5wbj000c3t5dqr6y8h3r",
+      "datetime": "Sun Apr 17 2022 10:08:39 GMT-0400 (EDT)",
+      "amount": "11",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl23d5qx6000b3t5dwt7kd2xj",
+      "datetime": "Sun Apr 17 2022 10:08:32 GMT-0400 (EDT)",
+      "amount": "6",
+      "categoryId": "ckyn04ep0000m3t5ce9cxisv6"
+    },
+    {
+      "id": "cl22qoy4t000d3t5dfciuf4u8",
+      "datetime": "Sat Apr 16 2022 23:39:37 GMT-0400 (EDT)",
+      "amount": "3",
+      "categoryId": "ckyj6www7000v3t5cajc88b3x"
+    },
+    {
+      "id": "cl228efmr000c3t5d4hxf44z4",
+      "datetime": "Sat Apr 16 2022 15:07:33 GMT-0400 (EDT)",
+      "amount": "11",
+      "categoryId": "ckyj6www7000t3t5cqizacy0h"
+    },
+    {
+      "id": "cl2277b1o000b3t5d0j0h65vt",
+      "datetime": "Sat Apr 16 2022 14:34:01 GMT-0400 (EDT)",
+      "amount": "9",
+      "categoryId": "ckyn0ja5i00173t5cwv337rwb"
+    },
+    {
+      "id": "cl21wpzh9000d3t5c8jj61o7q",
+      "datetime": "Sat Apr 16 2022 09:40:36 GMT-0400 (EDT)",
+      "amount": "55",
+      "categoryId": "ckyj6www7000w3t5cqzlwevil"
+    },
+    {
+      "id": "cl2168nez000c3t5clvx6mv7q",
+      "datetime": "Fri Apr 15 2022 21:19:18 GMT-0400 (EDT)",
+      "amount": "30",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl2168jm5000b3t5c2dy3c9mz",
+      "datetime": "Fri Apr 15 2022 21:19:13 GMT-0400 (EDT)",
+      "amount": "12",
+      "categoryId": "ckyj6www7000v3t5cajc88b3x"
+    },
+    {
+      "id": "cl20j8pjh000f3t5cvi5ple01",
+      "datetime": "Fri Apr 15 2022 10:35:29 GMT-0400 (EDT)",
+      "amount": "4",
+      "categoryId": "ckyn0ja5i00173t5cwv337rwb"
+    },
+    {
+      "id": "cl20iwzka000e3t5ck3hxu6aq",
+      "datetime": "Fri Apr 15 2022 10:26:22 GMT-0400 (EDT)",
+      "amount": "6",
+      "categoryId": "ckyj6www7000w3t5cqzlwevil"
+    },
+    {
+      "id": "cl20iwg77000d3t5c2nriuyvc",
+      "datetime": "Fri Apr 15 2022 10:25:57 GMT-0400 (EDT)",
+      "amount": "21",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl20i53jl000c3t5cdxry6k2h",
+      "datetime": "Fri Apr 15 2022 10:04:41 GMT-0400 (EDT)",
+      "amount": "11",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl20i4xa7000b3t5cg071wpss",
+      "datetime": "Fri Apr 15 2022 10:04:33 GMT-0400 (EDT)",
+      "amount": "63",
+      "categoryId": "ckyn0ja5i00173t5cwv337rwb"
+    },
+    {
+      "id": "cl1yx2a5b000b3t5cdihtwd89",
+      "datetime": "Thu Apr 14 2022 07:26:52 GMT-0400 (EDT)",
+      "amount": "3",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl1wo6uuh000c3t5cq192cmbj",
+      "datetime": "Tue Apr 12 2022 17:42:56 GMT-0400 (EDT)",
+      "amount": "33",
+      "categoryId": "ckyj6www7000p3t5c2p976q9a"
+    },
+    {
+      "id": "cl1wo6ilv000b3t5ctrx9971i",
+      "datetime": "Tue Apr 12 2022 17:42:40 GMT-0400 (EDT)",
+      "amount": "10",
+      "categoryId": "ckyn04ep0000m3t5ce9cxisv6"
+    },
+    {
+      "id": "cl1vay38t000b3t5c1s94ud26",
+      "datetime": "Mon Apr 11 2022 18:44:26 GMT-0400 (EDT)",
+      "amount": "55",
+      "categoryId": "ckyj6www7000q3t5cra77vr8o"
+    },
+    {
+      "id": "cl1tkusl1000b3t5czouz68jk",
+      "datetime": "Sun Apr 10 2022 13:46:16 GMT-0400 (EDT)",
+      "amount": "2",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl1sk33h0000c3t5cyd2q4waj",
+      "datetime": "Sat Apr 09 2022 20:36:58 GMT-0400 (EDT)",
+      "amount": "50",
+      "categoryId": "ckyj6www7000s3t5c88fzr9ae"
+    },
+    {
+      "id": "cl1sf2w2l000b3t5cjgw93tb4",
+      "datetime": "Sat Apr 09 2022 18:16:50 GMT-0400 (EDT)",
+      "amount": "10",
+      "categoryId": "ckyn04ep0000m3t5ce9cxisv6"
+    },
+    {
+      "id": "cl1s68kn4000c3t5ci39aycyw",
+      "datetime": "Sat Apr 09 2022 14:09:18 GMT-0400 (EDT)",
+      "amount": "7",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl1s68gm7000b3t5c0l9579fx",
+      "datetime": "Sat Apr 09 2022 14:09:13 GMT-0400 (EDT)",
+      "amount": "8",
+      "categoryId": "ckyj6www7000o3t5czh1t5rjo"
+    },
+    {
+      "id": "cl1pkj1vk000g3t5c1m62g1op",
+      "datetime": "Thu Apr 07 2022 18:26:03 GMT-0400 (EDT)",
+      "amount": "6",
+      "categoryId": "ckyj6www7000w3t5cqzlwevil"
+    },
+    {
+      "id": "cl1pkiypy000f3t5cvdyd50lo",
+      "datetime": "Thu Apr 07 2022 18:25:59 GMT-0400 (EDT)",
+      "amount": "6",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl1pk8k3u000e3t5chsw0b75v",
+      "datetime": "Thu Apr 07 2022 18:17:54 GMT-0400 (EDT)",
+      "amount": "20",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl1pk8cm8000d3t5cevzxzg5q",
+      "datetime": "Thu Apr 07 2022 18:17:44 GMT-0400 (EDT)",
+      "amount": "5",
+      "categoryId": "ckyj6www7000w3t5cqzlwevil"
+    },
+    {
+      "id": "cl1piocwo000c3t5cyhnjgzw0",
+      "datetime": "Thu Apr 07 2022 17:34:12 GMT-0400 (EDT)",
+      "amount": "59",
+      "categoryId": "ckyj6www7000o3t5czh1t5rjo"
+    },
+    {
+      "id": "cl1pikbm6000b3t5cb52ufu3m",
+      "datetime": "Thu Apr 07 2022 17:31:04 GMT-0400 (EDT)",
+      "amount": "31",
+      "categoryId": "ckyj6www7000q3t5cra77vr8o"
+    },
+    {
+      "id": "cl1nydmph000l3t5cf78u8dhi",
+      "datetime": "Wed Apr 06 2022 15:18:13 GMT-0400 (EDT)",
+      "amount": "11",
+      "categoryId": "ckyj6www7000t3t5cqizacy0h"
+    },
+    {
+      "id": "cl1ovqfj2000c3t5c3yqc3xuy",
+      "datetime": "Wed Apr 06 2022 06:51:00 GMT-0400 (EDT)",
+      "amount": "9",
+      "categoryId": "ckyj6www7000v3t5cajc88b3x"
+    },
+    {
+      "id": "cl1ovq78r000b3t5cmc1xdbbm",
+      "datetime": "Wed Apr 06 2022 06:51:00 GMT-0400 (EDT)",
+      "amount": "84",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl1ms4q83000k3t5czz2n4n83",
+      "datetime": "Tue Apr 05 2022 19:35:34 GMT-0400 (EDT)",
+      "amount": "52",
+      "categoryId": "ckyj6www7000o3t5czh1t5rjo"
+    },
+    {
+      "id": "cl1mm7fy8000j3t5cnhwjy32g",
+      "datetime": "Tue Apr 05 2022 16:49:43 GMT-0400 (EDT)",
+      "amount": "8",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl1maigkz000i3t5cdtv16lfq",
+      "datetime": "Tue Apr 05 2022 11:22:21 GMT-0400 (EDT)",
+      "amount": "200",
+      "categoryId": "ckyj6www7000s3t5c88fzr9ae"
+    },
+    {
+      "id": "cl1maibdo000h3t5c3rx0fqy0",
+      "datetime": "Tue Apr 05 2022 11:22:14 GMT-0400 (EDT)",
+      "amount": "6",
+      "categoryId": "ckyn04ep0000m3t5ce9cxisv6"
+    },
+    {
+      "id": "cl1mai53i000g3t5c621pys8j",
+      "datetime": "Tue Apr 05 2022 11:22:06 GMT-0400 (EDT)",
+      "amount": "16",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl1l398he000f3t5c446v41df",
+      "datetime": "Mon Apr 04 2022 15:11:27 GMT-0400 (EDT)",
+      "amount": "4",
+      "categoryId": "ckyn0ja5i00173t5cwv337rwb"
+    },
+    {
+      "id": "cl1l32c8o000e3t5ce6xa116f",
+      "datetime": "Mon Apr 04 2022 15:06:06 GMT-0400 (EDT)",
+      "amount": "16",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl1kuawn6000d3t5c47gwvyoi",
+      "datetime": "Mon Apr 04 2022 11:00:49 GMT-0400 (EDT)",
+      "amount": "22",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl1jyc8rs000c3t5cvukkbp4q",
+      "datetime": "Sun Apr 03 2022 20:06:03 GMT-0400 (EDT)",
+      "amount": "4",
+      "categoryId": "ckyj6www7000o3t5czh1t5rjo"
+    },
+    {
+      "id": "cl1jyc4ez000b3t5c3gyvw5fw",
+      "datetime": "Sun Apr 03 2022 20:05:58 GMT-0400 (EDT)",
+      "amount": "3",
+      "categoryId": "ckyn0gtxg000z3t5cfol5xzf3"
+    },
+    {
+      "id": "cl1jgfhut000e3t5czz619taq",
+      "datetime": "Sun Apr 03 2022 11:44:42 GMT-0400 (EDT)",
+      "amount": "3",
+      "categoryId": "ckyj6www7000v3t5cajc88b3x"
+    },
+    {
+      "id": "cl1jgfbqq000d3t5c70mi8d0j",
+      "datetime": "Sun Apr 03 2022 11:44:34 GMT-0400 (EDT)",
+      "amount": "62",
+      "categoryId": "ckyj6www7000r3t5c7qzr7wo2"
+    },
+    {
+      "id": "cl1jf22j3000c3t5cf2kgozg2",
+      "datetime": "Sun Apr 03 2022 11:06:16 GMT-0400 (EDT)",
+      "amount": "9",
+      "categoryId": "ckyj6www7000v3t5cajc88b3x"
+    },
+    {
+      "id": "cl1jajrtf000b3t5cjakxsuzt",
+      "datetime": "Sun Apr 03 2022 09:00:04 GMT-0400 (EDT)",
+      "amount": "26",
+      "categoryId": "ckyj6www7000r3t5c7qzr7wo2"
+    },
+    {
+      "id": "cl1idvgzh000d3t5cj5vcr89z",
+      "datetime": "Sat Apr 02 2022 17:45:22 GMT-0400 (EDT)",
+      "amount": "5",
+      "categoryId": "ckyn04ep0000m3t5ce9cxisv6"
+    },
+    {
+      "id": "cl1ia1627000c3t5c9hf1qa0y",
+      "datetime": "Sat Apr 02 2022 15:57:50 GMT-0400 (EDT)",
+      "amount": "5",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl1ia12k8000b3t5c8i3entu9",
+      "datetime": "Sat Apr 02 2022 15:57:45 GMT-0400 (EDT)",
+      "amount": "6",
+      "categoryId": "ckyn04ep0000m3t5ce9cxisv6"
+    },
+    {
+      "id": "cl1i8tfk6000e3t5cwybgk4p8",
+      "datetime": "Sat Apr 02 2022 15:23:49 GMT-0400 (EDT)",
+      "amount": "30",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl1i6v8s7000d3t5ck80rvksl",
+      "datetime": "Sat Apr 02 2022 14:29:14 GMT-0400 (EDT)",
+      "amount": "40",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
+      "id": "cl1i12lxp000c3t5c30zu7tee",
+      "datetime": "Fri Apr 01 2022 11:47:00 GMT-0400 (EDT)",
+      "amount": "6",
+      "categoryId": "ckyj6www7000v3t5cajc88b3x"
+    },
+    {
+      "id": "cl1i12h96000b3t5ce01atrb9",
+      "datetime": "Fri Apr 01 2022 11:46:00 GMT-0400 (EDT)",
+      "amount": "74",
+      "categoryId": "ckyj6www7000n3t5c7xexiz21"
+    },
+    {
       "id": "cl1feiavz000i3t5c54yq0qyz",
       "datetime": "Thu Mar 31 2022 15:39:49 GMT-0400 (EDT)",
       "amount": "13",
@@ -47,6 +1013,12 @@ export const test_state = {
       "datetime": "Wed Mar 30 2022 20:09:59 GMT-0400 (EDT)",
       "amount": "7",
       "categoryId": "ckyn04ep0000m3t5ce9cxisv6"
+    },
+    {
+      "id": "cl1ge50ut000j3t5c444d2861",
+      "datetime": "Wed Mar 30 2022 08:17:00 GMT-0400 (EDT)",
+      "amount": "9",
+      "categoryId": "ckyj6www7000u3t5c1b9ha222"
     },
     {
       "id": "cl19ixjhz000v3t5cmn8t99w3",
@@ -1343,6 +2315,12 @@ export const test_state = {
       "datetime": "2022-01-01T08:25",
       "amount": "21",
       "categoryId": "ckyj6www7000m3t5c89p5wzzx"
+    },
+    {
+      "id": "cl3hfrn41000b3t5decu4hy9b",
+      "datetime": "Sun May 22 2022 11:10:01 GMT-0400 (EDT)",
+      "amount": "24",
+      "categoryId": "ckyj6www7000m3t5c89p5wzzx"
     }
   ],
   "categories": [
@@ -1405,6 +2383,10 @@ export const test_state = {
     {
       "id": "ckyn0ja5i00173t5cwv337rwb",
       "name": "Coffee"
+    },
+    {
+      "id": "cl2vc4o28000e3t5dooru8a71",
+      "name": "Games"
     }
   ]
 }

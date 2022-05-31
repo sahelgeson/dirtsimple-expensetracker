@@ -1,5 +1,6 @@
 import { sub, isWithinInterval } from 'date-fns';
 import { IExpense } from 'interfaces';
+import { test_state } from 'test-state.js';
 
 interface IGetExpensesProps {
   selectedExpenses: IExpense[];
@@ -9,7 +10,12 @@ interface IGetExpensesProps {
 
 // TODO make this function more reusable, particularly with function in routes/Stats/Total
 export const getTimeFrameExpenses = ({ selectedExpenses, selectedTimePeriod, numOfPeriodsAgo = 0 }: IGetExpensesProps): IExpense[] => {
-  const now = new Date();
+  let now = new Date();
+  // TODO centralize testing related code
+  if (process.env.REACT_APP_TESTING === 'development') {
+    const lastTestDate = test_state.allExpenses[0].datetime;
+    now = new Date(lastTestDate);
+  }
 
   const endCutoff = sub(now, { days: (selectedTimePeriod * numOfPeriodsAgo) });
   // start is just end minus the selectedTimePeriod
@@ -31,6 +37,7 @@ interface IGetChartDataArrayProps {
   selectedTimePeriod: number,
 }
 
+// TODO move this somewhere more appropriate?
 export interface IChartData {
   dateIndex: number;
   amount: number;

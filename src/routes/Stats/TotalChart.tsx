@@ -1,7 +1,8 @@
 import { Chart } from './Chart';
 import { IExpense } from 'interfaces';
 import { ONE_DAY, ONE_MONTH } from 'lib/constants';
-import { getChartDataArray } from './helpers';
+import { getChartDataArray, IChartData } from './helpers';
+import { ChartAverage } from './ChartAverage';
 import { ChartTitle } from './styles';
 
 interface IProps {
@@ -12,7 +13,7 @@ interface IProps {
 export const TotalChart = (props: IProps): JSX.Element => {
   const { selectedExpenses, selectedTimePeriod } = props;
 
-  const chartDataArray = getChartDataArray({
+  const chartDataArray: IChartData[] = getChartDataArray({
     numOfTimePeriodsToShow: selectedTimePeriod, /* matching to get daily figures */
     selectedExpenses,
     selectedTimePeriod: ONE_DAY,
@@ -30,6 +31,8 @@ export const TotalChart = (props: IProps): JSX.Element => {
       ) : (
         <>
           <Chart chartDataArray={chartDataArray} color={'#1b8e1b'} />
+          {/* TODO figure this out when doing previous periods for Total */}
+          <ChartAverage numOfPeriods={chartDataArray.length} totals={chartDataArray}>Daily Avg:</ChartAverage>
           <ChartTitle>Total per day for {selectedTimePeriod.toString()} days</ChartTitle>    
         </>
       )}   

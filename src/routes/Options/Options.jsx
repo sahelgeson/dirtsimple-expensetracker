@@ -3,6 +3,7 @@ import { OptionsAddCategory } from './OptionsAddCategory';
 import { OptionsDeleteCategory } from './OptionsDeleteCategory';
 import { OptionsRenameCategory } from './OptionsRenameCategory.jsx';
 import { OptionsViewAllCategories } from './OptionsViewAllCategories';
+import { ExportImportData } from './ExportImportData';
 
 export const Options = () => {
   return(
@@ -16,7 +17,7 @@ export const Options = () => {
       <OptionsDeleteCategory />
       <OptionsRenameCategory />
       <OptionsViewAllCategories />
-
+      <ExportImportData />
     </div>
   );
 }

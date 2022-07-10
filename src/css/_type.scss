@@ -10,26 +10,30 @@ body {
 
 
 .font-25 {
-  font-size: 25px;
+  font-size: 25px !important;
 }
 .font-16 {
-  font-size: 16px;
+  font-size: 16px !important;
 }
 .font-14 {
-  font-size: 14px;
+  font-size: 14px !important;
 }
 .font-12 {
-  font-size: 12px;
+  font-size: 12px !important;
+}
+
+.normal {  
+  font-weight: normal !important; 
 }
 
 .bold {  
-  font-weight: bold; 
+  font-weight: bold !important; 
 }
 
 .italic {
-  font-style: italic;
+  font-style: italic !important;
 }
 
 .capitalize {
-  text-transform: capitalize;
+  text-transform: capitalize !important;
 }

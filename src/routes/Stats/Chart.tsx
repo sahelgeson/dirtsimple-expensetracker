@@ -33,7 +33,7 @@ export const Chart = (props: IProps): JSX.Element => {
     <ResponsiveContainer width="100%" height={200}>
       <BarChartStyled width={500} height={450} margin={{ top: 20, right: 0, bottom: 0, left: 0 }} data={chartDataArray}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="dateIndex" />
+        <XAxis dataKey="dateLabel" />
         <YAxis dataKey="amount" width={40} />
         <Bar dataKey="amount" fill={color || '#8884d8'} label={renderCustomBarLabel} />
       </BarChartStyled>

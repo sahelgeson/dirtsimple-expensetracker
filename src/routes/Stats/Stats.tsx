@@ -1,25 +1,10 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { ListItemGrid } from './styles';
+import { ListItemGrid, ButtonBox, TimeFrameButton } from './styles';
 import { useGlobalState } from 'contexts';
 import { CategoryStats } from './CategoryStats';
 import { TotalStats } from './TotalStats';
 import { DEFAULT_TIME_FRAME_IN_DAYS, ONE_MONTH, ONE_WEEK } from 'lib/constants';
-
-const ButtonBox = styled.div`
-  display: flex;
-  justify-content: space-around;
-`;
-
-const TimeFrameButton = styled.button`
-  padding: 0.5rem;
-  width: 100%;
-  color: #777;
-  border-bottom: 2px solid transparent;
-  &.active {
-    border-bottom: 2px solid #999;
-  }
-`;
 
 const ListHeader = styled.h4`
   ${ListItemGrid}

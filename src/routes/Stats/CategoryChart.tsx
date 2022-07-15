@@ -2,7 +2,7 @@ import { Chart } from './Chart';
 import { IExpense } from 'interfaces';
 import { getChartDataArray, IChartData } from './helpers';
 import { ChartTitle } from './styles';
-import { ONE_MONTH } from 'lib/constants';
+import { ONE_MONTH, DEFAULT_NUM_OF_TIME_PERIODS } from 'lib/constants';
 import { ChartAverage } from './ChartAverage';
 
 interface IProps {
@@ -18,13 +18,11 @@ export interface IChartData {
 }
 */
 
-const NUM_OF_TIME_PERIODS = 4;
-
 export const CategoryChart = (props: IProps): JSX.Element => {
   const { selectedExpenses, selectedTimePeriod } = props;
 
   const chartDataArray: IChartData[] = getChartDataArray({
-    numOfTimePeriodsToShow: NUM_OF_TIME_PERIODS,
+    numOfTimePeriodsToShow: DEFAULT_NUM_OF_TIME_PERIODS,
     selectedExpenses,
     selectedTimePeriod,
   });
@@ -43,7 +41,7 @@ export const CategoryChart = (props: IProps): JSX.Element => {
           <Chart chartDataArray={chartDataArray} />
           <div>
             <ChartAverage numOfPeriods={chartDataArray.length} totals={chartDataArray}>Avg per {displayTimePeriod}:</ChartAverage>
-            <ChartTitle>Total for prev {NUM_OF_TIME_PERIODS.toString()} sets of {selectedTimePeriod.toString()} days</ChartTitle>  
+            <ChartTitle>Total for prev {DEFAULT_NUM_OF_TIME_PERIODS.toString()} sets of {selectedTimePeriod.toString()} days</ChartTitle>  
           </div>
         </>
       )}     

@@ -52,11 +52,17 @@ export const TotalChart = (props: IProps): JSX.Element => {
         <>
           <Chart chartDataArray={chartDataArray} color={'#1b8e1b'} />
           <ChartAverage numOfPeriods={chartDataArray.length} totals={chartDataArray}>
-            {selectedTimePeriod === ONE_MONTH ? (
-              <>Monthly Avg:</>
-            ) : (
-              <>Daily Avg:</>
-            )}
+            <>
+              {selectedOption === SelectedChartFilter.ONE_PERIOD ? (
+                <>Daily Avg:</>
+              ) : (
+                selectedTimePeriod === ONE_WEEK ? (
+                  <>Weekly Avg:</>              
+                ) : (
+                  <>Monthly Avg:</>
+                )
+              )}
+            </>
           </ChartAverage>
 
           {selectedOption === SelectedChartFilter.ONE_PERIOD && (

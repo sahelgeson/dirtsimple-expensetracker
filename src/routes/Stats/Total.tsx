@@ -3,7 +3,6 @@ import { sub, isAfter } from 'date-fns';
 import { useGlobalState } from 'contexts';
 //import { IExpense } from 'interfaces';
 import { formatUsd } from 'helpers';
-import { test_state } from 'test-state.js';
 
 const TotalStyled = styled.h4`
   font-size: 1rem;
@@ -26,12 +25,7 @@ export const Total = (props: IProps): JSX.Element => {
 
   // TODO make this function more reusable, particularly with function in routes/Stats/CategoryStats
   const timeFrameExpenses = allExpenses.filter((expense) => {
-    let now = new Date();
-    // TODO centralize testing related code
-    if (process.env.REACT_APP_TESTING === 'development') {
-      const lastTestDate = test_state.allExpenses[0].datetime;
-      now = new Date(lastTestDate);
-    }
+    const now = useGlobalState().getGlobalNow();
     const cutoff = sub(now, { days: selectedTimePeriod });
     return (isAfter(new Date(expense.datetime), cutoff));
   });

@@ -1,6 +1,6 @@
-import { format, sub, isWithinInterval, endOfMonth, isAfter, startOfMonth } from 'date-fns';
+import { format, sub, isWithinInterval, endOfMonth, isAfter, startOfMonth, subMonths } from 'date-fns';
 import { IExpense } from 'interfaces';
-import { test_state } from 'test-state.js';
+import { useGlobalState } from 'contexts';
 import { ONE_MONTH } from 'lib/constants';
 
 interface IGetExpensesProps {
@@ -22,12 +22,7 @@ interface IStartEndValue {
 }
 
 const getStartAndEndCutoff = ({ selectedTimePeriod, numOfPeriodsAgo = 0, isByCalendarMonthSelected }: IStartEndProps): IStartEndValue => {
-  let now = new Date();
-  // TODO centralize testing related code
-  if (process.env.REACT_APP_TESTING === 'development') {
-    const lastTestDate = test_state.allExpenses[0].datetime;
-    now = new Date(lastTestDate);
-  }
+  const now = useGlobalState().getGlobalNow();
 
   let endCutoff = sub(now, { days: (selectedTimePeriod * numOfPeriodsAgo) });
   // start is just end minus the selectedTimePeriod
@@ -38,9 +33,10 @@ const getStartAndEndCutoff = ({ selectedTimePeriod, numOfPeriodsAgo = 0, isByCal
     // isByCalendarMonthSelected should only be used with one month selectedTimePeriod
     // endcutoff is EOM or now
     // startcutoff is FOM
-    endCutoff = endOfMonth(endCutoff);
+    const calendarMonth = subMonths(now, numOfPeriodsAgo);
+    endCutoff = endOfMonth(calendarMonth);
     if (isAfter(endCutoff, now)) { endCutoff = now; }
-    startCutoff = startOfMonth(endCutoff);
+    startCutoff = startOfMonth(calendarMonth);
   } 
   return { startCutoff, endCutoff };
 }
@@ -95,12 +91,7 @@ export const getChartDataArray = ({
     let label: number | string = reversedIndex;
 
     if (isByCalendarMonthSelected) {
-      let now = new Date();
-      // TODO centralize testing related code
-      if (process.env.REACT_APP_TESTING === 'development') {
-        const lastTestDate = test_state.allExpenses[0].datetime;
-        now = new Date(lastTestDate);
-      }
+      const now = useGlobalState().getGlobalNow();
       const labelMonth = sub(now, { months: i });
       label = format(labelMonth, 'MMM');
     }

@@ -24,6 +24,7 @@ export const ImportData = () => {
     const file = (e?.target?.files[0]);
     if (file) {
       fileReader.onload = function (event) {
+        // TODO add "are you sure" validation for filename
         const text = event.target.result;
         // save the data, check for malformed data on submit
         setImportedData(text);

@@ -38,6 +38,7 @@ interface IGlobalContext {
   sortExpenses: () => void;
   updateExpense: (updatedExpense: IExpense) => void;
   deleteExpense: (deletedExpense: IExpense) => void;  
+  getGlobalNow: () => Date;  
 }
 
 export const GlobalContext = createContext({} as IGlobalContext);
@@ -61,13 +62,10 @@ export const GlobalProvider: React.FC = (props: IProps) => {
   useEffect(() => {
     let savedState;
     try { 
-      const serializedState = localStorage.getItem('state');
-      if (process.env.REACT_APP_TESTING === 'development') {
-        savedState = test_state;
-      } else if (serializedState !== null) {
-        savedState = JSON.parse(serializedState);
-      }
-
+      const serializedState = localStorage.getItem('state') ?? '';
+      // TODO change tests so they always to manually import data instead
+      savedState = JSON.parse(serializedState);
+      
       // TODO ensure there is an "Uncategorized" category
       savedState.categories = createUncategorizedCategory(savedState.categories); // TODO: decouple keys from state variables
       // only setState if serializedState exists
@@ -199,6 +197,16 @@ export const GlobalProvider: React.FC = (props: IProps) => {
     });
   }, []);
 
+  // this allows programmatically altering the date to make testing easier
+  const getGlobalNow = useCallback(() => {
+    let now = new Date();
+    if (process.env.REACT_APP_TESTING === 'development') {
+      const lastTestDate = allExpenses[0]?.datetime;
+      now = new Date(lastTestDate);
+    }
+    return now;
+  }, [allExpenses]);
+
   const context = {
     allExpenses,
     allCategories,
@@ -209,7 +217,8 @@ export const GlobalProvider: React.FC = (props: IProps) => {
     dedupeCategories,
     sortExpenses,
     updateExpense,
-    deleteExpense,    
+    deleteExpense,  
+    getGlobalNow,  
   };
 
   return (

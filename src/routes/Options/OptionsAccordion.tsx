@@ -1,28 +1,36 @@
 import { ReactNode } from 'react';
+import { MinusIcon, AddIcon } from '@chakra-ui/icons'
 
 interface IProps {
   children?: ReactNode;
   isOpen: boolean;
   label: string;
+  className?: string;
   handleAccordionClick: () => void;
 }
 
-
 export const OptionsAccordion = (props: IProps): JSX.Element => {
+  const { children, isOpen, label, className, handleAccordionClick } = props;
+  const classNameString = className || "full-width text-left pam";
+
   return (
       <button 
         type="button"
-        className="full-width text-left pam"
-        onClick={props.handleAccordionClick}
-        data-qa={'options-' + props.label + '-accordion'}
+        className={classNameString}
+        onClick={handleAccordionClick}
+        data-qa={'options-' + label + '-accordion'}
       >
         <label
-          htmlFor={props.label}
+          htmlFor={label}
         >
-          {props.children}
+          {children}
         </label>
         <div className="right gray-777 bold">
-          {props.isOpen ? String.fromCharCode(65293) : String.fromCharCode(65291) }
+          {isOpen ? (
+            <MinusIcon fontSize='14px' />
+          ) : (
+            <AddIcon fontSize='14px' />
+          )}          
         </div>
       </button>           
   );

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { ListItemGrid, ButtonBox, TimeFrameButton } from './styles';
 import { useGlobalState } from 'contexts';
+import { CategoryFilter } from './CategoryFilter';
 import { CategoryStats } from './CategoryStats';
 import { TotalStats } from './TotalStats';
 import { DEFAULT_TIME_FRAME_IN_DAYS, ONE_MONTH, ONE_WEEK } from 'lib/constants';
@@ -14,19 +15,12 @@ const ListHeader = styled.h4`
 `;
 
 export const Stats = (): JSX.Element => {
-  const { allCategories } = useGlobalState();
-
+  const { filteredCategories } = useGlobalState();
   const [selectedTimePeriod, setSelectedTimePeriod] = useState(DEFAULT_TIME_FRAME_IN_DAYS);
-
-  // filter any categories out (currently none filtered out)
-  // TODO remember to handle case if there are no categories in timeFrameExpenses
-  // show zero for those cases
-  const filteredCategories = allCategories;
-
-  // add these two to filteredCategories?
 
   return (
     <div className="container margin-0-auto phl">
+      <CategoryFilter />
       <ButtonBox>
         <TimeFrameButton
           className={selectedTimePeriod === ONE_WEEK ? 'active' : ''}

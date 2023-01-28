@@ -1,7 +1,7 @@
 import React, { useState, useContext, createContext, useCallback, useEffect, ReactNode } from 'react';
 import { compareAsc } from 'date-fns';
 import { createUncategorizedCategory } from 'helpers/CreateUncategorizedCategory';
-import { ICategory, IExpense, Uuid } from 'interfaces';
+import { ICategory, IExpense, CategoryId, Uuid } from 'interfaces';
 import { DefaultCategories } from 'contexts/DefaultCategories';
 import { test_state } from 'test-state.js';
 /* 
@@ -30,6 +30,11 @@ import { test_state } from 'test-state.js';
 interface IGlobalContext {
   allExpenses: IExpense[];
   allCategories: ICategory[];
+  filteredCategories: ICategory[];  // inclusive
+  filteredOutCategories: ICategory[]; // exclusive
+  filteredOutCategoriesIds: CategoryId[];
+  filterOutCategory: (categoryToFilterOut: CategoryId) => void; 
+  clearFilterOutCategory: (categoryToUnfilter: CategoryId) => void;
   addExpense: (newExpense: IExpense) => void;
   addCategory: (newCategory: ICategory) => void;
   renameCategory: (renamedCategoryId: Uuid, newCategoryName: string) => void;
@@ -53,10 +58,15 @@ interface IProps {
 }
 
 export const GlobalProvider: React.FC = (props: IProps) => {
-
   // TODO this will need to change based on what's in localStorage
+  const [allExpensesUnfiltered, setAllExpensesUnfiltered] = useState<IExpense[]>([]);
+  // working expenses that may have some expenses filtered out
   const [allExpenses, setAllExpenses] = useState<IExpense[]>([]);
   const [allCategories, setAllCategories] = useState<ICategory[]>(initialState.allCategories);
+  // note that these are arrays of categories that are excluded, not categories included after filter
+  const [filteredOutCategoriesIds, setFilteredOutCategoriesIds] = useState<CategoryId[]>([]);
+  const [filteredOutCategories, setFilteredOutCategories] = useState<ICategory[]>([]);
+  const [filteredCategories, setFilteredCategories] = useState<ICategory[]>([]);
 
   // load saved data if it exists
   useEffect(() => {
@@ -69,17 +79,18 @@ export const GlobalProvider: React.FC = (props: IProps) => {
       // TODO ensure there is an "Uncategorized" category
       savedState.categories = createUncategorizedCategory(savedState.categories); // TODO: decouple keys from state variables
       // only setState if serializedState exists
-      setAllExpenses(savedState.allExpenses);
+      setAllExpensesUnfiltered(savedState.allExpenses);
       setAllCategories(savedState.categories); // TODO: decouple keys from state variables
-
+      setFilteredOutCategoriesIds(savedState.filteredOutCategoriesIds || []);
     } catch (err) { 
       if (process.env.REACT_APP_TESTING === 'development') {
         savedState = test_state;
         // TODO ensure there is an "Uncategorized" category
         savedState.categories = createUncategorizedCategory(savedState.categories); // TODO: decouple keys from state variables
         // only setState if serializedState exists
-        setAllExpenses(savedState.allExpenses);
+        setAllExpensesUnfiltered(savedState.allExpenses);
         setAllCategories(savedState.categories); // TODO: decouple keys from state variables
+        setFilteredOutCategoriesIds(savedState.filteredOutCategoriesIds || []);
       } else {
         console.error(err); 
       }
@@ -90,23 +101,59 @@ export const GlobalProvider: React.FC = (props: IProps) => {
   useEffect(() => {
     try {
       const state = {
-        allExpenses,
+        allExpenses: allExpensesUnfiltered,
         categories: allCategories,  // TODO: decouple keys from state variables
+        filteredOutCategoriesIds,
       }
       const serializedState = JSON.stringify(state);
       if (process.env.REACT_APP_TESTING !== 'development') {    // don't save test data to localStorage
         localStorage.setItem('state', serializedState);
       }
     } catch (err) { console.error(err); }
-  }, [allExpenses, allCategories]);
+  }, [allExpensesUnfiltered, allCategories, filteredOutCategoriesIds]);
+
+  // keep allExpenses updated to filter out selected categories
+  useEffect(() => {
+    const filteredExpenses = allExpensesUnfiltered.filter((expense) => {
+      return !filteredOutCategoriesIds.includes(expense.categoryId);
+    });
+    setAllExpenses(filteredExpenses);
+  }, [allExpensesUnfiltered, filteredOutCategoriesIds]);
+
+  // keep filteredCategories & filterOutCategories in sync based on filteredOutCategoriesIds
+  useEffect(() => {
+    const filteredCategories = allCategories.filter((category) => {
+      // note that this is array of categories that not filtered out 
+      return !filteredOutCategoriesIds.includes(category.id);
+    });
+    const filteredOutCategories = allCategories.filter((category) => {
+      // note that this is array of categories that are excluded, not categories included after filter 
+      return filteredOutCategoriesIds.includes(category.id);
+    });
+    setFilteredCategories(filteredCategories);
+    setFilteredOutCategories(filteredOutCategories);
+  }, [allCategories, filteredOutCategoriesIds]);
   
   const addExpense = useCallback((newExpense: IExpense) => {
-    setAllExpenses((prev: IExpense[]) => ([ ...prev, newExpense ]));
+    setAllExpensesUnfiltered((prev: IExpense[]) => ([ ...prev, newExpense ]));
   }, []);
 
   const addCategory = useCallback((newCategory: ICategory) => {
     // TODO should this check if category with same name already exists? See functions below
+    // logic for "No new category will be added" message should be in here
     setAllCategories((prev: ICategory[]) => ([ ...prev, newCategory ]));
+  }, []);
+
+  const filterOutCategory = useCallback((categoryToFilterOut: CategoryId) => {
+    setFilteredOutCategoriesIds((prev: CategoryId[]) => ([ ...prev, categoryToFilterOut ]));
+  }, []);
+
+  const clearFilterOutCategory = useCallback((categoryToUnfilter: CategoryId) => {
+    setFilteredOutCategoriesIds((prev) => {
+      return prev.filter((category) => {
+        return category !== categoryToUnfilter;
+      });
+    });
   }, []);
 
   // TODO: change this so that dupe check is here in context
@@ -148,7 +195,7 @@ export const GlobalProvider: React.FC = (props: IProps) => {
     TODO change null to special string */
   const deleteCategory = useCallback((deletedCategoryId: Uuid) => {
     // set any expenses with deleted category to have a categoryId of null
-    setAllExpenses((prev: IExpense[]) => {
+    setAllExpensesUnfiltered((prev: IExpense[]) => {
       const updatedExpenses = prev.map((expense) => {
         if (expense.categoryId === deletedCategoryId) {   
           expense.categoryId = null;
@@ -168,7 +215,7 @@ export const GlobalProvider: React.FC = (props: IProps) => {
   }, []);
 
   const sortExpenses = useCallback(() => {
-    setAllExpenses((prev) => {
+    setAllExpensesUnfiltered((prev) => {
       const sortedExpenses = [...prev];
       sortedExpenses.sort(function(a, b) {
         const dateA = new Date(a.datetime), dateB = new Date(b.datetime);
@@ -179,7 +226,7 @@ export const GlobalProvider: React.FC = (props: IProps) => {
   }, []);
 
   const updateExpense = useCallback((updatedExpense: IExpense) => {
-    setAllExpenses((prev: IExpense[]) => {
+    setAllExpensesUnfiltered((prev: IExpense[]) => {
       const updatedExpenses = prev.map(expense => {
         if (expense.id === updatedExpense.id) {
           expense = updatedExpense;
@@ -191,7 +238,7 @@ export const GlobalProvider: React.FC = (props: IProps) => {
   }, []);
 
   const deleteExpense = useCallback((deletedExpense: IExpense) => {
-    setAllExpenses((prev: IExpense[]) => {
+    setAllExpensesUnfiltered((prev: IExpense[]) => {
       const updatedExpenses = prev.filter(expense => expense.id !== deletedExpense.id);  
       return updatedExpenses;
     });
@@ -210,6 +257,11 @@ export const GlobalProvider: React.FC = (props: IProps) => {
   const context = {
     allExpenses,
     allCategories,
+    filteredCategories,
+    filteredOutCategories,
+    filteredOutCategoriesIds,
+    filterOutCategory,
+    clearFilterOutCategory,
     addExpense,
     addCategory,
     renameCategory,
@@ -225,7 +277,7 @@ export const GlobalProvider: React.FC = (props: IProps) => {
     <GlobalContext.Provider value={context}>
       {props.children}
     </GlobalContext.Provider>
-  )
+  );
 };
 
 export const useGlobalState = (): IGlobalContext => useContext(GlobalContext);

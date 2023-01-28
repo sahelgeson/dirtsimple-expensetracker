@@ -1,4 +1,5 @@
 export const test_state = {
+  "filteredOutCategoriesIds": [],
   "allExpenses": [
     {
       "id": "cl4n1saz6000c3t5djkez9rib",

@@ -16,9 +16,11 @@ export interface ICategory {
 
 type Dollars = string;
 
+export type CategoryId = number | string | null; // TODO change null to Symbol?
+
 export interface IExpense {
   id: Uuid;
   amount: Dollars;   // TODO migrate to Cents string
   datetime: Datetime;
-  categoryId: number | string | null; // TODO change null to Symbol?
+  categoryId: CategoryId;
 }

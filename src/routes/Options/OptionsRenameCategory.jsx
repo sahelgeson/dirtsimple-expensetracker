@@ -116,6 +116,7 @@ export const OptionsRenameCategory = () => {
             value={renamedCategoryOriginalId || ''}
             handleFocus={handleFocus}
             handleOnChange={handleRenameCategoryChange}
+            categoryOptions={allCategories}
           />
           {isChanging &&  
             <OptionsRenameCategoryFormContents

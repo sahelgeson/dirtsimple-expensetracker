@@ -6,10 +6,10 @@ import { HomeRecentExpensesListing } from './HomeRecentExpensesListing';
 const NUMBER_OF_RECENT_SHOWN = 7; 
 
 export const HomeRecentExpenses = () => {
-  const { allExpenses, allCategories } = useGlobalState();
+  const { allExpensesUnfiltered, allCategories } = useGlobalState();
   // TODO: consider moving this function into separate file to be reused
   // spread array because sort sorts array in-place
-  const recentExpensesSorted = [...allExpenses].sort(function(a, b) {
+  const recentExpensesSorted = [...allExpensesUnfiltered].sort(function(a, b) {
     let dateA = new Date(a.datetime), dateB = new Date(b.datetime);
     return dateB - dateA;
   });

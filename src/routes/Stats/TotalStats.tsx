@@ -47,7 +47,7 @@ const getTotal = (timeFrameExpenses: IExpense[]): number => {
 } 
 
 export const TotalStats = (props: IProps): JSX.Element => {
-  const { allExpenses } = useGlobalState();
+  const { allExpensesFiltered } = useGlobalState();
   const { selectedTimePeriod } = props;
 
   const [selectedOption, setSelectedOption] = useState<SelectedChartFilter>(SelectedChartFilter.ONE_PERIOD);
@@ -58,7 +58,7 @@ export const TotalStats = (props: IProps): JSX.Element => {
     setSelectedOption(SelectedChartFilter.ONE_PERIOD);
   }, [selectedTimePeriod]);
 
-  const timeFrameExpenses = getTimeFrameExpenses({ selectedExpenses: allExpenses, selectedTimePeriod });
+  const timeFrameExpenses = getTimeFrameExpenses({ selectedExpenses: allExpensesFiltered, selectedTimePeriod });
   const total = getTotal(timeFrameExpenses);
 
   const handleSelectPeriod = (event: React.MouseEvent<HTMLButtonElement>) => {

@@ -1,37 +1,38 @@
-import { useGlobalState } from 'contexts';
+import { ChangeEvent } from 'react';
+import { ICategory, CategoryId } from 'interfaces';
 
 interface IProps {
   htmlId: string;
-  value: string;
-  handleFocus: () => void;
-  handleOnChange: () => void;
+  value: CategoryId;
+  categoryOptions: ICategory[];
+  className?: string;
+  handleFocus?: () => void;
+  handleOnChange: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export const OptionsCategorySelect = (props: IProps): JSX.Element => {
-  const { allCategories } = useGlobalState();
-  const { htmlId, value, handleFocus, handleOnChange } = props;
+  const { htmlId, value, handleFocus, handleOnChange, categoryOptions, className } = props;
+  const classNameString = className || "select-css input input-secondary full-width font-16 mbm";
 
   return (  
     <select
       id={htmlId}
-      className="select-css input input-secondary full-width font-16 mbm"
-      value={value}
+      className={classNameString}
+      value={value || ''}
       onChange={handleOnChange}
       onFocus={handleFocus}
       data-qa={'options-' + htmlId + '-input'}  
     >
       <option value="">Choose a category</option>
-      {allCategories.map((category) => {
-          if (category.id !== null) {
-            return (
-              <option 
-                key={category.id}
-                value={category.id}
-              >
-                {category.name}
-              </option>
-            )
-          } else { return null; }
+      {categoryOptions.map((category) => {
+        return (category.id !== null) ? (
+            <option 
+              key={category.id}
+              value={category.id}
+            >
+              {category.name}
+            </option>
+          ) : null;
         }
       )}
     </select>

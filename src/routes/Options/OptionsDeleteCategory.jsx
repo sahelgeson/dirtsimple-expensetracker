@@ -65,6 +65,7 @@ export const OptionsDeleteCategory = () => {
             value={deletedCategoryId || ''}   /* TODO rethink sending this down via props */
             handleFocus={handleFocus}
             handleOnChange={handleDeleteCategoryChange}
+            categoryOptions={allCategories}
           />
           <OptionsDeleteCategoryModal
             isOpen={isModalOpen}      

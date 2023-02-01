@@ -21,12 +21,13 @@ interface IProps {
 }
 
 export const CategoryStats = (props: IProps): JSX.Element => {
-  const { allExpenses } = useGlobalState();
+  // TODO currently can only filter by Category which is why this uses allExpensesUnfiltered
+  const { allExpensesUnfiltered } = useGlobalState();
   const { category, selectedTimePeriod } = props;
 
   const [open, setOpen] = useState(false);
 
-  const timeFrameExpenses = getTimeFrameExpenses({ selectedExpenses: allExpenses, selectedTimePeriod });
+  const timeFrameExpenses = getTimeFrameExpenses({ selectedExpenses: allExpensesUnfiltered, selectedTimePeriod });
 
   const getCategoryTotal = (category: ICategory, timeFrameExpenses: IExpense[]): number => {
     const total = timeFrameExpenses.reduce((sum, expense) => {
@@ -51,7 +52,7 @@ export const CategoryStats = (props: IProps): JSX.Element => {
   }
 
   const total = getCategoryTotal(category, timeFrameExpenses);
-  const difference = getDifference(category, timeFrameExpenses, allExpenses);
+  const difference = getDifference(category, timeFrameExpenses, allExpensesUnfiltered);
   const isPositiveDifference = difference > 0;
   let formatDifference = formatUsd(difference, { noPrefix: true });
   formatDifference = `${isPositiveDifference ? '+' : ''}${formatDifference}`;
@@ -60,7 +61,7 @@ export const CategoryStats = (props: IProps): JSX.Element => {
     setOpen((prev) => !prev);
   }
 
-  const selectedExpenses: IExpense[] = allExpenses.filter((expense) => {
+  const selectedExpenses: IExpense[] = allExpensesUnfiltered.filter((expense) => {
     return expense.categoryId === category.id;
   });
 
@@ -78,7 +79,6 @@ export const CategoryStats = (props: IProps): JSX.Element => {
       {open && (
         <CategoryChart 
           selectedExpenses={selectedExpenses} 
-          allExpenses={allExpenses}
           selectedTimePeriod={selectedTimePeriod}
         />
       )}

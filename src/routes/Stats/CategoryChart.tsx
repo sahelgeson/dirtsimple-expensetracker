@@ -7,7 +7,6 @@ import { ChartAverage } from './ChartAverage';
 
 interface IProps {
   selectedExpenses: IExpense[];
-  allExpenses: IExpense[];
   selectedTimePeriod: number;
 }
 

@@ -14,7 +14,7 @@ interface IProps {
 
 export const TotalChart = (props: IProps): JSX.Element => {
   const { selectedTimePeriod, selectedOption } = props;
-  const { allExpenses } = useGlobalState();
+  const { allExpensesFiltered } = useGlobalState();
 
   const isByCalendarMonthSelected = selectedOption === SelectedChartFilter.CALENDAR_PERIOD;
 
@@ -24,14 +24,14 @@ export const TotalChart = (props: IProps): JSX.Element => {
     /* show Daily totals */
     chartDataArray = getChartDataArray({
       numOfTimePeriodsToShow: selectedTimePeriod, /* matching to get daily figures */
-      selectedExpenses: allExpenses,
+      selectedExpenses: allExpensesFiltered,
       selectedTimePeriod: ONE_DAY,
       isByCalendarMonthSelected
     });
   } else {
     chartDataArray = getChartDataArray({
       numOfTimePeriodsToShow: DEFAULT_NUM_OF_TIME_PERIODS,
-      selectedExpenses: allExpenses,
+      selectedExpenses: allExpensesFiltered,
       selectedTimePeriod: selectedTimePeriod,
       isByCalendarMonthSelected,
     });

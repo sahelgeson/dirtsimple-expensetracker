@@ -1,3 +1,4 @@
+// DO NOT change the keys below, they represent user's localStorage keys
 export const test_state = {
   "filteredOutCategoriesIds": [],
   "allExpenses": [

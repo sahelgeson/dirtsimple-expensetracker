@@ -4,7 +4,7 @@ import { HomeForm } from './HomeForm';
 import { HomeRecentExpenses } from './HomeRecentExpenses';
 
 export const Home = () => {
-  const { allExpenses } = useGlobalState();
+  const { allExpensesUnfiltered } = useGlobalState();
   return (
     <div className="container margin-0-auto phl">
       <h1 
@@ -17,8 +17,8 @@ export const Home = () => {
       </h1>
       <HomeForm/>
 
-      {!!allExpenses.length && 
-        <HomeRecentExpenses recentExpenses={allExpenses} />
+      {!!allExpensesUnfiltered.length && 
+        <HomeRecentExpenses recentExpenses={allExpensesUnfiltered} />
       }
     </div>
   );

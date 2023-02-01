@@ -20,7 +20,7 @@ import { test_state } from 'test-state.js';
   change any keys associated with categories since those need unique values. Categories are case-sensitive,
   so "Food" and "food" are different categories. 
 
-  !!! the expenses in allExpenses are not sorted, either by index or datetime. Sorting is the responsibility
+  !!! the expenses in allExpensesUnfiltered/allExpensesFiltered are not sorted, either by index or datetime. Sorting is the responsibility
   of child components. This is necessary because the expenses on the History page must remain unsorted, 
   otherwise a datetime change will be updated and sorted in the store, then filter back down to
   History causing a rerender (and the expense whose datetime was changed will suddenly move, possibly out
@@ -28,7 +28,8 @@ import { test_state } from 'test-state.js';
 */
 
 interface IGlobalContext {
-  allExpenses: IExpense[];
+  allExpensesUnfiltered: IExpense[];
+  allExpensesFiltered: IExpense[];
   allCategories: ICategory[];
   filteredCategories: ICategory[];  // inclusive
   filteredOutCategories: ICategory[]; // exclusive
@@ -51,6 +52,14 @@ export const GlobalContext = createContext({} as IGlobalContext);
 const initialState = {
   allExpenses: [],
   allCategories: DefaultCategories,
+  filteredOutCategoriesIds: [],
+}
+
+interface ISavedState {
+  // DO NOT change these keys, they're used in localStorage so if these change user can lose data
+  allExpenses: IExpense[];
+  categories: ICategory[];
+  filteredOutCategoriesIds: CategoryId[];
 }
 
 interface IProps {
@@ -61,7 +70,7 @@ export const GlobalProvider: React.FC = (props: IProps) => {
   // TODO this will need to change based on what's in localStorage
   const [allExpensesUnfiltered, setAllExpensesUnfiltered] = useState<IExpense[]>([]);
   // working expenses that may have some expenses filtered out
-  const [allExpenses, setAllExpenses] = useState<IExpense[]>([]);
+  const [allExpensesFiltered, setAllExpensesFiltered] = useState<IExpense[]>([]);
   const [allCategories, setAllCategories] = useState<ICategory[]>(initialState.allCategories);
   // note that these are arrays of categories that are excluded, not categories included after filter
   const [filteredOutCategoriesIds, setFilteredOutCategoriesIds] = useState<CategoryId[]>([]);
@@ -70,7 +79,7 @@ export const GlobalProvider: React.FC = (props: IProps) => {
 
   // load saved data if it exists
   useEffect(() => {
-    let savedState;
+    let savedState: ISavedState;
     try { 
       const serializedState = localStorage.getItem('state') ?? '';
       // TODO change tests so they always to manually import data instead
@@ -117,7 +126,7 @@ export const GlobalProvider: React.FC = (props: IProps) => {
     const filteredExpenses = allExpensesUnfiltered.filter((expense) => {
       return !filteredOutCategoriesIds.includes(expense.categoryId);
     });
-    setAllExpenses(filteredExpenses);
+    setAllExpensesFiltered(filteredExpenses);
   }, [allExpensesUnfiltered, filteredOutCategoriesIds]);
 
   // keep filteredCategories & filterOutCategories in sync based on filteredOutCategoriesIds
@@ -173,7 +182,7 @@ export const GlobalProvider: React.FC = (props: IProps) => {
     we dedupe the allCategories by just using the original category (id and name) */
   const dedupeCategories = useCallback((originalCategoryId: Uuid, renamedCategoryId: Uuid) => {
     // first update expenses that have category id being renamed to use original category's id
-    setAllExpenses((prev: IExpense[]) => {
+    setAllExpensesUnfiltered((prev: IExpense[]) => {
       const updatedExpenses = prev.map(expense => {
         if (expense.categoryId === renamedCategoryId) {
           expense.categoryId = originalCategoryId;
@@ -248,14 +257,15 @@ export const GlobalProvider: React.FC = (props: IProps) => {
   const getGlobalNow = useCallback(() => {
     let now = new Date();
     if (process.env.REACT_APP_TESTING === 'development') {
-      const lastTestDate = allExpenses[0]?.datetime;
+      const lastTestDate = allExpensesUnfiltered[0]?.datetime;
       now = new Date(lastTestDate);
     }
     return now;
-  }, [allExpenses]);
+  }, [allExpensesUnfiltered]);
 
   const context = {
-    allExpenses,
+    allExpensesUnfiltered,
+    allExpensesFiltered,
     allCategories,
     filteredCategories,
     filteredOutCategories,

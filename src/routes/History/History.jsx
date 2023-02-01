@@ -8,7 +8,7 @@ export const History = () => {
   /* this is the id of the expense being edited, only allow one at a time */
   const [isBeingEditedId, setIsBeingEditedId] = useState(null);  // TODO review usage of null
 
-  const { allExpenses, allCategories, sortExpenses } = useGlobalState();
+  const { allExpensesUnfiltered, allCategories, sortExpenses } = useGlobalState();
 
   const handleClick = (event) => {    
     const thisId = event.target.value;
@@ -27,15 +27,15 @@ export const History = () => {
 
   useEffect(() => {
     setIsBeingEditedId(null);
-  }, [allExpenses.length]);
+  }, [allExpensesUnfiltered.length]);
 
   return(
     <div className="container margin-0-auto phs">
-      {(!allExpenses.length) 
+      {(!allExpensesUnfiltered.length) 
         ? <div className="text-center">No expenses entered yet</div>
         : <div className="ftable font-16">
         {/* TODO consider a limit on this with a "View more" button */}
-        {allExpenses.map((expense) => {
+        {allExpensesUnfiltered.map((expense) => {
             const thisCategory = allCategories.filter((category) => {
               return ( category.id === expense.categoryId );
             }).pop(); /* just want the object inside */

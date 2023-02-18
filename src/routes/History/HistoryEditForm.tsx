@@ -1,4 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
+import { Text } from '@chakra-ui/react';
 import { useGlobalState } from 'contexts';
 import { isAmountValid, formatDatetime } from 'helpers';
 import { HistoryEditFormAmount } from './HistoryEditFormAmount';
@@ -9,12 +10,12 @@ import { IExpense } from 'interfaces';
 
 interface IProps {
   thisExpense: IExpense;
-  handleClick: () => void;
+  handleClose: () => void;
 }
 
 export const HistoryEditForm = (props: IProps): JSX.Element => {
   const { allCategories, updateExpense, deleteExpense } = useGlobalState();
-  const { thisExpense, handleClick } = props;
+  const { thisExpense, handleClose } = props;
 
   // okay to initialize state with props here because props won't change due to UI flow
   // also we want the initial amount for disabling the save button
@@ -52,18 +53,19 @@ export const HistoryEditForm = (props: IProps): JSX.Element => {
   }, []);
 
   // TODO review handlers
-  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setAmount(e.target.value);
+  const handleAmountChange = (valueString: string) => {
+    setAmount(valueString);
   }
 
   const handleCategoryChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setCategoryId(e.target.value);
+    setCategoryId(e.currentTarget.value);
   }
 
   const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.count('date change');
     try {
-      const date = formatDatetime(e.target.value);
+
+      const date = formatDatetime(e.currentTarget.value);
       setDatetime(date);  
     } catch (e) { /* Chrome's datepicker is buggy and will sometimes have an empty string value */ }
   }
@@ -100,12 +102,16 @@ export const HistoryEditForm = (props: IProps): JSX.Element => {
   }  
 
   return( 
-    <form  
-      className="ftable__row phm pbm pts mbs"
-    >
-      <legend className="legend pvn pbs mbs">
-        Edit
-      </legend>
+    <form>
+      <Text
+        textAlign="center"
+        width="100%"
+        fontStyle="italic"
+        color="gray.500"
+        mb={2}
+      >
+        Editing
+      </Text>
       <div className="full-width pbm">
         <HistoryEditFormAmount  
           amount={amount} 
@@ -124,7 +130,7 @@ export const HistoryEditForm = (props: IProps): JSX.Element => {
 
       <HistoryEditFormButtons 
         amount={amount}
-        handleClick={handleClick}
+        handleClose={handleClose}
         handleSubmit={handleSubmit}
         isSaveDisabled={isSaveDisabled}
         isSaved={isSaved}

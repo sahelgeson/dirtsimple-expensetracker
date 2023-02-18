@@ -11,3 +11,5 @@ export const ONE_WEEK = 7;
 export const ONE_DAY = 1;
 export const DEFAULT_TIME_FRAME_IN_DAYS = ONE_WEEK;
 export const DEFAULT_NUM_OF_TIME_PERIODS = 4;
+
+export const NUM_OF_RECENT_EXPENSES = 50;

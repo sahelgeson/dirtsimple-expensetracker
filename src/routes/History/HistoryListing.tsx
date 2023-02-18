@@ -1,61 +1,69 @@
+import React from 'react';
+
 import { 
-  Uuid,
   ICategory,
   IExpense,
+  Uuid,
 } from 'interfaces';
+
+import { AccordionButton, GridItem, Grid } from '@chakra-ui/react';
+import { EditIcon } from '@chakra-ui/icons';
 
 interface IProps {
   expense: IExpense;
   thisCategory: ICategory;
-  isBeingEditedId: Uuid;
-  handleClick: () => void;
+  key: Uuid;
+  setAccordionIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 // TODO: move this or see if we can use date-fns instead
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 export const HistoryListing = (props: IProps): JSX.Element => {
-  const { expense, thisCategory, isBeingEditedId, handleClick } = props;
+  const { expense, thisCategory, setAccordionIndex } = props;
+
+  const handleAccordionToggle = () => {
+    setAccordionIndex((prev: number) => {
+      // TODO enforce typing on this
+      return (prev === -1) ? 0 : -1;
+    }); 
+  }
 
   return (
-    <div 
-      className={(expense.id === isBeingEditedId) ? 
-          "ftable__row phs editing"
-          : "ftable__row phs" }
+    <Grid
       key={expense.id}
+      templateColumns="12.5% 50% 25% 12.5%"
+      py={2}
+      pl={4}
+      pr={2}
+      alignItems="center"
     >
-      <div 
-        className="ftable__cell ftable__cell--amount text-right pvm phxs"
+      <GridItem
         data-qa="history-amount"   
       >
         <span className="dollar inline-block">$</span>
         <span className="inline-block">
           {expense.amount}
         </span>
-      </div>
-      <div 
+      </GridItem>
+      <GridItem 
         className={(thisCategory.id !== null) ?
-            "ftable__cell pvm phs"
-          : "ftable__cell pvm phs italic gray-777" }
+            ""
+          : "italic gray-777" }
         data-qa="history-category"   
       >
         {thisCategory.name}
-      </div>
-      <div className="ftable__cell ftable__cell--date pvm prxs"> 
+      </GridItem>
+      <GridItem> 
         {days[new Date(expense.datetime).getDay()]},&nbsp; 
         {new Date(expense.datetime).getMonth() + 1}/                  
         {new Date(expense.datetime).getDate()}
-      </div>
-      <div className="ftable__cell ftable__cell--edit text-right">
-        <button
-          className="btn btn--outline btn--edit paxs"
-          onClick={handleClick}                  
-          value={expense.id} 
-          data-qa="history-edit-btn"     
-        >
-          Edit 
-        </button>
-      </div>
-    </div>
+      </GridItem>
+      <GridItem className="text-right">
+        <AccordionButton onClick={handleAccordionToggle} borderRadius={4}>
+          <EditIcon />
+        </AccordionButton>
+      </GridItem>
+    </Grid>
   );
 }

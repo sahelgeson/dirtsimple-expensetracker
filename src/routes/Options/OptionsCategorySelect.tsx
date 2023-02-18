@@ -1,8 +1,11 @@
 import { ChangeEvent } from 'react';
 import { ICategory, CategoryId } from 'interfaces';
+import { Select } from '@chakra-ui/react';
+
 
 interface IProps {
   htmlId: string;
+  size?: string;  // TODO make this use type from chakra
   value: CategoryId;
   categoryOptions: ICategory[];
   className?: string;
@@ -11,17 +14,25 @@ interface IProps {
 }
 
 export const OptionsCategorySelect = (props: IProps): JSX.Element => {
-  const { htmlId, value, handleFocus, handleOnChange, categoryOptions, className } = props;
-  const classNameString = className || "select-css input input-secondary full-width font-16 mbm";
+  const { 
+    htmlId, 
+    value, 
+    handleFocus, 
+    handleOnChange, 
+    categoryOptions, 
+    size, 
+    ...otherProps
+  } = props;
 
   return (  
-    <select
+    <Select
       id={htmlId}
-      className={classNameString}
+      size={size}
       value={value || ''}
       onChange={handleOnChange}
       onFocus={handleFocus}
-      data-qa={'options-' + htmlId + '-input'}  
+      data-qa={'options-' + htmlId + '-input'} 
+      {...otherProps} 
     >
       <option value="">Choose a category</option>
       {categoryOptions.map((category) => {
@@ -35,6 +46,6 @@ export const OptionsCategorySelect = (props: IProps): JSX.Element => {
           ) : null;
         }
       )}
-    </select>
+    </Select>
   );
 }

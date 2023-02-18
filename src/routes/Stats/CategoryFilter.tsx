@@ -1,65 +1,81 @@
-import { useState, ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
 
 import { useGlobalState } from 'contexts';
 import { ICategory } from 'interfaces';
 import { UNCATEGORIZED } from 'lib/constants';
 
-import { OptionsAccordion } from 'routes/Options/OptionsAccordion';
+import { OptionsAccordionButton } from 'routes/Options/OptionsAccordionButton';
 import { OptionsCategorySelect } from 'routes/Options/OptionsCategorySelect';
 import { CategoryFilterListItem } from 'routes/Stats/CategoryFilterListItem';
+import { 
+  Accordion,
+  AccordionItem, 
+  AccordionPanel,
+  Box,
+  Text,
+} from '@chakra-ui/react';
 
 export const CategoryFilter = (): JSX.Element => {
   const { allCategories, filteredOutCategories, filteredOutCategoriesIds, filterOutCategory } = useGlobalState();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const remainingCategories = allCategories.filter(category => {
     return !filteredOutCategoriesIds.includes(category.id);
   })
 
-  const handleAccordionClick = () => {
-    setIsOpen((prev: boolean) => !prev);
-  }   
-
   const handleFilterCategory = (event: ChangeEvent<HTMLSelectElement>) => {
-    filterOutCategory(event.target.value);
+    filterOutCategory(event.currentTarget.value);
   }   
 
   return (
-    <div className="card mvm">
-      <OptionsAccordion
-        isOpen={isOpen}
-        label="filtercategory"
-        handleAccordionClick={handleAccordionClick}
-        className="font-12 gray-777 full-width text-left pam"
+    <Accordion 
+      allowToggle 
+      my={4} 
+    >
+      <AccordionItem 
+        border="none"
+        pb={0}
       >
-        Filter out a category {!!filteredOutCategories.length && <span className="gray-777 italic">(filtering is active)</span>}
-      </OptionsAccordion>         
+        <OptionsAccordionButton
+          border="1px"
+          borderColor="gray.200"
+          borderRadius="md"
+          py={1}
+        >
+          <Text fontSize="xs">
+            Filter out a category {!!filteredOutCategories.length && <span className="gray-777 italic">(filtering is active)</span>}
+          </Text>
+        </OptionsAccordionButton>         
 
-      {isOpen && (
-        <div className="mhm">        
-          <OptionsCategorySelect
-            htmlId="renamecategory-old"
-            value={''}
-            handleOnChange={handleFilterCategory}
-            categoryOptions={remainingCategories}
-          />
+        <AccordionPanel pb={1}>    
+          <Box my={4}> 
+            <OptionsCategorySelect
+              htmlId="renamecategory-old"
+              size="xlg"
+              value={''}
+              handleOnChange={handleFilterCategory}
+              categoryOptions={remainingCategories}
+            />
+          </Box>
 
-            <div className="status gray-777 font-14 mbm">
+          <div className="status gray-777 font-14">
+            <div className="pbs">
               {!filteredOutCategories.length ? (
-                <>Filtering out: <span className='italic'>No filter</span></> 
-              ) : (
-                <>
-                  <div className="pvs">Filtering out:</div>
-                  <ul>
-                    {filteredOutCategories.map((category: ICategory) => {
-                      return <CategoryFilterListItem key={category.id || UNCATEGORIZED} category={category} />;
-                    })}
-                  </ul>
-                </>
-              )}
+                  <>Filtering out: <span className="italic">No filter</span></> 
+                ) : (
+                  <>Filtering out:</>
+                )}
             </div>
-        </div>
-      )}
-    </div>
+
+            {!!filteredOutCategories.length && (
+              <ul>
+                {filteredOutCategories.map((category: ICategory) => {
+                  return <CategoryFilterListItem key={category.id || UNCATEGORIZED} category={category} />;
+                })}
+              </ul>
+            )}
+          </div>
+        </AccordionPanel>
+      </AccordionItem>
+    </Accordion>
   );
 }

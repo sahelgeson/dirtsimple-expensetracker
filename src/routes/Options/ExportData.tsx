@@ -11,7 +11,7 @@ export const ExportData = (): JSX.Element => {
 
   return(
     <>
-      <div className="gray-777 font-14 bold block mts mbs">Export data (downloads as .json)</div>
+      <div className="gray-777 font-14 bold block mvm">Export data (downloads as .json)</div>
       <a
         className="btn btn--outline gray-777 font-12 phm pvm mrxs block center full-width" 
         download={filename}

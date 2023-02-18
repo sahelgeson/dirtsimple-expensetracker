@@ -1,5 +1,5 @@
-import React from 'react';
-
+import React, { useState } from 'react';
+import { Input, Button } from '@chakra-ui/react';
 /* 
 interface {
   handleRenameCategoryNewChange: () => void;
@@ -8,6 +8,8 @@ interface {
 */
 
 export const OptionsRenameCategoryFormContents = (props) => {
+  const { isSaved, isDisabled, handleRenameCategoryNewChange, handleOpenModal } = props;
+
   return(
     <div>
       <label 
@@ -16,24 +18,29 @@ export const OptionsRenameCategoryFormContents = (props) => {
       >
         Rename this category to 
       </label>
-      <input 
+      <Input 
         id="renamecategory-new"
-        className="input gray-border full-width font-16 mvm"
+        size="xlg"
+        mb={4}
         type="text" 
         spellCheck="true"
         placeholder="Rename Category to..."
-        onChange={props.handleRenameCategoryNewChange}                 
+        onChange={handleRenameCategoryNewChange}      // TODO xkcd move this to button, what should onChange do here?s             
         data-qa="options-rename-category-new-input"    
       />   
-      <button
-        className="input btn btn--blue full-width font-16 mvm"
-        type="submit" 
-        disabled={props.renamedCategoryNewName === ''}   
-        value="Save" 
-        data-qa="options-rename-save-btn"          
+
+      <Button 
+        type="submit"
+        size="lg"
+        width="100%"
+        variant={isSaved ? 'success' : 'solid'}
+        isDisabled={isDisabled}              
+        colorScheme={isSaved ? '' : 'blue'}
+        data-qa="options-rename-save-btn" 
       >
-        Save
-      </button>
+        <>{isSaved ? 'Renamed!' : 'Save'}</>
+      </Button>
+         
     </div>       
   );
 }

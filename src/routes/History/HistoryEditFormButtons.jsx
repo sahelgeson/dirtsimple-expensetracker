@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button, Flex, Box, Spacer } from '@chakra-ui/react';
 import ReactModal from 'react-modal';
 import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
 
@@ -7,7 +8,7 @@ ReactModal.setAppElement('#root');
 
 /*
 interface IProps {
-  handleClick: () => void;
+  handleClose: () => void;
   handleSubmit: () => void;
   isSaveDisabled: boolean;
   isSaved: boolean;
@@ -19,17 +20,18 @@ interface IProps {
 */
 
 export const HistoryEditFormButtons = (props) => {
-  const { openModal, closeModal, isModalOpen, deleteThisExpense, handleClick, handleSubmit, isSaved, isSaveDisabled } = props;
+  const { openModal, closeModal, isModalOpen, deleteThisExpense, handleClose, handleSubmit, isSaved, isSaveDisabled } = props;
 
   return ( 
     <div className="ftable__row ftable__row--between">
-      <button
-        className="btn btn--red font-14 phm pvm mrxs"
-        onClick={openModal}                  
+      <Button 
+        colorScheme='red'
+        size='lg'
+        onClick={openModal}
       >
         Delete
-      </button>
-      
+      </Button>
+
       <ReactModal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
@@ -37,47 +39,47 @@ export const HistoryEditFormButtons = (props) => {
         contentLabel="Deletion Modal"
       >
         <div>Are you sure you want to delete this expense entirely? This can't be undone.</div>
-        <div className="pvl">
-          <button 
-            className="btn btn--red capitalize phm pvm mrxs left"
-            onClick={deleteThisExpense}
-          >
-            Yes, Delete
-          </button>
-          <button 
-            className="btn btn--outline capitalize phm pvm mrxs right"
-            onClick={closeModal}
-          >
-            No, Cancel
-          </button>
-        </div>
+        <Flex mt={4}>
+          <Box>
+            <Button 
+              colorScheme='red'
+              size='lg'
+              onClick={deleteThisExpense}
+            >
+              Yes, Delete
+            </Button>
+          </Box>
+          <Spacer />
+          <Box>
+            <Button 
+              colorScheme='gray'
+              size='lg'
+              onClick={closeModal}
+            >
+              No, Cancel
+            </Button>
+          </Box>
+        </Flex>
       </ReactModal>
 
-      <button
-        className="btn btn--outline gray-777 font-14 phm pvm mrxs"
-        onClick={handleClick}                  
-        value="null"
+      <Button 
+        colorScheme='gray'
+        size='lg' 
+        onClick={handleClose}  /* TODO also should reset onClose of Accordion, improve state management here */               
       >
         Close
-      </button>
+      </Button>
 
-      {!isSaved ?
-        <button
-          className="btn btn--blue font-14 pvm phm"
-          onClick={handleSubmit}  
-          disabled={isSaveDisabled} 
-          data-qa="history-form-save-btn"                  
-        >
-          Save
-        </button>
-        :
-        <div 
-          className="gray-777 font-14 pvm phm"
-          data-qa="history-form-saved-message"   
-        >
-          Saved!
-        </div>
-      }
+      <Button 
+        size="lg"
+        onClick={handleSubmit} 
+        variant={isSaved ? 'success' : 'solid'}
+        isDisabled={isSaveDisabled}   
+        data-qa='history-form-save-btn' 
+        colorScheme={isSaved ? '' : 'blue'}
+      >
+        <>{isSaved ? 'Saved!' : 'Save'}</>
+      </Button>
     </div>
   );
 }

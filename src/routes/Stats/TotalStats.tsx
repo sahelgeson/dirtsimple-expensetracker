@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { Divider } from '@chakra-ui/react';
 import { useGlobalState } from 'contexts';
 import { TotalChart } from './TotalChart';
 import { formatUsd } from 'helpers';
@@ -19,7 +20,6 @@ const ListItemTotal = styled.li`
   width: 100%;
   display: flex;
   align-items: end;
-  border-bottom: 1px solid #ccc;
 
   font-weight: bold;
   h4 {
@@ -82,6 +82,7 @@ export const TotalStats = (props: IProps): JSX.Element => {
           <h4>Total</h4>
           <span className="right">{formatUsd(total, { noPrefix: true })}</span>
         </ListItemTotal>
+        <Divider />
       </ListItemWrapper>
       
       {open && (    

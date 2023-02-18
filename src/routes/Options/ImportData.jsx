@@ -21,11 +21,11 @@ export const ImportData = () => {
   const handleUpload = (e) => {
     e.preventDefault();
 
-    const file = (e?.target?.files[0]);
+    const file = (e?.currentTarget?.files[0]);
     if (file) {
       fileReader.onload = function (event) {
         // TODO add "are you sure" validation for filename
-        const text = event.target.result;
+        const text = event.currentTarget.result;
         // save the data, check for malformed data on submit
         setImportedData(text);
         setIsModalOpen(true);
@@ -66,7 +66,7 @@ export const ImportData = () => {
 
   return(
     <>
-      <label className="gray-777 font-14 bold block mtm mbs">Import data (from .json)</label>
+      <label className="gray-777 font-14 bold block mtl mbm">Import data (from .json)</label>
       <input
         className="btn btn--outline gray-777 font-14 phm pvm mrxs block center full-width" 
         type="file" 

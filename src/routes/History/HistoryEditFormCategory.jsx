@@ -1,6 +1,8 @@
 import React from 'react';
 import { UNCATEGORIZED } from 'lib/constants';
 
+import { Select } from '@chakra-ui/react';
+
 /*
 interface IProps {
   category: ICategory;
@@ -8,6 +10,15 @@ interface IProps {
 }
 */
 export const HistoryEditFormCategory = (props) => {
+
+  const { category, allCategories, handleCategoryChange } = props;
+
+  /* filter out Uncategorized like normal, unless this expense's category
+    is already 'Uncategorized' (null). In that case Uncategorized should show 
+    up in the select */
+  const categoriesForOptions = (category.name === UNCATEGORIZED) ? 
+    allCategories : allCategories.filter((category) => category.id !== null);
+
   return ( 
     <div className="mvm">
       <label 
@@ -16,42 +27,24 @@ export const HistoryEditFormCategory = (props) => {
       >
         Category  
       </label>
-      <select
-        id="category"
-        className={(props.category !== null) ?
-            "edit-input select-css gray-border font-16 plm pvs prxs"
-          : "edit-input select-css gray-border font-16 plm pvs prxs italic gray-777" }
-        value={props.category || UNCATEGORIZED} 
-        onChange={props.handleCategoryChange}
-      >
-        {/* filter out Uncategorized like normal, unless this expense's category
-            is already 'Uncategorized'. In that case Uncategorized should show 
-            up in the select */}
-        {(props.category === null) ?
-            props.allCategories.map((category) =>
-                <option 
-                  key={category.id}
-                  value={category.id}
-                >
-                  {category.name}
-                </option>
-            )
-          :
-            props.allCategories.map((category) => {
-                if (category.id !== null) {
-                  return (
-                    <option 
-                      key={category.id}
-                      value={category.id}
-                    >
-                      {category.name}
-                    </option>
-                  );
-                } else { return null; }
-              }
-            )
-        }
-      </select>
+      
+      <Select 
+        placeholder="Change category"
+        value={category || UNCATEGORIZED} 
+        onChange={handleCategoryChange}
+        size="lg"
+        width="75%"
+        display="inline-block"
+      >           
+        {categoriesForOptions.map((category) =>
+          <option 
+            key={category.id}
+            value={category.id}
+          >
+            {category.name}
+          </option>
+        )}
+      </Select>
     </div>  
   );
 }

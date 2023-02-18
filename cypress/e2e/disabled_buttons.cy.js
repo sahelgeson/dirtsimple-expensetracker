@@ -73,7 +73,7 @@ These all work IRL but fail after Cypress upgrade
         it('should open the first entry and check the button changes to "Saved!" if user enters the valid number 6 and submits', function () {
             cy.getQa('history-form-amount-input').clear().type('6');
             cy.getQa('history-form-save-btn').click().then(() => {
-                cy.getQa('history-form-saved-message').should('contain', 'Saved!')
+                cy.getQa('history-form-save-btn').should('contain', 'Saved!')
             }); 
         }); 
 */    

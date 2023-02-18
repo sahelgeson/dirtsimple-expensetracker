@@ -11,10 +11,11 @@ const ItemStyled = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
   &:last-of-type {
-    border-bottom: none;
+    border-bottom: 1px solid #eee;
   }
+  
 `;
 
 interface IProps {

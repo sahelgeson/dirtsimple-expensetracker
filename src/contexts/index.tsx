@@ -1,9 +1,10 @@
-import React, { useState, useContext, createContext, useCallback, useEffect, ReactNode } from 'react';
+import React, { useState, useContext, createContext, useCallback, useMemo, useEffect, ReactNode } from 'react';
 import { compareAsc } from 'date-fns';
 import { createUncategorizedCategory } from 'helpers/CreateUncategorizedCategory';
 import { ICategory, IExpense, CategoryId, Uuid } from 'interfaces';
 import { DefaultCategories } from 'contexts/DefaultCategories';
 import { test_state } from 'test-state.js';
+import { NUM_OF_RECENT_EXPENSES } from 'lib/constants';
 /* 
   For datetime, value is stored in localStorage, which means it has to go through JSON.stringify.
   // TODO fix this, stick with one format
@@ -29,6 +30,7 @@ import { test_state } from 'test-state.js';
 
 interface IGlobalContext {
   allExpensesUnfiltered: IExpense[];
+  recentExpensesUnfiltered: IExpense[];
   allExpensesFiltered: IExpense[];
   allCategories: ICategory[];
   filteredCategories: ICategory[];  // inclusive
@@ -66,7 +68,7 @@ interface IProps {
   children?: ReactNode;
 }
 
-export const GlobalProvider: React.FC = (props: IProps) => {
+export const AppProvider: React.FC = (props: IProps) => {
   // TODO this will need to change based on what's in localStorage
   const [allExpensesUnfiltered, setAllExpensesUnfiltered] = useState<IExpense[]>([]);
   // working expenses that may have some expenses filtered out
@@ -77,6 +79,7 @@ export const GlobalProvider: React.FC = (props: IProps) => {
   const [filteredOutCategories, setFilteredOutCategories] = useState<ICategory[]>([]);
   const [filteredCategories, setFilteredCategories] = useState<ICategory[]>([]);
 
+  // TODO add isLoading state in here
   // load saved data if it exists
   useEffect(() => {
     let savedState: ISavedState;
@@ -263,8 +266,13 @@ export const GlobalProvider: React.FC = (props: IProps) => {
     return now;
   }, [allExpensesUnfiltered]);
 
+  const recentExpensesUnfiltered = useMemo(() => {
+    return allExpensesUnfiltered.slice(0, NUM_OF_RECENT_EXPENSES);
+  }, [allExpensesUnfiltered]);
+
   const context = {
     allExpensesUnfiltered,
+    recentExpensesUnfiltered,
     allExpensesFiltered,
     allCategories,
     filteredCategories,

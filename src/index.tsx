@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { DirtSimpleHomePage } from "./routes/DirtSimpleHome/DirtSimpleHome";
 
 const container = document.getElementById('root');
+// eslint-disable-next-line
 const root = createRoot(container!);
 root.render(
   <>

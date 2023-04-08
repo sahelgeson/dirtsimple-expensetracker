@@ -1,4 +1,5 @@
 import { ChangeEvent } from 'react';
+import { Input } from '@chakra-ui/react';
 import { Datetime } from 'interfaces';
 import { DATETIME_FORMAT } from 'lib/constants';
 import { format } from 'date-fns';
@@ -23,14 +24,21 @@ export const HistoryEditFormDatetime = (props: IProps): JSX.Element => {
       >
         Date   
       </label>
+  
       {/* using datetime-local to avoid issues with manipulating/formatting Dates */}
-      <input 
-        type="datetime-local" 
-        id="datetime"
-        className="edit-input select-css gray-border inline-block font-16 plm pvs prxs"
+      <Input
+        placeholder="Edit Date and Time"
+        size="lg"
+        type="datetime-local"
         onChange={handleDateChange}
         value={formattedDatetime}
-      ></input>
+        width="75%"
+        sx={{ 
+          '&::-webkit-date-and-time-value': {
+            textAlign: 'left',
+          },
+        }}
+      />
     </div>
   );
 }

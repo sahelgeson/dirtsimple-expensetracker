@@ -20,7 +20,9 @@ export const Stats = (): JSX.Element => {
 
   return (
     <div className="container margin-0-auto phl">
+
       <CategoryFilter />
+      
       <ButtonBox>
         <TimeFrameButton
           className={selectedTimePeriod === ONE_WEEK ? 'active' : ''}

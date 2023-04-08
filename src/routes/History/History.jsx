@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { 
+  Accordion, 
+  AccordionItem, 
+  AccordionPanel, 
+  Box, 
+  Divider,
+} from '@chakra-ui/react';
+import { HistoryAccordion } from './HistoryAccordion';
 import { HistoryEditForm } from './HistoryEditForm';
 import { HistoryListing } from './HistoryListing';
 import { useGlobalState } from 'contexts';
+import { NUM_OF_RECENT_EXPENSES } from 'lib/constants';
 
 export const History = () => {
-  /* this is the id of the expense being edited, only allow one at a time */
-  const [isBeingEditedId, setIsBeingEditedId] = useState(null);  // TODO review usage of null
-
-  const { allExpensesUnfiltered, allCategories, sortExpenses } = useGlobalState();
-
-  const handleClick = (event) => {    
-    const thisId = event.target.value;
-    (isBeingEditedId === thisId)
-      ? setIsBeingEditedId(null)
-      : setIsBeingEditedId(thisId);
-  }
+  const { recentExpensesUnfiltered, allCategories, sortExpenses } = useGlobalState();
 
   /* Sort expenses by date by default only for initial load. Setting this up only onmount so we're
     not sorting in edit form because we don't want state to update and rerender which could
@@ -25,50 +24,36 @@ export const History = () => {
     sortExpenses();
   }, []);
 
-  useEffect(() => {
-    setIsBeingEditedId(null);
-  }, [allExpensesUnfiltered.length]);
-
   return(
-    <div className="container margin-0-auto phs">
-      {(!allExpensesUnfiltered.length) 
-        ? <div className="text-center">No expenses entered yet</div>
-        : <div className="ftable font-16">
-        {/* TODO consider a limit on this with a "View more" button */}
-        {allExpensesUnfiltered.map((expense) => {
-            const thisCategory = allCategories.filter((category) => {
-              return ( category.id === expense.categoryId );
-            }).pop(); /* just want the object inside */
 
-            return (
-                <React.Fragment key={expense.id}>
-                  <HistoryListing
-                    key={expense.id}
-                    expense={expense}
-                    isBeingEditedId={isBeingEditedId}
-                    thisCategory={thisCategory}
-                    handleClick={handleClick}
-                  />
+   <div className="container margin-0-auto phs">
+      {(!recentExpensesUnfiltered.length) 
+        ? (
+          <div className="text-center">No expenses entered yet</div>
+        ) : (
+          <div>
+            {recentExpensesUnfiltered.map((expense) => {
+                const thisCategory = allCategories.filter((category) => {
+                  return ( category.id === expense.categoryId );
+                }).pop(); /* just want the object inside */
 
-                  {/* Adds visibility hidden to element instead of returning null so the space doesn't
-                      collapse and have text move a pixel or two */}
-                  <div className={(expense.id !== isBeingEditedId - 1) && (expense.id !== isBeingEditedId) ?
-                        "full-width divider divider--dotted mvn"
-                      : "full-width divider divider--dotted mvn visibility-hidden" }
-                  />
-
-                  {(expense.id === isBeingEditedId) &&
-                    <HistoryEditForm 
-                      thisExpense={expense} 
-                      isBeingEditedId={isBeingEditedId}
-                      handleClick={handleClick}
-                    />
-                  }
-                </React.Fragment>
-            );
-          }
+                /* each item has to have it's own <Accordion> otherwise there are serious performance issues.
+                    This means can't limit to only one open at a time without some hacky workaround */
+                return (
+                  <HistoryAccordion expense={expense} thisCategory={thisCategory} key={expense.id} />
+                );
+              }
+            )}
+            <Box 
+              my={4}
+              color="gray.500"
+              textAlign="center"
+            >
+              {/* TODO think about adding View More functionality */}
+              Showing {NUM_OF_RECENT_EXPENSES} most recent expenses.
+            </Box>
+          </div>
         )}
-      </div>}
     </div>
   );
 }

@@ -55,27 +55,6 @@
     justify-content: space-between;
   }
   
-.ftable__cell {
-  display: flex;
-  flex-grow: 1;
-  width: 25%;  
-  overflow: hidden; /* Or flex might break */
-  //outline: 1px solid aquamarine;
-}
-  .ftable__cell--amount {
-    width: 6%;  
-  }
-  .ftable__cell--date {
-    width: 12%;  
-    justify-content: flex-end;
-    align-items: center;
-  }
-  .ftable__cell--edit {
-    width: 6%;
-    align-items: center;
-    justify-content: flex-end;
-  }
-
 .card {
   border: 1px solid #ccc;
 }

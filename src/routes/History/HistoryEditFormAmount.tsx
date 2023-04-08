@@ -1,31 +1,31 @@
-import { ChangeEvent } from 'react';
+import { NumberInput, NumberInputField } from '@chakra-ui/react';
 
 interface IProps {
   amount: string;
-  handleAmountChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleAmountChange: (valueString: string) => void;
 }
 
 export const HistoryEditFormAmount = (props: IProps): JSX.Element => {
   return ( 
-      <div className="mvm">
+      <div className="mbm">
         <label 
           htmlFor="amount"   
           className="edit-label pvm"        
         >
           Amount  
         </label>
-        <input 
-          id="amount"
-          className="edit-input gray-border font-16 plm pvs prxs"
-          type="number" 
-          placeholder={props.amount} 
-          min="0.01" 
-          step="0.01"
-          pattern="\d*"
-          onChange={props.handleAmountChange}
-          value={props.amount}
-          data-qa="history-form-amount-input"   
-        />
+
+        <NumberInput 
+          defaultValue={props.amount}
+          onChange={(valueString) => props.handleAmountChange(valueString)}
+          data-qa="history-form-amount-input" 
+          size="lg"
+          display="inline-block"
+          verticalAlign="middle"
+          width="75%"
+        >
+          <NumberInputField width="100%" />
+        </NumberInput>
       </div>
   );
 }

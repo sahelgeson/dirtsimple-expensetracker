@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import { Input, Button } from '@chakra-ui/react';
 import cuid from 'cuid';
 import { useGlobalState } from 'contexts';
-import { OptionsAccordion } from './OptionsAccordion';
 import ReactModal from 'react-modal';
 import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
 
@@ -16,13 +16,8 @@ export const OptionsAddCategory = () => {
     setIsModalOpen(false);
   }
 
-  const handleAccordionClick = () => {
-    setIsOpen((prev) => !prev);
-    setIsSaved(false);
-  } 
-
   const handleAddCategoryChange = (event) => {
-    setNewCategoryName(event.target.value);
+    setNewCategoryName(event.currentTarget.value);
   } 
 
   const handleFocus = () => {
@@ -52,28 +47,20 @@ export const OptionsAddCategory = () => {
   return(
     <form
       onSubmit={handleAddSubmit}
-      className="card mtm mbl"
+      className="mvm"
     >
-      <OptionsAccordion
-        isOpen={isOpen}
-        label="addcategory"
-        handleAccordionClick={handleAccordionClick}
-      >
-        Add a category
-      </OptionsAccordion>          
-
-    {isOpen && 
       <div className="mhm">
-        <input 
+        <Input 
           id="addcategory"
-          className="input gray-border full-width font-16 mvm"
+          size="xlg"
           type="text" 
           spellCheck="true"
           placeholder="New Category"
-          onChange={handleAddCategoryChange}
+          onChange={handleAddCategoryChange}                 
           onFocus={handleFocus}
-          data-qa="options-add-category-input"    
-        />          
+          data-qa="options-add-category-input"     
+        />   
+
         <ReactModal
           isOpen={(isModalOpen)}
           onRequestClose={closeModal}
@@ -90,21 +77,21 @@ export const OptionsAddCategory = () => {
           </div>
         </ReactModal>
   
-        <input 
-          className="input btn btn--blue full-width font-16 mvm"
+        <Button 
+          size="lg"
+          width="100%"
           type="submit" 
-          disabled={!newCategoryName?.length}
-          value="Save" 
-          data-qa="options-add-submit-btn"          
-        />
+          variant={isSaved ? 'success' : 'solid'}
+          mt={4}
+          isDisabled={!newCategoryName?.length}   
+          data-qa="options-add-submit-btn"    
+          colorScheme={isSaved ? '' : 'blue'}
+        >
+          <>{isSaved ? 'Saved!' : 'Save'}</>
+        </Button>
+        
       </div>        
-    }
-    
-    {isSaved && isOpen &&
-      <div className="status text-center gray-777 font-14 mbm">
-        Saved!
-      </div>
-    }
+
     </form>
   );
 }

@@ -1,25 +1,17 @@
 import React, { useState, useEffect } from "react";
 import cuid from 'cuid';
+import { Box, Select, BeatLoader } from '@chakra-ui/react';
 
 import { useGlobalState } from 'contexts';
 import { isAmountValid, formatDatetime } from 'helpers';
+import { Button } from "@chakra-ui/react";
+import { NumberInput, NumberInputField } from '@chakra-ui/react';
 
 export const HomeForm = () => {
   const { allCategories, addExpense } = useGlobalState();
 
   /* TODO: change this eventually so user can set default category */
   //const defaultCategoryId = allCategories[0]?.id  || [];
-
-/*
-
-export interface IExpense {
-  id: Uuid;
-  amount: Dollars;   // TODO migrate to Cents string
-  datetime: Datetime;
-  categoryId: number | string | null; // TODO change null to Symbol?
-}
-
-*/
 
   const [amount, setAmount] = useState('');
   const [categoryId, setCategoryId] = useState('');
@@ -29,13 +21,14 @@ export interface IExpense {
     setCategoryId(allCategories[0]?.id);
   }, [allCategories]);
 
-  const handleAmountChange = (event) => {
-    setAmount(event.target.value);
+  const handleAmountChange = (value) => {
+    setAmount(value);
   }
 
   const handleCategoryChange = (event) => {
-    setCategoryId(event.target.value);
+    setCategoryId(event.currentTarget.value);
   }
+
 
   const handleFocus = () => {
     setAmount('');
@@ -44,6 +37,7 @@ export interface IExpense {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     if (!amount) { 
       setIsSaved(false);
       return false; 
@@ -73,54 +67,50 @@ export interface IExpense {
   }  
 
   return (
-    <form 
-      onSubmit={handleSubmit}
-      className="mbl"
-    >
-      {/* Adds visibility hidden to element instead of returning null so the space doesn't
-          collapse and have text move a pixel or two 
-          
-          TODO: check a11y on this */}
-      <div className={isSaved ?
-            "status text-center gray-777 font-14"
-          : "status text-center gray-777 font-14 visibility-hidden" }
-      >
-        Saved!
-      </div>
-
+    <form onSubmit={handleSubmit}>
       <label 
         htmlFor="amount"
         className="sr-only"            
       >
         Enter amount of this expense  
       </label>
-      <input 
-        id="amount"
-        className="input gray-border full-width font-25 mvm"
-        type="number" 
-        placeholder="$0.00" 
-        min="0.01" 
-        step="0.01"
-        pattern="\d*"
-        onChange={handleAmountChange}
-        onFocus={handleFocus}
-        value={amount}
-        data-qa="main-form-amount-input"    
-      />
 
-      <label
-        htmlFor="category"
-        className="block text-center gray-777 mbs"
+      <NumberInput 
+        defaultValue={amount}
+        value={amount}
+        onChange={(valueString) => handleAmountChange(valueString)}
+        onFocus={handleFocus}        
+        size="xlg"
+        variant="darkerBorder"
+        mb={2}
       >
-        Category
-      </label>
-      <select
+        <NumberInputField         
+          width={'100%'} 
+          placeholder="$0.00"
+          data-qa="main-form-amount-input" 
+        />
+      </NumberInput>
+
+      <Box mt={4} mb={2}>
+        <label
+          htmlFor="category"
+          className="block text-center gray-777 mbs"
+        >
+          Category
+        </label>
+      </Box>
+
+      <Select 
         id="category"
-        className="select-css input input-secondary full-width font-25 mbm"
+        placeholder="Select category"
+        size="xlg"
+        variant="darkerBorder"
+        mb={8}
         value={categoryId} 
         onChange={handleCategoryChange}
+        onFocus={handleFocus}
         data-qa="main-form-category-input" 
-      >
+      >     
         {allCategories
           .filter((category) => {
             return category.id !== null
@@ -135,15 +125,20 @@ export interface IExpense {
               </option>
           )}
         )}
-      </select>
+      </Select>
 
-      <input 
-        className="input btn btn--blue full-width font-25 mvm"
-        type="submit" 
-        disabled={!isAmountValid(amount)}
-        value="Save" 
-        data-qa="main-form-save-btn"          
-      />
+      <Button 
+        size="xlg"
+        type="submit"
+        variant={isSaved ? 'success' : 'solid'}
+        isDisabled={!isAmountValid(amount)}   
+        width="100%"
+        data-qa="main-form-save-btn"  
+        colorScheme={isSaved ? '' : 'blue'}
+      >
+        <>{isSaved ? 'Saved!' : 'Save'}</>
+      </Button>
+
     </form>
   );
 }

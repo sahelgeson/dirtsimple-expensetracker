@@ -16,7 +16,9 @@ export interface ICategory {
 
 type Dollars = string;
 
-export type CategoryId = number | string | null; // TODO change null to Symbol?
+// TODO:CategoryId change null to unique string 'uncategorized' for type safety
+// consolidate with ICategory id above
+export type CategoryId = number | string | null; 
 
 export interface IExpense {
   id: Uuid;

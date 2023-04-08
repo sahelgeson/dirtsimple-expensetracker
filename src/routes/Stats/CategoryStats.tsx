@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { Divider } from '@chakra-ui/react';
 import { useGlobalState } from 'contexts';
 import { ListItemGrid } from './styles';
 import { CategoryChart } from './CategoryChart';
@@ -12,7 +13,6 @@ const ListItem = styled.li`
   padding-bottom: 0.75rem;
   width: 100%;
   ${ListItemGrid}
-  border-bottom: 1px solid #ccc;
 `;
 
 interface IProps {
@@ -82,6 +82,7 @@ export const CategoryStats = (props: IProps): JSX.Element => {
           selectedTimePeriod={selectedTimePeriod}
         />
       )}
+      <Divider />
     </>
   );
 }

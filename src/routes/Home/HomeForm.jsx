@@ -108,7 +108,6 @@ export const HomeForm = () => {
         mb={8}
         value={categoryId} 
         onChange={handleCategoryChange}
-        onFocus={handleFocus}
         data-qa="main-form-category-input" 
       >     
         {allCategories

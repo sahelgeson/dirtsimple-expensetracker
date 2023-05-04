@@ -41,7 +41,7 @@ export const App = () => {
                   className="main-nav__link pvm"
                   data-qa="app-history-link"
                 >
-                  All Expenses
+                  Expenses
                 </NavLink> 
               </li>
               <li className="flex__1 main-nav__item">

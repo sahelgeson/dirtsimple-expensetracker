@@ -8,7 +8,7 @@ interface {
 */
 
 export const OptionsRenameCategoryFormContents = (props) => {
-  const { isSaved, isDisabled, handleRenameCategoryNewChange, handleOpenModal } = props;
+  const { isSaved, isDisabled, renamedCategoryNewName, handleRenameCategoryNewChange, handleOpenModal } = props;
 
   return(
     <div>
@@ -25,7 +25,8 @@ export const OptionsRenameCategoryFormContents = (props) => {
         type="text" 
         spellCheck="true"
         placeholder="Rename Category to..."
-        onChange={handleRenameCategoryNewChange}      // TODO xkcd move this to button, what should onChange do here?s             
+        value={renamedCategoryNewName}
+        onChange={handleRenameCategoryNewChange}             
         data-qa="options-rename-category-new-input"    
       />   
 
@@ -34,7 +35,7 @@ export const OptionsRenameCategoryFormContents = (props) => {
         size="lg"
         width="100%"
         variant={isSaved ? 'success' : 'solid'}
-        isDisabled={isDisabled}              
+        isDisabled={renamedCategoryNewName === ''}     
         colorScheme={isSaved ? '' : 'blue'}
         data-qa="options-rename-save-btn" 
       >

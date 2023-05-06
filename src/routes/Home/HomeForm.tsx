@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import cuid from 'cuid';
-import { Box, Select, BeatLoader } from '@chakra-ui/react';
+import { Box, Select } from '@chakra-ui/react';
 
 import { useGlobalState } from 'contexts';
-import { isAmountValid, formatDatetime } from 'helpers';
-import { Button } from '@chakra-ui/react';
+import { formatDatetime } from 'helpers';
+import { Button } from "@chakra-ui/react";
 import { NumberInput, NumberInputField } from '@chakra-ui/react';
 import { UNCATEGORIZED } from 'lib/constants';
+import { CategoryId, Dollar } from 'interfaces';
 
 export const HomeForm = () => {
   const { allCategories, addExpense } = useGlobalState();
@@ -14,32 +15,33 @@ export const HomeForm = () => {
   /* TODO: change this eventually so user can set default category */
   //const defaultCategoryId = allCategories[0]?.id  || [];
 
-  const [amount, setAmount] = useState('');
-  const [categoryId, setCategoryId] = useState('');
-  const [isSaved, setIsSaved] = useState(false);
+  const [amount, setAmount] = useState<Dollar | undefined>();
+  const [categoryId, setCategoryId] = useState<CategoryId>('');
+  const [isSaved, setIsSaved] = useState<boolean>(false);
 
   useEffect(() => {
     setCategoryId(allCategories[0]?.id);
   }, [allCategories]);
 
-  const handleAmountChange = (value) => {
-    setAmount(value);
+  const handleAmountChange = (valueAsNumber: number) => {
+    if (valueAsNumber) {
+      setAmount(valueAsNumber);
+    }
   }
 
-  const handleCategoryChange = (event) => {
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCategoryId(event.currentTarget.value);
   }
 
-
   const handleFocus = () => {
-    setAmount('');
+    setAmount(undefined);
     setIsSaved(false);
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!amount) { 
+    if (!amount) {  // don't submit on 0 or NaN
       setIsSaved(false);
       return false; 
     }  
@@ -65,6 +67,7 @@ export const HomeForm = () => {
     }
 
     addExpense(newExpense);
+    return;
   }  
 
   return (
@@ -79,7 +82,7 @@ export const HomeForm = () => {
       <NumberInput 
         defaultValue={amount}
         value={amount}
-        onChange={(valueString) => handleAmountChange(valueString)}
+        onChange={(_, valueAsNumber) => handleAmountChange(valueAsNumber)}
         onFocus={handleFocus}        
         size="xlg"
         variant="darkerBorder"
@@ -131,7 +134,7 @@ export const HomeForm = () => {
         size="xlg"
         type="submit"
         variant={isSaved ? 'success' : 'solid'}
-        isDisabled={!isAmountValid(amount)}   
+        isDisabled={!!amount}   
         width="100%"
         data-qa="main-form-save-btn"  
         colorScheme={isSaved ? '' : 'blue'}

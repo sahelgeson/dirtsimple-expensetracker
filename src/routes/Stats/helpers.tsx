@@ -85,7 +85,7 @@ export const getChartDataArray = ({
     const timeFrameExpenses = getTimeFrameExpenses({ selectedExpenses, selectedTimePeriod, numOfPeriodsAgo, isByCalendarMonthSelected });
 
     const sum = timeFrameExpenses.reduce((sum, expense) => {
-      return sum + Number(expense.amount);
+      return sum + expense.amount;
     }, 0);
 
     let label: number | string = reversedIndex;

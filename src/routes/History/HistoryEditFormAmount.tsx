@@ -1,8 +1,8 @@
 import { NumberInput, NumberInputField } from '@chakra-ui/react';
 
 interface IProps {
-  amount: string;
-  handleAmountChange: (valueString: string) => void;
+  amount: number;
+  handleAmountChange: (valueAsNumber: number) => void;
 }
 
 export const HistoryEditFormAmount = (props: IProps): JSX.Element => {
@@ -17,7 +17,7 @@ export const HistoryEditFormAmount = (props: IProps): JSX.Element => {
 
         <NumberInput 
           defaultValue={props.amount}
-          onChange={(valueString) => props.handleAmountChange(valueString)}
+          onChange={(_, valueAsNumber) => props.handleAmountChange(valueAsNumber)}
           data-qa="history-form-amount-input" 
           size="lg"
           display="inline-block"

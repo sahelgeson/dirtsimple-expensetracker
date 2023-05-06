@@ -17,7 +17,7 @@ export interface ICategory {
 
 // normally you would want to deal with Cents but I'm only ever going to let
 // whole dollars be input
-export type Dollar = string;
+export type Dollar = number;
 
 export interface IExpense {
   id: Uuid;

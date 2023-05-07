@@ -3,8 +3,8 @@ import React from 'react';
 import { 
   ICategory,
   IExpense,
-  Uuid,
 } from 'interfaces';
+import { UNCATEGORIZED } from 'lib/constants';
 
 import { AccordionButton, GridItem, Grid } from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
@@ -12,7 +12,6 @@ import { EditIcon } from '@chakra-ui/icons';
 interface IProps {
   expense: IExpense;
   thisCategory: ICategory;
-  key: Uuid;
   setAccordionIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -31,7 +30,6 @@ export const HistoryListing = (props: IProps): JSX.Element => {
 
   return (
     <Grid
-      key={expense.id}
       templateColumns="12.5% 50% 25% 12.5%"
       py={2}
       pl={4}
@@ -47,7 +45,7 @@ export const HistoryListing = (props: IProps): JSX.Element => {
         </span>
       </GridItem>
       <GridItem 
-        className={(thisCategory.id !== null) ?
+        className={(thisCategory.id !== UNCATEGORIZED) ?
             ""
           : "italic gray-777" }
         data-qa="history-category"   

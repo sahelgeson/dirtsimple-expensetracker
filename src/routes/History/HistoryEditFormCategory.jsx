@@ -14,10 +14,10 @@ export const HistoryEditFormCategory = (props) => {
   const { category, allCategories, handleCategoryChange } = props;
 
   /* filter out Uncategorized like normal, unless this expense's category
-    is already 'Uncategorized' (null). In that case Uncategorized should show 
+    is already 'Uncategorized'. In that case Uncategorized should show 
     up in the select */
   const categoriesForOptions = (category.name === UNCATEGORIZED) ? 
-    allCategories : allCategories.filter((category) => category.id !== null);
+    allCategories : allCategories.filter((category) => category.id !== UNCATEGORIZED);
 
   return ( 
     <div className="mvm">

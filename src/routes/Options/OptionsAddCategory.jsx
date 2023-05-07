@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { Input, Button } from '@chakra-ui/react';
 import cuid from 'cuid';
 import { useGlobalState } from 'contexts';
+import { UNCATEGORIZED } from 'lib/constants';
 import ReactModal from 'react-modal';
 import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
 
 export const OptionsAddCategory = () => {
   const { allCategories, addCategory } = useGlobalState();
-  const [newCategoryName, setNewCategoryName] = useState(null); // TODO: review usage of null
+  const [newCategoryName, setNewCategoryName] = useState(UNCATEGORIZED);
   const [isSaved, setIsSaved] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);

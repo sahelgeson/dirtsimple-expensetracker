@@ -12,7 +12,7 @@ export const test_state = {
       "id": "cl4n0ixwy000b3t5dg1vocwst",
       "datetime": "Mon Jun 20 2022 13:29:41 GMT-0400 (EDT)",
       "amount": "49",
-      "categoryId": "ckyj6www7000w3t5cqzlwevil"
+      "categoryId": "null"
     },
     {
       "id": "cl4mxm2jf000b3t5dlpcrpao5",
@@ -2905,7 +2905,7 @@ export const test_state = {
       "name": "Other"
     },
     {
-      "id": null,
+      "id": "null", // leave this legacy in here
       "name": "Uncategorized"
     },
     {

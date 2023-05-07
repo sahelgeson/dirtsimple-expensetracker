@@ -1,10 +1,10 @@
 import React, { useState, useContext, createContext, useCallback, useMemo, useEffect, ReactNode } from 'react';
 import { compareAsc } from 'date-fns';
-import { createUncategorizedCategory } from 'helpers/CreateUncategorizedCategory';
+import { addUncategorizedToCategories, removeLegacyNullUncategorized } from 'helpers/CreateUncategorizedCategory';
 import { ICategory, IExpense, CategoryId, Uuid } from 'interfaces';
 import { DefaultCategories } from 'contexts/DefaultCategories';
 import { test_state } from 'test-state.js';
-import { NUM_OF_RECENT_EXPENSES } from 'lib/constants';
+import { NUM_OF_RECENT_EXPENSES, UNCATEGORIZED } from 'lib/constants';
 /* 
   For datetime, value is stored in localStorage, which means it has to go through JSON.stringify.
   // TODO fix this, stick with one format
@@ -82,31 +82,39 @@ export const AppProvider: React.FC = (props: IProps) => {
   // TODO add isLoading state in here
   // load saved data if it exists
   useEffect(() => {
-    let savedState: ISavedState;
+    let savedState: ISavedState | undefined = undefined;
     try { 
       const serializedState = localStorage.getItem('state') ?? '';
       // TODO change tests so they always to manually import data instead
       savedState = JSON.parse(serializedState);
-      
-      // TODO ensure there is an "Uncategorized" category
-      savedState.categories = createUncategorizedCategory(savedState.categories); // TODO: decouple keys from state variables
-      // only setState if serializedState exists
-      setAllExpensesUnfiltered(savedState.allExpenses);
-      setAllCategories(savedState.categories); // TODO: decouple keys from state variables
-      setFilteredOutCategoriesIds(savedState.filteredOutCategoriesIds || []);
     } catch (err) { 
       if (process.env.REACT_APP_TESTING === 'development') {
-        savedState = test_state;
-        // TODO ensure there is an "Uncategorized" category
-        savedState.categories = createUncategorizedCategory(savedState.categories); // TODO: decouple keys from state variables
-        // only setState if serializedState exists
-        setAllExpensesUnfiltered(savedState.allExpenses);
-        setAllCategories(savedState.categories); // TODO: decouple keys from state variables
-        setFilteredOutCategoriesIds(savedState.filteredOutCategoriesIds || []);
+        savedState = test_state as ISavedState; // TODO xkcd temp as ISavedState for testing
       } else {
         console.error(err); 
       }
     }
+
+    if (savedState) {
+      const { allExpenses, categories, filteredOutCategoriesIds } = savedState;
+
+      // TODO ensure there is an "Uncategorized" category, add one first if necessary then remove legacy
+      const allCategories = removeLegacyNullUncategorized(addUncategorizedToCategories(categories)); // TODO: decouple keys from state variables
+      
+      // the Uncategorized category originally had id === null, this covers legacy
+      const allExpensesFixNull: IExpense[] = allExpenses.map((expense) => {
+        if (expense.categoryId === 'null') {
+          expense.categoryId = UNCATEGORIZED;
+        }
+        return expense;
+      });
+
+      // only setState if serializedState exists
+      setAllExpensesUnfiltered(allExpensesFixNull);
+      setAllCategories(allCategories); // TODO: decouple keys from state variables
+      setFilteredOutCategoriesIds(filteredOutCategoriesIds || []);
+    }
+  
   }, []);
 
   // save data to localStorage whenever it changes
@@ -202,15 +210,15 @@ export const AppProvider: React.FC = (props: IProps) => {
     });
   }, []);
   
-  /* if a category is deleted, the category id value for each expense
-    that had that category id should be set to null ("Uncategorized"); 
-    TODO change null to special string */
+  /* if a category is deleted, the category id value for any expense
+    that had that category id should be set to "Uncategorized"
+  */
   const deleteCategory = useCallback((deletedCategoryId: Uuid) => {
-    // set any expenses with deleted category to have a categoryId of null
+    // set any expenses with deleted category to have a categoryId of UNCATEGORIZED
     setAllExpensesUnfiltered((prev: IExpense[]) => {
       const updatedExpenses = prev.map((expense) => {
         if (expense.categoryId === deletedCategoryId) {   
-          expense.categoryId = null;
+          expense.categoryId = UNCATEGORIZED;
         }
         return expense;
       }); 

@@ -6,23 +6,22 @@
 */
 export type Datetime = string;
 
-// TODO: Symbol instead?
 export type Uuid = string;
 
+export type CategoryId = Uuid;
+
 export interface ICategory {
-  id: Uuid | null; // TODO make a special uuid instead of null
+  id: CategoryId;
   name: string;
 }
 
-type Dollars = string;
-
-// TODO:CategoryId change null to unique string 'uncategorized' for type safety
-// consolidate with ICategory id above
-export type CategoryId = number | string | null; 
+// normally you would want to deal with Cents but I'm only ever going to let
+// whole dollars be input
+export type Dollar = string;
 
 export interface IExpense {
   id: Uuid;
-  amount: Dollars;   // TODO migrate to Cents string
+  amount: Dollar;
   datetime: Datetime;
   categoryId: CategoryId;
 }

@@ -4,6 +4,7 @@ import {
   ListItem,
   UnorderedList,
 } from '@chakra-ui/react';
+import { UNCATEGORIZED } from 'lib/constants';
 
 export const OptionsViewAllCategories = () => {
   const { allCategories } = useGlobalState();
@@ -20,7 +21,7 @@ export const OptionsViewAllCategories = () => {
           {/* don't show Uncategorized category if there are any other categories */}
           {allCategories.map((category) => {
             return (
-              (category.id !== null) ? (
+              (category.id !== UNCATEGORIZED) ? (
                 <ListItem key={category.id} mb={2}>
                   {category.name}
                 </ListItem>

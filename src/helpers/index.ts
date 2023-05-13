@@ -1,8 +1,12 @@
 /* TODO import other helpers to make this a proper index file */
 
-/* 0 and '' are considered invalid */
-export const isAmountValid = (amount: string): boolean => {
-  return !!parseInt(amount, 10);
+export const parseStoredAmount = (amount: number | string): number => {
+  const parsedAmount = (typeof amount === 'number') ? amount : parseInt(amount);
+
+  if (Number.isNaN(parsedAmount) || parsedAmount === 0) {
+    throw new Error('Not a valid number');
+  }
+  return parsedAmount;
 }
 
 export const formatDatetime = (datetime?: string): string => {

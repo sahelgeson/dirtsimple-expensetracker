@@ -1,6 +1,7 @@
 import React, { useState, useContext, createContext, useCallback, useMemo, useEffect, ReactNode } from 'react';
 import { compareAsc } from 'date-fns';
 import { addUncategorizedToCategories, removeLegacyNullUncategorized } from 'helpers/CreateUncategorizedCategory';
+import { parseStoredAmount } from 'helpers';
 import { ICategory, IExpense, CategoryId, Uuid } from 'interfaces';
 import { DefaultCategories } from 'contexts/DefaultCategories';
 import { test_state } from 'test-state.js';
@@ -68,6 +69,48 @@ interface IProps {
   children?: ReactNode;
 }
 
+function hasAmount(value: unknown): value is { amount: number | string } {
+  return !!value && 'amount' in (value as any); // don't want 0
+}
+function hasCategoryId(value: unknown): value is { categoryId: CategoryId } {
+  return 'categoryId' in (value as any);
+}
+
+// value here is IExpense[], array of IExpense objs
+const parseAllExpenses = (value: unknown) => {
+
+  if (hasAmount(value)) {
+    try {
+      const parsedAmount = parseStoredAmount(value.amount);
+      value.amount = parsedAmount;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  // TODO move datetime parsing here
+
+  if (hasCategoryId(value)) {
+    if (value.categoryId === null) {  // TODO was checking 'null', was it null or 'null' in LS?
+      value.categoryId = UNCATEGORIZED;
+    } 
+  }
+
+  return value as IExpense;
+}
+
+const parseState = (k: string, v: any) => {
+  /*  
+    categories and filteredOutCategoriesIds are ICategory[] and CategoryId[], which are arrays of strings
+    but allExpenses is IExpense[], where amount is a number but used to be a string. So if a string
+    is stored for amount in localStorage, we want to parse it to a number
+  */
+  if (k === 'allExpenses') {
+    parseAllExpenses(v);
+  }
+  return v;
+};
+
 export const AppProvider: React.FC = (props: IProps) => {
   // TODO this will need to change based on what's in localStorage
   const [allExpensesUnfiltered, setAllExpensesUnfiltered] = useState<IExpense[]>([]);
@@ -86,10 +129,10 @@ export const AppProvider: React.FC = (props: IProps) => {
     try { 
       const serializedState = localStorage.getItem('state') ?? '';
       // TODO change tests so they always to manually import data instead
-      savedState = JSON.parse(serializedState);
+      savedState = JSON.parse(serializedState, parseState);
     } catch (err) { 
       if (process.env.REACT_APP_TESTING === 'development') {
-        savedState = test_state as ISavedState; // TODO xkcd temp as ISavedState for testing
+        savedState = test_state as ISavedState;
       } else {
         console.error(err); 
       }
@@ -102,7 +145,7 @@ export const AppProvider: React.FC = (props: IProps) => {
       const allCategories = removeLegacyNullUncategorized(addUncategorizedToCategories(categories)); // TODO: decouple keys from state variables
       
       // the Uncategorized category originally had id === null, this covers legacy
-      const allExpensesFixNull: IExpense[] = allExpenses.map((expense) => {
+      const allExpensesFixNull: IExpense[] = allExpenses.map((expense: IExpense) => {
         if (expense.categoryId === 'null') {
           expense.categoryId = UNCATEGORIZED;
         }
@@ -114,7 +157,6 @@ export const AppProvider: React.FC = (props: IProps) => {
       setAllCategories(allCategories); // TODO: decouple keys from state variables
       setFilteredOutCategoriesIds(filteredOutCategoriesIds || []);
     }
-  
   }, []);
 
   // save data to localStorage whenever it changes

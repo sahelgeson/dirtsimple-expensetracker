@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Text } from '@chakra-ui/react';
 import { useGlobalState } from 'contexts';
-import { isAmountValid, formatDatetime } from 'helpers';
+import { parseStoredAmount, formatDatetime } from 'helpers';
 import { HistoryEditFormAmount } from './HistoryEditFormAmount';
 import { HistoryEditFormCategory } from './HistoryEditFormCategory';
 import { HistoryEditFormDatetime } from './HistoryEditFormDatetime';
@@ -28,7 +28,6 @@ export const HistoryEditForm = (props: IProps): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    const isValid = isAmountValid(amount);
     /* if a user changes values back to original disable save button as affordance */
     if (
       amount === thisExpense.amount && 
@@ -38,7 +37,7 @@ export const HistoryEditForm = (props: IProps): JSX.Element => {
       setIsSaveDisabled(true);
       setIsSaved(false);  
     } else {
-      setIsSaveDisabled(!isValid);
+      setIsSaveDisabled(!amount); // user can enter 0 but cannot save it, see if there's better way to enforce this
       setIsSaved(false);
     }
   }, [amount, categoryId, datetime]);
@@ -53,8 +52,10 @@ export const HistoryEditForm = (props: IProps): JSX.Element => {
   }, []);
 
   // TODO review handlers
-  const handleAmountChange = (valueString: string) => {
-    setAmount(valueString);
+  const handleAmountChange = (valueAsNumber: number) => {
+    if (valueAsNumber) {
+      setAmount(valueAsNumber);
+    }
   }
 
   const handleCategoryChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +93,7 @@ export const HistoryEditForm = (props: IProps): JSX.Element => {
     const editedExpense = {
       id,     
       datetime,
-      amount,
+      amount: parseStoredAmount(amount),
       categoryId,
     }
 

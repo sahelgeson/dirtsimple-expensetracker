@@ -41,7 +41,7 @@ interface IProps {
 /* helper functions */
 const getTotal = (timeFrameExpenses: IExpense[]): number => {
   const total = timeFrameExpenses.reduce((sum, expense) => {
-    return sum + Number(expense.amount);
+    return sum + expense.amount;
   }, 0);
   return total;
 } 

@@ -32,7 +32,7 @@ export const CategoryStats = (props: IProps): JSX.Element => {
   const getCategoryTotal = (category: ICategory, timeFrameExpenses: IExpense[]): number => {
     const total = timeFrameExpenses.reduce((sum, expense) => {
       if (expense.categoryId === category.id) {
-        return sum + Number(expense.amount);
+        return sum + expense.amount;
       }
       return sum;    
     }, 0);

@@ -109,7 +109,7 @@ export const OptionsRenameCategory = () => {
 
         <OptionsRenameCategoryFormContents
           handleRenameCategoryNewChange={handleRenameCategoryNewChange}
-          isDisabled={renamedCategoryNewName === ''}
+          renamedCategoryNewName={renamedCategoryNewName}
           isSaved={isSaved}
         />   
 

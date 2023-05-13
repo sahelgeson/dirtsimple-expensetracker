@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import { ICategory, CategoryId } from 'interfaces';
 import { Select } from '@chakra-ui/react';
-
+import { UNCATEGORIZED } from 'lib/constants';
 
 interface IProps {
   htmlId: string;
@@ -36,7 +36,7 @@ export const OptionsCategorySelect = (props: IProps): JSX.Element => {
     >
       <option value="">Choose a category</option>
       {categoryOptions.map((category) => {
-        return (category.id !== null) ? (
+        return (category.id !== UNCATEGORIZED) ? (
             <option 
               key={category.id}
               value={category.id}

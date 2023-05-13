@@ -38,7 +38,7 @@ export const getDefaultCategories = (DefaultCategoriesNames: string[]): ICategor
       'Food' category)
   */
   const uncategorized = {
-    id: null, // TODO change this
+    id: UNCATEGORIZED,
     name: UNCATEGORIZED
   }
   

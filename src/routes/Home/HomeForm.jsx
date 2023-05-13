@@ -4,8 +4,9 @@ import { Box, Select, BeatLoader } from '@chakra-ui/react';
 
 import { useGlobalState } from 'contexts';
 import { isAmountValid, formatDatetime } from 'helpers';
-import { Button } from "@chakra-ui/react";
+import { Button } from '@chakra-ui/react';
 import { NumberInput, NumberInputField } from '@chakra-ui/react';
+import { UNCATEGORIZED } from 'lib/constants';
 
 export const HomeForm = () => {
   const { allCategories, addExpense } = useGlobalState();
@@ -112,7 +113,7 @@ export const HomeForm = () => {
       >     
         {allCategories
           .filter((category) => {
-            return category.id !== null
+            return category.id !== UNCATEGORIZED
           })
           .map((category) => {
             return (

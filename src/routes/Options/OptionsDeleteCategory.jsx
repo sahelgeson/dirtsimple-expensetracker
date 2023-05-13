@@ -8,7 +8,7 @@ import { OptionsDeleteCategoryModal } from './OptionsDeleteCategoryModal';
 
 export const OptionsDeleteCategory = () => {
   const { allCategories, deleteCategory } = useGlobalState();
-  const [deletedCategoryId, setDeletedCategoryId] = useState(null); // TODO: s/b Uuid type, see interfaces.ts comment
+  const [deletedCategoryId, setDeletedCategoryId] = useState(UNCATEGORIZED);
   const [deletedCategoryName, setDeletedCategoryName] = useState('');
   const [isSaved, setIsSaved] = useState(false);
   const [isOpen, setIsOpen] = useState(false);

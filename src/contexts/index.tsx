@@ -69,11 +69,17 @@ interface IProps {
   children?: ReactNode;
 }
 
-function hasAmount(value: unknown): value is { amount: number | string } {
-  return !!value && 'amount' in (value as any); // don't want 0
+function tsObjectGuard(value: unknown): value is Record<PropertyKey, unknown> {
+  return typeof value === 'object' && value !== null
 }
+
+function hasAmount(value: unknown): value is { amount: number | string } {
+  // don't want 0
+  return tsObjectGuard(value) && 'amount' in value && value.amount !== 0;
+}
+
 function hasCategoryId(value: unknown): value is { categoryId: CategoryId } {
-  return 'categoryId' in (value as any);
+  return tsObjectGuard(value) && 'categoryId' in value;
 }
 
 // value here is IExpense[], array of IExpense objs
@@ -99,7 +105,7 @@ const parseAllExpenses = (value: unknown) => {
   return value as IExpense;
 }
 
-const parseState = (k: string, v: any) => {
+const parseState = (k: string, v: unknown) => {
   /*  
     categories and filteredOutCategoriesIds are ICategory[] and CategoryId[], which are arrays of strings
     but allExpenses is IExpense[], where amount is a number but used to be a string. So if a string

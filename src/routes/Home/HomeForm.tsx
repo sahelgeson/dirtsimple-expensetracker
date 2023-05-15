@@ -3,11 +3,11 @@ import cuid from 'cuid';
 import { Box, Select } from '@chakra-ui/react';
 
 import { useGlobalState } from 'contexts';
-import { formatDatetime } from 'helpers';
+import { formatDatetime, parseStoredAmount } from 'helpers';
 import { Button } from "@chakra-ui/react";
 import { NumberInput, NumberInputField } from '@chakra-ui/react';
 import { UNCATEGORIZED } from 'lib/constants';
-import { CategoryId, Dollar } from 'interfaces';
+import { CategoryId, Dollar, EmptyString } from 'interfaces';
 
 export const HomeForm = () => {
   const { allCategories, addExpense } = useGlobalState();
@@ -15,7 +15,7 @@ export const HomeForm = () => {
   /* TODO: change this eventually so user can set default category */
   //const defaultCategoryId = allCategories[0]?.id  || [];
 
-  const [amount, setAmount] = useState<Dollar | undefined>();
+  const [amount, setAmount] = useState<Dollar | EmptyString>('');
   const [categoryId, setCategoryId] = useState<CategoryId>('');
   const [isSaved, setIsSaved] = useState<boolean>(false);
 
@@ -24,7 +24,9 @@ export const HomeForm = () => {
   }, [allCategories]);
 
   const handleAmountChange = (valueAsNumber: number) => {
-    if (valueAsNumber) {
+    if (Number.isNaN(valueAsNumber)) {
+      setAmount('');
+    } else {
       setAmount(valueAsNumber);
     }
   }
@@ -34,14 +36,14 @@ export const HomeForm = () => {
   }
 
   const handleFocus = () => {
-    setAmount(undefined);
+    setAmount('');
     setIsSaved(false);
   }
 
   const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!amount) {  // don't submit on 0 or NaN
+    if (!amount) {  // don't submit on 0 or NaN or ''
       setIsSaved(false);
       return false; 
     }  
@@ -62,7 +64,7 @@ export const HomeForm = () => {
     const newExpense = {
       id,
       datetime,
-      amount,
+      amount: parseStoredAmount(amount),
       categoryId
     }
 
@@ -80,7 +82,6 @@ export const HomeForm = () => {
       </label>
 
       <NumberInput 
-        defaultValue={amount}
         value={amount}
         onChange={(_, valueAsNumber) => handleAmountChange(valueAsNumber)}
         onFocus={handleFocus}        
@@ -134,7 +135,7 @@ export const HomeForm = () => {
         size="xlg"
         type="submit"
         variant={isSaved ? 'success' : 'solid'}
-        isDisabled={!!amount}   
+        isDisabled={!amount}   
         width="100%"
         data-qa="main-form-save-btn"  
         colorScheme={isSaved ? '' : 'blue'}

@@ -25,3 +25,6 @@ export interface IExpense {
   datetime: Datetime;
   categoryId: CategoryId;
 }
+
+// have to set value of NumberInput to '' to get placeholder
+export type EmptyString = '';

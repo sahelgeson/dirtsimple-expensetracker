@@ -82,27 +82,33 @@ function hasCategoryId(value: unknown): value is { categoryId: CategoryId } {
   return tsObjectGuard(value) && 'categoryId' in value;
 }
 
-// value here is IExpense[], array of IExpense objs
+// value here should be IExpense[], array of IExpense objs
 const parseAllExpenses = (value: unknown) => {
+  let parsedExpenses = [];
+  if (Array.isArray(value)) {
+    parsedExpenses = value.map(expense => {
+      if (hasAmount(expense)) {
+        try {
+          const parsedAmount = parseStoredAmount(expense.amount);
+          expense.amount = parsedAmount;
+        } catch (e) {
+          console.error(e);
+        }
+      }
 
-  if (hasAmount(value)) {
-    try {
-      const parsedAmount = parseStoredAmount(value.amount);
-      value.amount = parsedAmount;
-    } catch (e) {
-      console.error(e);
-    }
-  }
+      // TODO move datetime parsing here
 
-  // TODO move datetime parsing here
+      if (hasCategoryId(expense)) {
+        if (expense.categoryId === null || expense.categoryId === 'null') {  
+          expense.categoryId = UNCATEGORIZED;
+        } 
+      }
 
-  if (hasCategoryId(value)) {
-    if (value.categoryId === null) {  // TODO was checking 'null', was it null or 'null' in LS?
-      value.categoryId = UNCATEGORIZED;
-    } 
-  }
+      return expense;
+    })
+  } 
 
-  return value as IExpense;
+  return parsedExpenses as IExpense[];
 }
 
 const parseState = (k: string, v: unknown) => {
@@ -147,12 +153,11 @@ export const AppProvider: React.FC = (props: IProps) => {
     if (savedState) {
       const { allExpenses, categories, filteredOutCategoriesIds } = savedState;
 
-      // TODO ensure there is an "Uncategorized" category, add one first if necessary then remove legacy
       const allCategories = removeLegacyNullUncategorized(addUncategorizedToCategories(categories)); // TODO: decouple keys from state variables
       
       // the Uncategorized category originally had id === null, this covers legacy
       const allExpensesFixNull: IExpense[] = allExpenses.map((expense: IExpense) => {
-        if (expense.categoryId === 'null') {
+        if (expense.categoryId === null || expense.categoryId === 'null') {
           expense.categoryId = UNCATEGORIZED;
         }
         return expense;

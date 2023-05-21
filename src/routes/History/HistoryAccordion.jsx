@@ -15,9 +15,14 @@ import { NUM_OF_RECENT_EXPENSES } from 'lib/constants';
 //export type IAccordionIndex = -1 | 0;
 
 export const HistoryAccordion = (props) => {
-  const { expense, thisCategory } = props;
+  const { expense } = props;
+  const { allCategories } = useGlobalState();
 
   const [accordionIndex, setAccordionIndex] = useState(-1);  // -1 closes accordion, 0 opens it
+
+  const thisCategory = allCategories.filter((category) => {
+    return ( category.id === expense.categoryId );
+  }).pop(); /* just want the object inside */
 
   const handleClose = (event) => {    
     setAccordionIndex(-1);

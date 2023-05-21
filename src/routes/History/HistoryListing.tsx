@@ -1,4 +1,5 @@
 import React from 'react';
+import { format } from 'date-fns';
 
 import { 
   ICategory,
@@ -14,9 +15,6 @@ interface IProps {
   thisCategory: ICategory;
   setAccordionIndex: React.Dispatch<React.SetStateAction<number>>;
 }
-
-// TODO: move this or see if we can use date-fns instead
-const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 export const HistoryListing = (props: IProps): JSX.Element => {
   const { expense, thisCategory, setAccordionIndex } = props;
@@ -52,8 +50,8 @@ export const HistoryListing = (props: IProps): JSX.Element => {
       >
         {thisCategory.name}
       </GridItem>
-      <GridItem> 
-        {days[new Date(expense.datetime).getDay()]},&nbsp; 
+      <GridItem>
+        {format(new Date(expense.datetime), 'EEE')},&nbsp; 
         {new Date(expense.datetime).getMonth() + 1}/                  
         {new Date(expense.datetime).getDate()}
       </GridItem>

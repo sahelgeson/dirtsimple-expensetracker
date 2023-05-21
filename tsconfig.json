@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES6",
     "baseUrl": "src",
     "lib": ["es6", "dom"],
     "noImplicitReturns": true,

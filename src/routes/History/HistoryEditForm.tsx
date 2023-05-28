@@ -1,27 +1,27 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { Text } from '@chakra-ui/react';
+import { Button, Text } from '@chakra-ui/react';
 import { useGlobalState } from 'contexts';
 import { parseStoredAmount, formatDatetime } from 'helpers';
 import { HistoryEditFormAmount } from './HistoryEditFormAmount';
 import { HistoryEditFormCategory } from './HistoryEditFormCategory';
 import { HistoryEditFormDatetime } from './HistoryEditFormDatetime';
-import { HistoryEditFormButtons } from './HistoryEditFormButtons';
-import { IExpense } from 'interfaces';
+import { DeleteButton } from './DeleteButton';
+import { IExpense, CategoryId, Datetime, Dollar } from 'interfaces';
 
 interface IProps {
   thisExpense: IExpense;
-  handleClose: () => void;
+  handleClose: (isSaved: boolean) => void;
+  amount: Dollar;
+  categoryId: CategoryId;
+  datetime: Datetime;
+  setAmount: React.Dispatch<React.SetStateAction<Dollar>>;
+  setCategoryId: React.Dispatch<React.SetStateAction<CategoryId>>;
+  setDatetime: React.Dispatch<React.SetStateAction<Datetime>>;
 }
 
 export const HistoryEditForm = (props: IProps): JSX.Element => {
   const { allCategories, updateExpense, deleteExpense } = useGlobalState();
-  const { thisExpense, handleClose } = props;
-
-  // okay to initialize state with props here because props won't change due to UI flow
-  // also we want the initial amount for disabling the save button
-  const [amount, setAmount] = useState(thisExpense.amount);
-  const [categoryId, setCategoryId] = useState(thisExpense.categoryId);
-  const [datetime, setDatetime] = useState(thisExpense.datetime);
+  const { thisExpense, handleClose, amount, categoryId, datetime, setAmount, setCategoryId, setDatetime } = props;
 
   const [isSaved, setIsSaved] = useState(false);
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
@@ -63,15 +63,13 @@ export const HistoryEditForm = (props: IProps): JSX.Element => {
   }
 
   const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.count('date change');
     try {
-
       const date = formatDatetime(e.currentTarget.value);
       setDatetime(date);  
     } catch (e) { /* Chrome's datepicker is buggy and will sometimes have an empty string value */ }
   }
 
-  const openModal = (e: ChangeEvent<HTMLInputElement>) => {
+  const openModal = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsModalOpen(true);
   }
@@ -85,8 +83,8 @@ export const HistoryEditForm = (props: IProps): JSX.Element => {
     closeModal();
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (!amount) { return false; } 
     const id = thisExpense.id;
 
@@ -129,17 +127,33 @@ export const HistoryEditForm = (props: IProps): JSX.Element => {
         />
       </div>
 
-      <HistoryEditFormButtons 
-        amount={amount}
-        handleClose={handleClose}
-        handleSubmit={handleSubmit}
-        isSaveDisabled={isSaveDisabled}
-        isSaved={isSaved}
-        isModalOpen={isModalOpen}          
-        openModal={openModal}
-        closeModal={closeModal}
-        deleteThisExpense={deleteThisExpense}
-      />
+      <div className="ftable__row ftable__row--between">
+        <DeleteButton 
+          openModal={openModal}
+          closeModal={closeModal}
+          isModalOpen={isModalOpen}
+          deleteThisExpense={deleteThisExpense}
+        /> 
+        
+        <Button 
+          colorScheme='gray'
+          size='lg' 
+          onClick={() => handleClose(isSaved)}              
+        >
+          Close
+        </Button>
+
+        <Button 
+          size="lg"
+          onClick={handleSubmit} 
+          variant={isSaved ? 'success' : 'solid'}
+          isDisabled={isSaveDisabled}   
+          data-qa='history-form-save-btn' 
+          colorScheme={isSaved ? '' : 'blue'}
+        >
+          <>{isSaved ? 'Saved!' : 'Save'}</>
+        </Button>
+      </div>
     </form>
   );
 }

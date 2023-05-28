@@ -1,29 +1,24 @@
-import React from 'react';
 import { Button, Flex, Box, Spacer } from '@chakra-ui/react';
 import ReactModal from 'react-modal';
 import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
-
+// @ts-ignore
 ReactModal.defaultStyles.overlay.backgroundColor = 'rgba(80, 80, 80, 0.69)';
 ReactModal.setAppElement('#root');
 
-/*
+
 interface IProps {
-  handleClose: () => void;
-  handleSubmit: () => void;
-  isSaveDisabled: boolean;
-  isSaved: boolean;
   isModalOpen: boolean;
-  openModal: () => void;
+  openModal: (e: React.MouseEvent<HTMLButtonElement>) => void;
   closeModal: () => void;
   deleteThisExpense: () => void;
 }
-*/
 
-export const HistoryEditFormButtons = (props) => {
-  const { openModal, closeModal, isModalOpen, deleteThisExpense, handleClose, handleSubmit, isSaved, isSaveDisabled } = props;
+
+export const DeleteButton = (props: IProps) => {
+  const { openModal, closeModal, isModalOpen, deleteThisExpense } = props;
 
   return ( 
-    <div className="ftable__row ftable__row--between">
+    <>
       <Button 
         colorScheme='red'
         size='lg'
@@ -35,6 +30,7 @@ export const HistoryEditFormButtons = (props) => {
       <ReactModal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
+        // @ts-ignore
         style={ReactModalStyles}
         contentLabel="Deletion Modal"
       >
@@ -61,25 +57,6 @@ export const HistoryEditFormButtons = (props) => {
           </Box>
         </Flex>
       </ReactModal>
-
-      <Button 
-        colorScheme='gray'
-        size='lg' 
-        onClick={handleClose}  /* TODO also should reset onClose of Accordion, improve state management here */               
-      >
-        Close
-      </Button>
-
-      <Button 
-        size="lg"
-        onClick={handleSubmit} 
-        variant={isSaved ? 'success' : 'solid'}
-        isDisabled={isSaveDisabled}   
-        data-qa='history-form-save-btn' 
-        colorScheme={isSaved ? '' : 'blue'}
-      >
-        <>{isSaved ? 'Saved!' : 'Save'}</>
-      </Button>
-    </div>
+    </>
   );
 }

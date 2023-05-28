@@ -1,4 +1,4 @@
-import { format, sub, isWithinInterval, endOfMonth, isAfter, startOfMonth, subMonths } from 'date-fns';
+import { format, sub, isWithinInterval, endOfMonth, isAfter, endOfDay, startOfMonth, subMonths } from 'date-fns';
 import { IExpense } from 'interfaces';
 import { useGlobalState } from 'contexts';
 import { ONE_MONTH } from 'lib/constants';
@@ -24,9 +24,9 @@ interface IStartEndValue {
 const getStartAndEndCutoff = ({ selectedTimePeriod, numOfPeriodsAgo = 0, isByCalendarMonthSelected }: IStartEndProps): IStartEndValue => {
   const now = useGlobalState().getGlobalNow();
 
-  let endCutoff = sub(now, { days: (selectedTimePeriod * numOfPeriodsAgo) });
+  let endCutoff = endOfDay(sub(now, { days: (selectedTimePeriod * numOfPeriodsAgo) }));
   // start is just end minus the selectedTimePeriod
-  let startCutoff = sub(endCutoff, { days: selectedTimePeriod });
+  let startCutoff = endOfDay(sub(endCutoff, { days: selectedTimePeriod }));
 
   if (isByCalendarMonthSelected && selectedTimePeriod === ONE_MONTH) {
     // numOfPeriodsAgo will be total # of calendar months to show (includes current month)
@@ -41,7 +41,6 @@ const getStartAndEndCutoff = ({ selectedTimePeriod, numOfPeriodsAgo = 0, isByCal
   return { startCutoff, endCutoff };
 }
 
-// TODO make this function more reusable, particularly with function in routes/Stats/Total
 export const getTimeFrameExpenses = ({ selectedExpenses, selectedTimePeriod, numOfPeriodsAgo = 0, isByCalendarMonthSelected = false }: IGetExpensesProps): IExpense[] => {
 
   // first get start and end cutoff dates

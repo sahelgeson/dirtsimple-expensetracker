@@ -53,7 +53,7 @@ export const History = () => {
     <div className="container margin-0-auto phs">
       {(!displayExpenses.length) 
         ? (
-          <div className="text-center">No expenses entered yet</div>
+          <Box mt={8} textAlign="center">No expenses entered yet</Box>
         ) : (
           <div>
             {allDays?.map(day => {

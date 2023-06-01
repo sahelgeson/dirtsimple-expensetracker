@@ -32,8 +32,9 @@ export const DailyTotal = ({ total, thisDay }: { total: number, thisDay: Date })
         display: 'block',
       }}
     >
+      {/* TODO align this better both v & h, possibly with clamp */}
       <Flex justifyContent={'center'} alignItems={'center'}>
-        <Badge colorScheme='green' fontSize={18} borderRadius={8} px={2}>
+        <Badge colorScheme='green' fontSize={18} borderRadius={8} px={1}>
           <Flex alignItems={'center'}>
             <Text as="span" className="dollar">$</Text>
             <Text as="span" sx={{ fontWeight: 'bold' }}>{total}</Text>

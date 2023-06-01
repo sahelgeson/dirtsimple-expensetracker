@@ -44,7 +44,6 @@ interface IGlobalContext {
   renameCategory: (renamedCategoryId: Uuid, newCategoryName: string) => void;
   deleteCategory: (deletedCategoryId: Uuid) => void;
   dedupeCategories: (originalCategoryId: Uuid, renamedCategoryId: Uuid) => void;
-  sortExpenses: () => void;
   updateExpense: (updatedExpense: IExpense) => void;
   deleteExpense: (deletedExpense: IExpense) => void;  
   getGlobalNow: () => Date;  
@@ -122,6 +121,16 @@ const parseState = (k: string, v: unknown) => {
   }
   return v;
 };
+
+const sortExpenses = (expenses: IExpense[]) => {
+  const sortedExpenses = [...expenses];
+  sortedExpenses.sort(function(a, b) {
+    const dateA = new Date(a.datetime), dateB = new Date(b.datetime);
+    return compareAsc(dateB, dateA);
+  });
+  return sortedExpenses;
+}
+
 
 export const AppProvider: React.FC = (props: IProps) => {
   // TODO this will need to change based on what's in localStorage
@@ -208,7 +217,7 @@ export const AppProvider: React.FC = (props: IProps) => {
   }, [allCategories, filteredOutCategoriesIds]);
   
   const addExpense = useCallback((newExpense: IExpense) => {
-    setAllExpensesUnfiltered((prev: IExpense[]) => ([ ...prev, newExpense ]));
+    setAllExpensesUnfiltered((prev: IExpense[]) => ([  newExpense, ...prev ]));
   }, []);
 
   const addCategory = useCallback((newCategory: ICategory) => {
@@ -287,25 +296,18 @@ export const AppProvider: React.FC = (props: IProps) => {
     });
   }, []);
 
-  const sortExpenses = useCallback(() => {
-    setAllExpensesUnfiltered((prev) => {
-      const sortedExpenses = [...prev];
-      sortedExpenses.sort(function(a, b) {
-        const dateA = new Date(a.datetime), dateB = new Date(b.datetime);
-        return compareAsc(dateB, dateA);
-      });
-      return sortedExpenses;
-    })
-  }, []);
-
   const updateExpense = useCallback((updatedExpense: IExpense) => {
     setAllExpensesUnfiltered((prev: IExpense[]) => {
-      const updatedExpenses = prev.map(expense => {
+      let updatedExpenses = prev.map(expense => {
         if (expense.id === updatedExpense.id) {
           expense = updatedExpense;
         }
         return expense;
       });  
+      // re-sort expenses by date here since this is the only way
+      // they can get unsorted by date
+      updatedExpenses = sortExpenses(updatedExpenses);
+
       return updatedExpenses;
     });
   }, []);
@@ -327,7 +329,7 @@ export const AppProvider: React.FC = (props: IProps) => {
     return now;
   }, [allExpensesUnfiltered]);
 
-  const recentExpensesUnfiltered = useMemo(() => {
+  const recentExpensesUnfiltered = useMemo(() => {    
     return allExpensesUnfiltered.slice(0, NUM_OF_RECENT_EXPENSES);
   }, [allExpensesUnfiltered]);
 
@@ -346,7 +348,6 @@ export const AppProvider: React.FC = (props: IProps) => {
     renameCategory,
     deleteCategory,
     dedupeCategories,
-    sortExpenses,
     updateExpense,
     deleteExpense,  
     getGlobalNow,  

@@ -9,44 +9,39 @@ import { IExpense } from 'interfaces';
 import { Fragment } from 'react';
 
 export const History = () => {
-  const { recentExpensesUnfiltered, sortExpenses } = useGlobalState();
+  const { recentExpensesUnfiltered } = useGlobalState();
 
   const [allDays, setAllDays] = useState<Date[]>();
   const [displayExpenses, setDisplayExpenses] = useState<IExpense[]>([]);
 
   const today = endOfDay(useGlobalState().getGlobalNow());
+  const calledOnceWithData = useRef(false);
 
-  /* Sort expenses by date by default only for initial load. Setting this up only onmount so we're
-    not sorting in edit form because we don't want state to update and rerender which could
-    yoink stuff around -- in other words we save any edits made by HistoryEditForm,
-    but we don't re-sort the expenses except on load/reload */
+  /* 
+    displayExpenses is a local state version of recentExpensesUnfiltered.
+    We don't use recentExpensesUnfiltered directly because a user can edit
+    the datetime, and when they do that it updates recentExpensesUnfiltered,
+    which would rerender after they save date changes, which would end up
+    "yoinking" the edited expense around on the page out from under them.
+    displayExpenses is a way to delay that and only show re-sorted 
+    expenses on load/reload.
+  */
   useEffect(() => {
-    sortExpenses();
-  }, []);
-
-  const calledOnce = useRef(false);
-
-  useEffect(() => {
-    /* See above, users edit expenses in-place and we don't want to rerender until they reload 
-       displayExpenses is used as local state to delay that sort of rerender
-    */
-    if (calledOnce.current) {
-      return;
-    }
+    if (calledOnceWithData.current) { return; }
 
     setDisplayExpenses(recentExpensesUnfiltered);
     if (recentExpensesUnfiltered.length) {
-      calledOnce.current = true;
+      calledOnceWithData.current = true;
     }
   }, [recentExpensesUnfiltered]);
 
   useEffect(() => {
     if (displayExpenses.length) {
-      // can't rely on it being sorted since user edits are in-place
+      // can't rely on it being sorted here since user edits are in-place
       const lastExpenseDay = displayExpenses.reduce((previousValue, currentValue) => {
-          const prevDate = new Date(previousValue);
-          const currDate = new Date(currentValue.datetime);
-          return isBefore(prevDate, currDate) ? prevDate : currDate;
+        const prevDate = new Date(previousValue);
+        const currDate = new Date(currentValue.datetime);
+        return isBefore(prevDate, currDate) ? prevDate : currDate;
       }, today);
       const lastDayShown = lastExpenseDay ?? today; 
       const interval = { start: lastDayShown, end: today };

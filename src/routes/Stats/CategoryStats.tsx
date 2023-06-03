@@ -1,6 +1,10 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import { Divider } from '@chakra-ui/react';
+import { 
+  Accordion,
+  AccordionButton,
+  AccordionItem,
+  AccordionPanel,
+} from '@chakra-ui/react';
 import { useGlobalState } from 'contexts';
 import { ListItemGrid } from './styles';
 import { CategoryChart } from './CategoryChart';
@@ -24,8 +28,6 @@ export const CategoryStats = (props: IProps): JSX.Element => {
   // TODO currently can only filter by Category which is why this uses allExpensesUnfiltered
   const { allExpensesUnfiltered } = useGlobalState();
   const { category, selectedTimePeriod } = props;
-
-  const [open, setOpen] = useState(false);
 
   const timeFrameExpenses = getTimeFrameExpenses({ selectedExpenses: allExpensesUnfiltered, selectedTimePeriod });
 
@@ -57,32 +59,32 @@ export const CategoryStats = (props: IProps): JSX.Element => {
   let formatDifference = formatUsd(difference, { noPrefix: true });
   formatDifference = `${isPositiveDifference ? '+' : ''}${formatDifference}`;
 
-  const openChart = () => {
-    setOpen((prev) => !prev);
-  }
 
   const selectedExpenses: IExpense[] = allExpensesUnfiltered.filter((expense) => {
     return expense.categoryId === category.id;
   });
 
   return (
-    <>
-      <ListItem onClick={openChart}>
-        <span>{category.name}</span>
+    <Accordion allowToggle>
+      <AccordionItem borderTop={0}>
+        <AccordionButton sx={{ all: 'unset', width: '100%', '&:hover': { background: 'unset' } }}>
+          <ListItem>
+            <span>{category.name}</span>
 
-        <span className="text-right italic">
-          <span className={isPositiveDifference ? `bad`: `good`}>{formatDifference}</span>
-        </span>
-        <span className="text-right">{formatUsd(total, { noPrefix: true })}</span>
-      </ListItem>
+            <span className="text-right italic">
+              <span className={isPositiveDifference ? `bad`: `good`}>{formatDifference}</span>
+            </span>
+            <span className="text-right">{formatUsd(total, { noPrefix: true })}</span>
+          </ListItem>
+        </AccordionButton>
 
-      {open && (
-        <CategoryChart 
-          selectedExpenses={selectedExpenses} 
-          selectedTimePeriod={selectedTimePeriod}
-        />
-      )}
-      <Divider />
-    </>
+        <AccordionPanel>
+          <CategoryChart 
+            selectedExpenses={selectedExpenses} 
+            selectedTimePeriod={selectedTimePeriod}
+          />
+        </AccordionPanel>
+      </AccordionItem>
+    </Accordion>
   );
 }

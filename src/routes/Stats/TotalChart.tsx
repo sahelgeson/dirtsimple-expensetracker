@@ -10,7 +10,7 @@ import { getActualSavingsRate } from './getActualSavingsRate';
 
 
 interface IProps {
-  selectedTimePeriod: number;
+  selectedTimePeriod: number; // TODO type this better
   selectedOption?: SelectedChartFilter;
 }
 

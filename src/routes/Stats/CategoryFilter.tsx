@@ -1,5 +1,3 @@
-import { ChangeEvent } from 'react';
-
 import { useGlobalState } from 'contexts';
 import { ICategory } from 'interfaces';
 import { UNCATEGORIZED } from 'lib/constants';
@@ -22,7 +20,7 @@ export const CategoryFilter = (): JSX.Element => {
     return !filteredOutCategoriesIds.includes(category.id);
   })
 
-  const handleFilterCategory = (event: ChangeEvent<HTMLSelectElement>) => {
+  const handleFilterCategory = (event: React.ChangeEvent<HTMLSelectElement>) => {
     filterOutCategory(event.currentTarget.value);
   }   
 

@@ -10,6 +10,7 @@ import { OptionsAddCategory } from './OptionsAddCategory';
 import { OptionsDeleteCategory } from './OptionsDeleteCategory';
 import { OptionsRenameCategory } from './OptionsRenameCategory.jsx';
 import { OptionsViewAllCategories } from './OptionsViewAllCategories';
+import { OptionsSavingsRate } from './OptionsSavingsRate';
 import { ExportData } from './ExportData';
 import { ImportData } from './ImportData';
 
@@ -64,6 +65,15 @@ export const Options = () => {
           </AccordionPanel>
         </AccordionItem>
 
+        <AccordionItem>
+          <OptionsAccordionButton>
+            Set a Savings Rate
+          </OptionsAccordionButton>  
+
+          <AccordionPanel>
+            <OptionsSavingsRate />
+          </AccordionPanel>
+        </AccordionItem>
 
         <AccordionItem>
           <OptionsAccordionButton>

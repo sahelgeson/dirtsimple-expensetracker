@@ -6,6 +6,8 @@ import { ICategory, IExpense, CategoryId, Uuid } from 'interfaces';
 import { DefaultCategories } from 'contexts/DefaultCategories';
 import { test_state } from 'test-state.js';
 import { NUM_OF_RECENT_EXPENSES, UNCATEGORIZED } from 'lib/constants';
+import { Dollar } from 'interfaces';
+
 /* 
   For datetime, value is stored in localStorage, which means it has to go through JSON.stringify.
   // TODO fix this, stick with one format
@@ -44,6 +46,10 @@ interface IGlobalContext {
   renameCategory: (renamedCategoryId: Uuid, newCategoryName: string) => void;
   deleteCategory: (deletedCategoryId: Uuid) => void;
   dedupeCategories: (originalCategoryId: Uuid, renamedCategoryId: Uuid) => void;
+  savingsPercentRateGoal: number | undefined;
+  setSavingsPercentRateGoal: (rate: number) => void;
+  monthlyBudgetLimit: Dollar | undefined;
+  setMonthlyBudgetLimit: (limit: Dollar) => void;
   updateExpense: (updatedExpense: IExpense) => void;
   deleteExpense: (deletedExpense: IExpense) => void;  
   getGlobalNow: () => Date;  
@@ -62,6 +68,8 @@ interface ISavedState {
   allExpenses: IExpense[];
   categories: ICategory[];
   filteredOutCategoriesIds: CategoryId[];
+  monthlyBudgetLimit?: Dollar;
+  savingsPercentRateGoal?: number;
 }
 
 interface IProps {
@@ -143,6 +151,9 @@ export const AppProvider: React.FC = (props: IProps) => {
   const [filteredOutCategories, setFilteredOutCategories] = useState<ICategory[]>([]);
   const [filteredCategories, setFilteredCategories] = useState<ICategory[]>([]);
 
+  const [monthlyBudgetLimit, setMonthlyBudgetLimit] = useState<Dollar | undefined>();
+  const [savingsPercentRateGoal, setSavingsPercentRateGoal] = useState<number | undefined>();
+
   // TODO add isLoading state in here
   // load saved data if it exists
   useEffect(() => {
@@ -160,7 +171,7 @@ export const AppProvider: React.FC = (props: IProps) => {
     }
 
     if (savedState) {
-      const { allExpenses, categories, filteredOutCategoriesIds } = savedState;
+      const { allExpenses, categories, filteredOutCategoriesIds, monthlyBudgetLimit, savingsPercentRateGoal } = savedState;
 
       const allCategories = removeLegacyNullUncategorized(addUncategorizedToCategories(categories)); // TODO: decouple keys from state variables
       
@@ -176,23 +187,27 @@ export const AppProvider: React.FC = (props: IProps) => {
       setAllExpensesUnfiltered(allExpensesFixNull);
       setAllCategories(allCategories); // TODO: decouple keys from state variables
       setFilteredOutCategoriesIds(filteredOutCategoriesIds || []);
+      setMonthlyBudgetLimit(monthlyBudgetLimit);
+      setSavingsPercentRateGoal(savingsPercentRateGoal);
     }
   }, []);
 
   // save data to localStorage whenever it changes
   useEffect(() => {
     try {
-      const state = {
+      const state: ISavedState = {
         allExpenses: allExpensesUnfiltered,
         categories: allCategories,  // TODO: decouple keys from state variables
         filteredOutCategoriesIds,
+        monthlyBudgetLimit,
+        savingsPercentRateGoal,
       }
       const serializedState = JSON.stringify(state);
       if (process.env.REACT_APP_TESTING !== 'development') {    // don't save test data to localStorage
         localStorage.setItem('state', serializedState);
       }
     } catch (err) { console.error(err); }
-  }, [allExpensesUnfiltered, allCategories, filteredOutCategoriesIds]);
+  }, [allExpensesUnfiltered, allCategories, filteredOutCategoriesIds, monthlyBudgetLimit, savingsPercentRateGoal]);
 
   // keep allExpenses updated to filter out selected categories
   useEffect(() => {
@@ -348,6 +363,10 @@ export const AppProvider: React.FC = (props: IProps) => {
     renameCategory,
     deleteCategory,
     dedupeCategories,
+    savingsPercentRateGoal,
+    setSavingsPercentRateGoal,
+    monthlyBudgetLimit,
+    setMonthlyBudgetLimit,
     updateExpense,
     deleteExpense,  
     getGlobalNow,  

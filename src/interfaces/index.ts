@@ -21,7 +21,7 @@ export type Dollar = number;
 
 export interface IExpense {
   id: Uuid;
-  amount: Dollar;
+  amount: Dollar;   // TODO look into making NonZeroNumber type
   datetime: Datetime;
   categoryId: CategoryId;
 }

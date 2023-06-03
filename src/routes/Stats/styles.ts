@@ -5,13 +5,6 @@ export const ListItemGrid = css`
   grid-template-columns: 40% 30% 30%;
 `;
 
-export const ChartTitle = styled.div`
-  color: #777;
-  font-style: italic;
-  margin: 0 0 0.5rem;
-  font-size: 12px;
-`;
-
 export const ButtonBox = styled.div`
   display: flex;
   justify-content: space-around;

@@ -70,7 +70,7 @@ export const TotalStats = (props: IProps): JSX.Element => {
           </Box>
         </AccordionButton>
 
-        <AccordionPanel>
+        <AccordionPanel px={0}>
           <ButtonBox>
             <TimeFrameButtonStyled
               className={selectedOption === SelectedChartFilter.ONE_PERIOD ? 'active' : ''}

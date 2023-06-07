@@ -78,7 +78,7 @@ export const CategoryStats = (props: IProps): JSX.Element => {
           </ListItem>
         </AccordionButton>
 
-        <AccordionPanel>
+        <AccordionPanel px={0}>
           <CategoryChart 
             selectedExpenses={selectedExpenses} 
             selectedTimePeriod={selectedTimePeriod}

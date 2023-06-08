@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useGlobalState } from 'contexts';
 import { Box, Button } from '@chakra-ui/react';
 import { NumberInput, NumberInputField } from '@chakra-ui/react';
+import { WEEKS_IN_A_MONTH } from 'lib/constants';
 import { Dollar } from 'interfaces';
 
 export const OptionsSavingsRate = () => {
@@ -14,18 +15,32 @@ export const OptionsSavingsRate = () => {
 
   const [enteredMonthlyBudgetLimit, setEnteredMonthlyBudgetLimit] = useState<Dollar | undefined>();
   const [enteredSavingsPercentRate, setEnteredSavingsPercentRate] = useState<number | undefined>();
+  const [weeklyBudgetLimit, setWeeklyBudgetLimit] = useState<number | undefined>();
   const [isSaved, setIsSaved] = useState<boolean>(false);
-  let isDisabled = true;
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
-  let monthlyLimit = 0;
-  let weeklyLimit = 0;
-  const hasValidLimit = enteredMonthlyBudgetLimit !== undefined && !Number.isNaN(enteredMonthlyBudgetLimit);
-  const hasGoal = enteredSavingsPercentRate !== undefined;
-  if (hasValidLimit && hasGoal) {
-    isDisabled = false;
-    monthlyLimit = enteredMonthlyBudgetLimit * (1 - (enteredSavingsPercentRate / 100));
-    weeklyLimit = Math.ceil(monthlyLimit / 4);
-  }
+  // setup initial state from hook
+  useEffect(() => {
+    setEnteredMonthlyBudgetLimit(monthlyBudgetLimit);
+  }, [monthlyBudgetLimit]);
+
+  useEffect(() => {
+    setEnteredSavingsPercentRate(savingsPercentRateGoal);
+  }, [savingsPercentRateGoal]);
+
+  // calculate weekly limit
+  useEffect(() => {    
+    let monthlyLimit = 0;
+    let weeklyLimit = 0;
+    const hasValidLimit = enteredMonthlyBudgetLimit !== undefined && !Number.isNaN(enteredMonthlyBudgetLimit);
+    const hasGoal = enteredSavingsPercentRate !== undefined;
+    if (hasValidLimit && hasGoal) {
+      setIsDisabled(false);
+      monthlyLimit = enteredMonthlyBudgetLimit * (1 - (enteredSavingsPercentRate / 100));
+      weeklyLimit = Math.ceil(monthlyLimit / WEEKS_IN_A_MONTH);
+      setWeeklyBudgetLimit(weeklyLimit);
+    }
+  }, [enteredMonthlyBudgetLimit, enteredSavingsPercentRate]);
 
   const handleFocus = () => {
     setIsSaved(false);
@@ -126,7 +141,7 @@ export const OptionsSavingsRate = () => {
         my={4}
         mb={6}
       >
-        ${weeklyLimit}
+        ${weeklyBudgetLimit}
       </Box>
 
       <Button 

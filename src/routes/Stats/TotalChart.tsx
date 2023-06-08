@@ -1,79 +1,74 @@
 import { Chart } from './Chart';
 import { useGlobalState } from 'contexts';
 import { Box, Grid, GridItem, Text } from '@chakra-ui/react'
-import { DEFAULT_NUM_OF_TIME_PERIODS, ONE_DAY, ONE_WEEK, ONE_MONTH } from 'lib/constants';
+import { ONE_WEEK, ONE_MONTH, WEEKS_IN_A_MONTH } from 'lib/constants';
 import { formatUsd } from 'helpers';
-import { getChartDataArray, IChartData } from './helpers';
-import { getChartAverage } from './getChartAverage';
-import { SelectedChartFilter } from './types';
-import { getActualSavingsRate } from './getActualSavingsRate';
+import { transformToChartDataArray, IChartData } from './transformToChartDataArray';
+import { getStartAndEndCutoff } from './getStartAndEndCutoff';
+import { getTimeFrameExpenses } from './getTimeFrameExpenses';
+import { calculateAverage } from './calculateAverage';
+import { timePeriodData, WEEKLY, MONTHLY, YTD_SPECIAL_CASE, DAILY_SPECIAL_CASE } from './context';
+import { calculateActualSavingsRate } from './calculateActualSavingsRate';
 
 
 interface IProps {
-  selectedTimePeriod: number; // TODO type this better
-  selectedOption?: SelectedChartFilter;
+  selectedPastPeriod: timePeriodData;
 }
 
 export const TotalChart = (props: IProps): JSX.Element => {
-  const { selectedTimePeriod, selectedOption } = props;
+  const { selectedPastPeriod } = props;
+  const { numberOfTimePeriods, timePeriod, specialCase } = selectedPastPeriod;
   const { allExpensesFiltered, monthlyBudgetLimit, savingsPercentRateGoal } = useGlobalState();
+  const now = useGlobalState().getGlobalNow();
 
-  const isByCalendarMonthSelected = selectedOption === SelectedChartFilter.CALENDAR_PERIOD;
+  const { startCutoff, endCutoff } = getStartAndEndCutoff({ now, selectedPastPeriod })
+  const timeFrameExpenses = getTimeFrameExpenses({ selectedExpenses: allExpensesFiltered, startCutoff, endCutoff });
 
-  let chartDataArray: IChartData[] = [];
-
-  const isOnePeriod = selectedOption === SelectedChartFilter.ONE_PERIOD;
-  if (isOnePeriod) {
-    /* show Daily totals */
-    chartDataArray = getChartDataArray({
-      numOfTimePeriodsToShow: selectedTimePeriod, /* matching to get daily figures */
-      selectedExpenses: allExpensesFiltered,
-      selectedTimePeriod: ONE_DAY,
-      isByCalendarMonthSelected
-    });
-  } else {
-    chartDataArray = getChartDataArray({
-      numOfTimePeriodsToShow: DEFAULT_NUM_OF_TIME_PERIODS,
-      selectedExpenses: allExpensesFiltered,
-      selectedTimePeriod: selectedTimePeriod,
-      isByCalendarMonthSelected,
-    });
-  }
+  const chartDataArray: IChartData[] = transformToChartDataArray({
+    now,
+    selectedPastPeriod,
+    selectedExpenses: allExpensesFiltered,
+  });
 
   let displayTimePeriod = 'week';
-  if (selectedTimePeriod === ONE_MONTH) {
+  if (selectedPastPeriod.timePeriod === MONTHLY) {
     displayTimePeriod = 'month';
-  } else if (isByCalendarMonthSelected) {
+  } else if (selectedPastPeriod?.specialCase === YTD_SPECIAL_CASE) {
     displayTimePeriod = 'calendar month';
   }
 
+  // get savings rate
   let actualSavingsRate = 0;
   let actualSavingsRateFormatted = '';
   let isPositive = false;
   if (monthlyBudgetLimit) {
-    actualSavingsRate = getActualSavingsRate({ 
-      selectedTimePeriod, 
-      numOfPeriods: chartDataArray.length, 
-      totals: chartDataArray, 
+    actualSavingsRate = calculateActualSavingsRate({ 
+      selectedPastPeriod,
+      expenses: timeFrameExpenses, 
       monthlyBudgetLimit, 
     })
     actualSavingsRateFormatted = (actualSavingsRate * 100).toFixed(2);
     isPositive = actualSavingsRate > 0;
   }
 
-  const average = getChartAverage({ 
-    numOfPeriods: chartDataArray.length, 
-    totals: chartDataArray 
+  const dailySpecialCase = specialCase === DAILY_SPECIAL_CASE;
+  
+  const average = calculateAverage({ 
+    selectedPastPeriod, 
+    expenses: timeFrameExpenses,
   });
+
 
   let goalAverage;
   if (monthlyBudgetLimit && savingsPercentRateGoal) {
-    goalAverage = monthlyBudgetLimit * (1 - (savingsPercentRateGoal / 100));
-    if (selectedTimePeriod === ONE_DAY || isOnePeriod) {
-      goalAverage = goalAverage / 30;
-    } else if (selectedTimePeriod === ONE_WEEK) {
-      goalAverage = goalAverage / 4;
-    }  
+    const monthlyGoalAverage = monthlyBudgetLimit * (1 - (savingsPercentRateGoal / 100));
+    if (dailySpecialCase) {
+      goalAverage = monthlyGoalAverage / ONE_MONTH;
+    } else if (timePeriod === MONTHLY) {
+      goalAverage = monthlyGoalAverage;
+    } else if (timePeriod === WEEKLY) {
+      goalAverage = monthlyGoalAverage / WEEKS_IN_A_MONTH;
+    }
   }
 
   return (
@@ -88,10 +83,10 @@ export const TotalChart = (props: IProps): JSX.Element => {
             <GridItem>
               <Box fontSize={'xs'} color={'gray'}>
                 <div>
-                  {selectedOption === SelectedChartFilter.ONE_PERIOD ? (
+                  {dailySpecialCase ? (
                     <>Daily Avg: </>
                   ) : (
-                    selectedTimePeriod === ONE_WEEK ? (
+                    (timePeriod === WEEKLY) ? (
                       <>Weekly Avg: </>              
                     ) : (
                       <>Monthly Avg: </>
@@ -118,23 +113,17 @@ export const TotalChart = (props: IProps): JSX.Element => {
             </GridItem>
             
             <GridItem colSpan={2}>
-              <Text fontSize={'xs'} color={'gray'} fontStyle={'italic'}>  
-                {selectedOption === SelectedChartFilter.ONE_PERIOD && (
-                  <>Total per day for each {selectedTimePeriod.toString()} days</>
-                )}
-                
-                {selectedOption === SelectedChartFilter.PAST_PERIODS && (
+              <Text as={'div'} fontSize={'xs'} color={'gray'} fontStyle={'italic'}>  
+                {dailySpecialCase ? (
+                  <>Total per day for each {(timePeriod === WEEKLY) ? ONE_WEEK : ONE_MONTH} days</>
+                ) : (
                   <div>
-                    {selectedTimePeriod === ONE_WEEK ? (
-                      <>Total per week for past {DEFAULT_NUM_OF_TIME_PERIODS} weeks</>
+                    {(timePeriod === WEEKLY)  ? (
+                      <>Total per week for past {numberOfTimePeriods} weeks</>
                     ) : (                   
-                      <>Total per month for past {DEFAULT_NUM_OF_TIME_PERIODS} months</>
+                      <>Total per month for past {numberOfTimePeriods} months</>
                     )}
                   </div>
-                )}
-                
-                {selectedOption === SelectedChartFilter.CALENDAR_PERIOD && (
-                  <>Total per month by past calendar month</>
                 )}
               </Text> 
             </GridItem>

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Bar, BarChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
-import { IChartData } from './helpers';
+import { IChartData } from './transformToChartDataArray';
 
 /* 
   Note: remember chartDataArray needs an entry for every date, parent is in charge of

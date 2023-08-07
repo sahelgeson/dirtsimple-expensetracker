@@ -9,6 +9,7 @@ import { Stats } from 'routes/Stats/Stats';
 import { Options } from 'routes/Options/Options';
 import { Route, Routes, NavLink } from "react-router-dom";
 import { AppProvider } from 'contexts';
+import { StatsProvider } from 'routes/Stats/context';
 
 export const App = () => {
   return (
@@ -73,8 +74,10 @@ export const App = () => {
             <Route
               path="/stats"
               element={
-                <div className="stats-page">        
-                  <Stats />
+                <div className="stats-page"> 
+                  <StatsProvider>
+                    <Stats />
+                  </StatsProvider>       
                 </div>}
             />
             <Route

@@ -339,7 +339,7 @@ export const AppProvider: React.FC = (props: IProps) => {
     let now = new Date();
     if (process.env.REACT_APP_TESTING === 'development') {
       const lastTestDate = allExpensesUnfiltered[0]?.datetime;
-      now = new Date(lastTestDate);
+      if (lastTestDate) now = new Date(lastTestDate);
     }
     return now;
   }, [allExpensesUnfiltered]);

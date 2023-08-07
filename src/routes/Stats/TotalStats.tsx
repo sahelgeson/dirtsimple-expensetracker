@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { 
   Accordion,
   AccordionButton,
@@ -12,21 +10,17 @@ import {
 import { useGlobalState } from 'contexts';
 import { TotalChart } from './TotalChart';
 import { formatUsd } from 'helpers';
-import { getTimeFrameExpenses } from './helpers';
+import { getStartAndEndCutoff } from './getStartAndEndCutoff';
+import { getTimeFrameExpenses } from './getTimeFrameExpenses';
 import { IExpense } from 'interfaces';
-import { ONE_MONTH, DEFAULT_NUM_OF_TIME_PERIODS } from 'lib/constants';
-import { SelectedChartFilter } from './types';
-import { ButtonBox, TimeFrameButton } from './styles';
 
-const TimeFrameButtonStyled = styled(TimeFrameButton)`
-  font-size: 12px;
-`;
+import { timePeriodData } from './context';
 
 interface IProps {
-  selectedTimePeriod: number;
+  selectedPastPeriod: timePeriodData;
 }
 
-/* helper functions */
+/* helper function */
 const getTotal = (timeFrameExpenses: IExpense[]): number => {
   const total = timeFrameExpenses.reduce((sum, expense) => {
     return sum + expense.amount;
@@ -36,27 +30,12 @@ const getTotal = (timeFrameExpenses: IExpense[]): number => {
 
 export const TotalStats = (props: IProps): JSX.Element => {
   const { allExpensesFiltered } = useGlobalState();
-  const { selectedTimePeriod } = props;
+  const now = useGlobalState().getGlobalNow();
+  const { selectedPastPeriod } = props;
 
-  const [selectedOption, setSelectedOption] = useState<SelectedChartFilter>(SelectedChartFilter.ONE_PERIOD);
-
-  useEffect(() => {
-    /* whenever user switches selectedTimePeriod reset selectedOption to ONE_PERIOD */
-    setSelectedOption(SelectedChartFilter.ONE_PERIOD);
-  }, [selectedTimePeriod]);
-
-  const timeFrameExpenses = getTimeFrameExpenses({ selectedExpenses: allExpensesFiltered, selectedTimePeriod });
+  const { startCutoff, endCutoff } = getStartAndEndCutoff({ now, selectedPastPeriod });
+  const timeFrameExpenses = getTimeFrameExpenses({ selectedExpenses: allExpensesFiltered, startCutoff, endCutoff });
   const total = getTotal(timeFrameExpenses);
-
-  const handleSelectPeriod = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    setSelectedOption(event?.currentTarget?.value as SelectedChartFilter);
-  } 
-
-  let displayTimePeriod = 'week';
-  if (selectedTimePeriod === ONE_MONTH) {
-    displayTimePeriod = 'month';
-  }
 
   return (
     <Accordion allowToggle>
@@ -71,37 +50,12 @@ export const TotalStats = (props: IProps): JSX.Element => {
         </AccordionButton>
 
         <AccordionPanel px={0}>
-          <ButtonBox>
-            <TimeFrameButtonStyled
-              className={selectedOption === SelectedChartFilter.ONE_PERIOD ? 'active' : ''}
-              value={SelectedChartFilter.ONE_PERIOD}
-              onClick={handleSelectPeriod}
-            >
-              This {displayTimePeriod}
-            </TimeFrameButtonStyled>
-            <TimeFrameButtonStyled
-              className={selectedOption === SelectedChartFilter.PAST_PERIODS ? 'active' : ''}
-              value={SelectedChartFilter.PAST_PERIODS}
-              onClick={handleSelectPeriod}
-            >
-              Past {DEFAULT_NUM_OF_TIME_PERIODS?.toString()} {`${displayTimePeriod}s`}
-            </TimeFrameButtonStyled>
-            {selectedTimePeriod === ONE_MONTH && (
-              <TimeFrameButtonStyled
-                className={selectedOption === SelectedChartFilter.CALENDAR_PERIOD ? 'active' : ''}
-                value={SelectedChartFilter.CALENDAR_PERIOD}
-                onClick={handleSelectPeriod}
-              >
-                Calendar month
-              </TimeFrameButtonStyled>
-            )}
-          </ButtonBox>
           <TotalChart 
-            selectedTimePeriod={selectedTimePeriod}
-            selectedOption={selectedOption}
+            selectedPastPeriod={selectedPastPeriod}
           />
         </AccordionPanel>
       </AccordionItem>
     </Accordion>
   );
 }
+

@@ -1,6 +1,6 @@
 {
   "name": "expensetracker",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@chakra-ui/icons": "^2.0.19",
@@ -35,7 +35,7 @@
     "cypress:open": "cypress open"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": ["react-app", "shared-config"]
   },
   "browserslist": {
     "production": [

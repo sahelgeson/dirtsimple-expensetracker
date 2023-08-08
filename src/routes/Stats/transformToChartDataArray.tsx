@@ -25,10 +25,11 @@ export const transformToChartDataArray = ({
   let nextStartDate = startCutoff;
 
   let numberOfBars = numberOfTimePeriods;
-  const dailySpecialCase = specialCase === DAILY_SPECIAL_CASE;
-  const ytdSpecialCase = specialCase === YTD_SPECIAL_CASE;
+  const dailySpecialCaseAny = specialCase === DAILY_SPECIAL_CASE;
+  const ytdSpecialCaseAny = specialCase === YTD_SPECIAL_CASE;
+  const ytdSpecialCaseMonthly = ytdSpecialCaseAny && timePeriod === MONTHLY;
   // if default choice of one we want to show daily totals
-  if (dailySpecialCase)  {
+  if (dailySpecialCaseAny)  {
     numberOfBars = (timePeriod === WEEKLY) ? ONE_WEEK : ONE_MONTH;
   }
 
@@ -36,12 +37,12 @@ export const transformToChartDataArray = ({
     let label: string;
     let addOptions = {}; // TODO type better to date-fns add param
 
-    if (dailySpecialCase) {
+    if (dailySpecialCaseAny) {
       addOptions = { days: 1 };
     } else if (timePeriod === WEEKLY) { 
       addOptions = { days: ONE_WEEK };
     } else if (timePeriod === MONTHLY) {
-      if (ytdSpecialCase) {
+      if (ytdSpecialCaseAny) {
         addOptions = { months: 1 };
       } else {
         addOptions = { days: ONE_MONTH };
@@ -50,14 +51,14 @@ export const transformToChartDataArray = ({
 
     const thisStartDate: Date = startOfDay(nextStartDate);
     let endDate: Date = endOfDay(add(thisStartDate, addOptions));
-    if (dailySpecialCase) {
+    if (dailySpecialCaseAny) {
       endDate = endOfDay(thisStartDate);
     }
 
     // isWithinInterval is inclusive so this would include the first day of the next
     // period, which we don't want. This doesn't miss the first day of the next period
     // since that is the start of the next time period
-    if (!dailySpecialCase && i !== numberOfTimePeriods) {
+    if (!dailySpecialCaseAny && i !== numberOfTimePeriods) {
       endDate = sub(endDate, { days: 1 });
     }
 
@@ -77,7 +78,9 @@ export const transformToChartDataArray = ({
       }
     }, 0);
 
-    if (ytdSpecialCase) {
+    /* TODO: improve labeling. 12M will be an exception due to space, will need to be just 
+      first letter of month. Also large numbers of weeks displayed on graph might be an issue */
+    if (ytdSpecialCaseMonthly) {
       label = format(thisStartDate, 'MMM');
     } else {
       // TODO this should better correspond to date/day for weeks, months are tricky

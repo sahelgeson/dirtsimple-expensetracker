@@ -40,6 +40,7 @@ export const buttonTheme = defineStyleConfig({
     },
   },
   variants: {
+    // TODO make other success buttons consistent, and is there a better way to do this?
     success: (props: StyleFunctionProps) => ({
       ...defaultTheme.components.Button.variants?.solid(props),
       bg: 'green.600',

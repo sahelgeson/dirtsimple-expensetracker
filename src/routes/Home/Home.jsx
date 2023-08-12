@@ -14,7 +14,8 @@ export const Home = () => {
         color="#777"
         fontSize="sm"
         fontWeight="normal"
-        mt={28}
+        mt={12}
+        mb={16}
       >
         <span className="logo-dirt">dirt</span>
         <span className="logo-simple">simple</span>
@@ -22,12 +23,12 @@ export const Home = () => {
         expense tracker          
       </Heading>
 
-      <Box mt={20} mb={10}>
-        <HomeForm/>
-      </Box>
+      <HomeForm/>
 
       {!!allExpensesUnfiltered.length && 
-        <HomeRecentExpenses recentExpenses={allExpensesUnfiltered} />
+        <Box mt={8}>
+          <HomeRecentExpenses recentExpenses={allExpensesUnfiltered} />
+        </Box>
       }
     </div>
   );

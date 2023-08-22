@@ -96,6 +96,11 @@ export const HomeForm = () => {
     return false;
   }
 
+  /*
+    using a class here instead of the :active css pseudoselector because iOS's implementation
+    of :focus-within is buggy. To avoid that just doing it manually
+    see: https://itnext.io/fixing-focus-for-safari-b5916fef1064
+  */
   const handleActiveState = (event: React.TouchEvent<HTMLElement>, isActive: boolean) => {
     // only trigger active state if user isn't already interacting with the form
     if (isOpen) return true;

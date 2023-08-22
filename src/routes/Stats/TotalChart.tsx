@@ -43,6 +43,7 @@ export const TotalChart = (props: IProps): JSX.Element => {
   let isPositive = false;
   if (monthlyBudgetLimit) {
     actualSavingsRate = calculateActualSavingsRate({ 
+      now,
       selectedPastPeriod,
       expenses: timeFrameExpenses, 
       monthlyBudgetLimit, 

@@ -42,20 +42,16 @@ export const StatsProvider: React.FC = (props: IProps) => {
         specialCase: DAILY_SPECIAL_CASE,
       },
       {
+        displayName: '2W',
+        numberOfTimePeriods: 2,
+        timePeriod: WEEKLY,
+        specialCase: DAILY_SPECIAL_CASE,
+      },
+      {
         displayName: '4W',
         numberOfTimePeriods: 4,
         timePeriod: WEEKLY,
       },
-      {
-        displayName: '12W',
-        numberOfTimePeriods: 12,
-        timePeriod: WEEKLY,
-      },
-      {
-        displayName: '24W',
-        numberOfTimePeriods: 24,
-        timePeriod: WEEKLY,
-      },      
       {
         displayName: 'YTD',
         numberOfTimePeriods: getNumberOfYtdTimePeriods({ now, timePeriod: WEEKLY }),
@@ -73,11 +69,6 @@ export const StatsProvider: React.FC = (props: IProps) => {
       {
         displayName: '4M',
         numberOfTimePeriods: 4,
-        timePeriod: MONTHLY,
-      },
-      {
-        displayName: '6M',
-        numberOfTimePeriods: 6,
         timePeriod: MONTHLY,
       },
       {

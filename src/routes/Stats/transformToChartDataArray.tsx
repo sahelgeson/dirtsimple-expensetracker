@@ -30,7 +30,8 @@ export const transformToChartDataArray = ({
   const ytdSpecialCaseMonthly = ytdSpecialCaseAny && timePeriod === MONTHLY;
   // if default choice of one we want to show daily totals
   if (dailySpecialCaseAny)  {
-    numberOfBars = (timePeriod === WEEKLY) ? ONE_WEEK : ONE_MONTH;
+    const numberOfDays = (timePeriod === WEEKLY) ? ONE_WEEK : ONE_MONTH
+    numberOfBars = numberOfTimePeriods * numberOfDays;
   }
 
   for (let i = 1; i <= numberOfBars; i++) {

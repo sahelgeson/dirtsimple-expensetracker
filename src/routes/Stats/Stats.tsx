@@ -46,8 +46,8 @@ export const Stats = (): JSX.Element => {
       {/* not used to show TabPanels, just used for Tab styling */}
       <Tabs isFitted>
         <TabList>
-          <Tab onClick={() => setSelectedMainTimeScale(WEEKLY)}>By week</Tab>
-          <Tab onClick={() => setSelectedMainTimeScale(MONTHLY)}>By 30 days</Tab>
+          <Tab onClick={() => setSelectedMainTimeScale(WEEKLY)}>Week view</Tab>
+          <Tab onClick={() => setSelectedMainTimeScale(MONTHLY)}>Month view</Tab>
         </TabList>    
       </Tabs>      
 

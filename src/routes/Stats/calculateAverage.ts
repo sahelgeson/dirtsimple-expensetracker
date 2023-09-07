@@ -14,14 +14,15 @@ export const calculateAverage = ({
 
   let numberOfPeriods = numberOfTimePeriods;
   if (specialCase === DAILY_SPECIAL_CASE) {
-    numberOfPeriods = (timePeriod === WEEKLY) ? ONE_WEEK : ONE_MONTH;
+    const multiplier = (timePeriod === WEEKLY) ? ONE_WEEK : ONE_MONTH;
+    numberOfPeriods = numberOfTimePeriods * multiplier;
   }
 
   const total = expenses.reduce((sum, expense) => {
     return sum + Number(expense.amount);
   }, 0);
 
-  const avg = Number((total / numberOfPeriods).toFixed(0)); // to nearest full dollar
+  const avg = Number((total / numberOfPeriods).toFixed(2));
 
   return formatUsd(avg);
 }

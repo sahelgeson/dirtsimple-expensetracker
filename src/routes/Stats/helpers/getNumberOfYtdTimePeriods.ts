@@ -1,5 +1,5 @@
 import { differenceInCalendarWeeks, differenceInCalendarMonths, getDay, startOfYear } from 'date-fns';
-import { WEEKLY, MONTHLY } from './context';
+import { WEEKLY, MONTHLY } from '../context';
 
 type timePeriodType = typeof WEEKLY | typeof MONTHLY;
 

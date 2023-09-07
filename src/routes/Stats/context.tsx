@@ -1,6 +1,6 @@
 import React, { useContext, createContext, ReactNode } from 'react';
 import { useGlobalState } from 'contexts';
-import { getNumberOfYtdTimePeriods } from 'routes/Stats/getNumberOfYtdTimePeriods';
+import { getNumberOfYtdTimePeriods } from 'routes/Stats/helpers';
 
 export const WEEKLY = 'weekly';
 export const MONTHLY = 'monthly';

@@ -8,6 +8,7 @@ import { CategoryStats } from './CategoryStats';
 import { TotalStats } from './TotalStats';
 import { WEEKLY, MONTHLY, timePeriodData } from './context';
 import { useStatsState, MainTimeScales } from './context';
+import { useTimeFrameExpenses } from '../../hooks';
 
 const ListHeader = styled.h4`
   ${ListItemGrid}
@@ -22,6 +23,8 @@ const buttonHoverStyles = {
 };
 
 export const Stats = (): JSX.Element => {
+  const { allExpensesFiltered } = useGlobalState();
+  const now = useGlobalState().getGlobalNow();
   const { filteredCategories } = useGlobalState();
   const { chartTimeScale } = useStatsState();
   const [selectedMainTimeScale, setSelectedMainTimeScale] = useState<MainTimeScales>(WEEKLY);
@@ -37,6 +40,12 @@ export const Stats = (): JSX.Element => {
   }, [selectedMainTimeScale]);
 
   const allPossibleTimePeriods = chartTimeScale[selectedMainTimeScale];
+
+  const { timeFrameExpenses, prevTimeFrameExpenses } = useTimeFrameExpenses({ 
+    selectedExpenses: allExpensesFiltered,
+    selectedPastPeriod,
+    now,
+  });
 
   return (
     <div className="container margin-0-auto phl">
@@ -78,15 +87,18 @@ export const Stats = (): JSX.Element => {
         </HStack>
       </ButtonGroup>
  
-      <TotalStats 
-        selectedPastPeriod={selectedPastPeriod} 
-      />
-
+ {/* TODO xkcd style this better with grid in components below */}
       <ListHeader>
         <span>Category</span>
         <span className="text-right">Amt change</span>
         <span className="text-right">Total</span>
       </ListHeader>
+
+      <TotalStats 
+        selectedPastPeriod={selectedPastPeriod} 
+        timeFrameExpenses={timeFrameExpenses}
+        prevTimeFrameExpenses={prevTimeFrameExpenses}
+      />
 
       <ul className="mobile-margin-bottom">
         {filteredCategories.map((category) => {
@@ -94,7 +106,9 @@ export const Stats = (): JSX.Element => {
             <CategoryStats 
               key={category.id}
               category={category}
-              selectedPastPeriod={selectedPastPeriod} 
+              selectedPastPeriod={selectedPastPeriod}
+              timeFrameExpenses={timeFrameExpenses}
+              prevTimeFrameExpenses={prevTimeFrameExpenses}
             />
           )
         })}

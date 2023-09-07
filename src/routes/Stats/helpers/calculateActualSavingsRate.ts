@@ -1,7 +1,7 @@
 import { WEEKS_IN_A_MONTH } from 'lib/constants';
 import { Dollar, IExpense } from 'interfaces';
-import { MONTHLY, timePeriodData, WEEKLY, YTD_SPECIAL_CASE } from './context';
-import { getNumberOfYtdTimePeriods } from 'routes/Stats/getNumberOfYtdTimePeriods';
+import { MONTHLY, timePeriodData, WEEKLY, YTD_SPECIAL_CASE } from '../context';
+import { getNumberOfYtdTimePeriods } from 'routes/Stats/helpers';
 
 export const calculateActualSavingsRate = ({
   now,

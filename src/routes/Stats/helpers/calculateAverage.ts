@@ -1,6 +1,6 @@
 import { formatUsd } from 'helpers';
 import { IExpense } from 'interfaces';
-import { DAILY_SPECIAL_CASE, timePeriodData, WEEKLY } from './context';
+import { DAILY_SPECIAL_CASE, timePeriodData, WEEKLY } from '../context';
 import { ONE_WEEK, ONE_MONTH } from 'lib/constants';
 
 export const calculateAverage = ({

@@ -4,48 +4,54 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  Flex,
   Heading,
 } from '@chakra-ui/react';
-import { useGlobalState } from 'contexts';
+import styled from 'styled-components';
 import { TotalChart } from './TotalChart';
+import { ListItemGrid } from './styles';
 import { formatUsd } from 'helpers';
-import { getStartAndEndCutoff } from './getStartAndEndCutoff';
-import { getTimeFrameExpenses } from './getTimeFrameExpenses';
+import { getTotalAndDifference } from './helpers';
 import { IExpense } from 'interfaces';
-
 import { timePeriodData } from './context';
 
-interface IProps {
+// TODO: change this setup and structure of HistoryListing page,
+// all the li's should be the outermost html element and Total should be in the list
+const TotalItem = styled.li`
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  width: 100%;
+  ${ListItemGrid}
+  align-items: center;
+`;
+
+export const TotalStats = ({
+  selectedPastPeriod,
+  timeFrameExpenses,
+  prevTimeFrameExpenses,
+}: {
   selectedPastPeriod: timePeriodData;
-}
+  timeFrameExpenses: IExpense[];
+  prevTimeFrameExpenses: IExpense[];
+}): JSX.Element => {
 
-/* helper function */
-const getTotal = (timeFrameExpenses: IExpense[]): number => {
-  const total = timeFrameExpenses.reduce((sum, expense) => {
-    return sum + expense.amount;
-  }, 0);
-  return total;
-} 
-
-export const TotalStats = (props: IProps): JSX.Element => {
-  const { allExpensesFiltered } = useGlobalState();
-  const now = useGlobalState().getGlobalNow();
-  const { selectedPastPeriod } = props;
-
-  const { startCutoff, endCutoff } = getStartAndEndCutoff({ now, selectedPastPeriod });
-  const timeFrameExpenses = getTimeFrameExpenses({ selectedExpenses: allExpensesFiltered, startCutoff, endCutoff });
-  const total = getTotal(timeFrameExpenses);
+  const { 
+    total, 
+    isPositiveDifference, 
+    formatDifference 
+  } = getTotalAndDifference({ timeFrameExpenses, prevTimeFrameExpenses });
 
   return (
     <Accordion allowToggle>
       <AccordionItem>
         <AccordionButton sx={{ all: 'unset', width: '100%', '&:hover': { background: 'unset' } }}>
           <Box>
-            <Flex mt={2} py={4} sx={{ fontWeight: 'bold' }} justifyContent={'space-between'}>
+            <TotalItem>
               <Heading as="h4" size="sm">Total</Heading>
-              <span className="right">{formatUsd(total, { noPrefix: true })}</span>
-            </Flex>
+              <span className="text-right italic bold">
+                <span className={isPositiveDifference ? `bad`: `good`}>{formatDifference}</span>
+              </span>
+              <span className="text-right bold">{formatUsd(total, { noPrefix: true })}</span>
+            </TotalItem>
           </Box>
         </AccordionButton>
 

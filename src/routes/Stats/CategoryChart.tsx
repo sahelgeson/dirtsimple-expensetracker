@@ -4,8 +4,7 @@ import { useGlobalState } from 'contexts';
 import { Box } from '@chakra-ui/react';
 import { ONE_WEEK, ONE_MONTH } from 'lib/constants';
 import { timePeriodData, WEEKLY, MONTHLY } from './context';
-import { calculateAverage } from './calculateAverage';
-import { transformToChartDataArray, IChartData } from './transformToChartDataArray';
+import { calculateAverage, transformToChartDataArray, IChartData } from './helpers';
 
 interface IProps {
   selectedExpenses: IExpense[];

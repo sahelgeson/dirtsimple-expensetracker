@@ -1,7 +1,7 @@
 import { format, add, sub, isWithinInterval, isAfter, startOfDay, endOfDay } from 'date-fns';
 import { IExpense } from 'interfaces';
 import { ONE_WEEK, ONE_MONTH } from 'lib/constants';
-import { timePeriodData, DAILY_SPECIAL_CASE, WEEKLY, MONTHLY, YTD_SPECIAL_CASE } from './context';
+import { timePeriodData, DAILY_SPECIAL_CASE, WEEKLY, MONTHLY, YTD_SPECIAL_CASE } from '../context';
 import { getStartAndEndCutoff } from './getStartAndEndCutoff';
 
 export interface IChartData {

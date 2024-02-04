@@ -41,7 +41,7 @@ export const CategoryChart = (props: IProps): JSX.Element => {
       <Chart chartDataArray={chartDataArray} />
 
       <Box fontSize={'xs'} color={'gray'}>
-        <div>Avg per {displayTimePeriod}: <strong>{average}</strong></div>
+        <div>Avg for last {displayTimePeriod} days: <strong>{average}</strong></div>
         <div>Total for prev {numberOfTimePeriods.toString()} sets of {displayTimePeriod} days</div>  
       </Box>
     </div>

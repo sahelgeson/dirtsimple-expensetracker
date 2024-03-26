@@ -30,7 +30,7 @@ export const DailyTotal = ({ total, thisDay }: { total: number, thisDay: Date })
       variant='subtle' 
       sx={{
         p: 2,
-        m: 2, 
+        mt: 0,
         width: 'auto',
         display: 'block',
       }}

@@ -6,7 +6,6 @@ import { DailyTotal } from './DailyTotal';
 import { useGlobalState } from 'contexts';
 import { NUM_OF_RECENT_EXPENSES } from 'lib/constants';
 import { IExpense } from 'interfaces';
-import { Fragment } from 'react';
 
 export const History = () => {
   const { recentExpensesUnfiltered } = useGlobalState();
@@ -50,7 +49,7 @@ export const History = () => {
   }, [displayExpenses]);
 
   return (
-    <div className="container margin-0-auto phs">
+    <div className="container margin-0-auto mtm phs"> 
       {(!displayExpenses.length) 
         ? (
           <Box mt={8} textAlign="center">No expenses entered yet</Box>
@@ -66,7 +65,11 @@ export const History = () => {
               const thisDaysTotal = thisDaysExpenses.reduce((accumulator, expense) => accumulator + expense.amount, 0);
 
               return (
-                <Fragment key={day.toString()}>
+                <Box key={day.toString()}
+                  outline='1px solid' 
+                  outlineColor='gray.200'
+                  mb={8}   
+                >
                   {thisDaysExpenses.map((expense) => {
                     /* each item has to have it's own <Accordion> otherwise there are serious performance issues.
                         This means can't limit to only one open at a time without some hacky workaround */
@@ -75,7 +78,7 @@ export const History = () => {
                     );
                   })}
                   <DailyTotal total={thisDaysTotal} thisDay={day} />
-                </Fragment>
+                </Box>
               )}
             )}
 

@@ -38,14 +38,15 @@ export const HistoryListing = (props: IProps): JSX.Element => {
 
   return (
     <Grid
-      templateColumns="12.5% 50% 25% 12.5%"
+      templateColumns="0.5fr 1.5fr min-content min-content"
       py={2}
       pl={4}
-      pr={2}
+      gap={2}
       alignItems="center"
     >
       <GridItem
-        data-qa="history-amount"   
+        data-qa="history-amount"
+        sx={{ whiteSpace: 'nowrap' }}   
       >
         <span className="dollar inline-block">$</span>
         <span className="inline-block">

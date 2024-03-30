@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { Button, Text } from '@chakra-ui/react';
+import { Button, Grid, GridItem, Text } from '@chakra-ui/react';
 import { useGlobalState } from 'contexts';
 import { parseStoredAmount, formatDatetime } from 'helpers';
 import { HistoryEditFormAmount } from './HistoryEditFormAmount';
@@ -127,23 +127,31 @@ export const HistoryEditForm = (props: IProps): JSX.Element => {
         />
       </div>
 
-      <div className="ftable__row ftable__row--between">
+      <Grid
+         templateColumns='repeat(3, 1fr)' 
+         gap={4}
+      >
+        <GridItem>
         <DeleteButton 
           openModal={openModal}
           closeModal={closeModal}
           isModalOpen={isModalOpen}
           deleteThisExpense={deleteThisExpense}
         /> 
-        
+        </GridItem>
+        <GridItem>
         <Button 
+          width={'100%'}
           colorScheme='gray'
           size='lg' 
           onClick={() => handleClose(isSaved)}              
         >
           Close
         </Button>
-
+        </GridItem>
+        <GridItem>
         <Button 
+          width={'100%'}
           size="lg"
           onClick={handleSubmit} 
           variant={isSaved ? 'success' : 'solid'}
@@ -153,7 +161,8 @@ export const HistoryEditForm = (props: IProps): JSX.Element => {
         >
           <>{isSaved ? 'Saved!' : 'Save'}</>
         </Button>
-      </div>
+        </GridItem>
+      </Grid>
     </form>
   );
 }

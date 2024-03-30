@@ -41,20 +41,7 @@
 .full-width {  
   width: 100% !important;
 }
-   
-.ftable {
-    display: flex;
-    flex-wrap: wrap;
-}
-.ftable__row {
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-}
-  .ftable__row--between {
-    justify-content: space-between;
-  }
-  
+
 .card {
   border: 1px solid #ccc;
 }

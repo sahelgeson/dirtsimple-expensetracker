@@ -37,40 +37,49 @@ export const HistoryListing = (props: IProps): JSX.Element => {
   }
 
   return (
-    <Grid
-      templateColumns="0.5fr 1.5fr min-content min-content"
-      py={2}
+    <AccordionButton 
+      onClick={handleAccordionToggle} 
+      alignItems={'unset'} 
+      textAlign={'initial'} 
       pl={4}
-      gap={2}
-      alignItems="center"
+      pr={0}
     >
-      <GridItem
-        data-qa="history-amount"
-        sx={{ whiteSpace: 'nowrap' }}   
+      <Grid
+        templateColumns="0.5fr 1.5fr min-content min-content"
+        py={2}
+        gap={2}
+        width={"100%"}
       >
-        <span className="dollar inline-block">$</span>
-        <span className="inline-block">
-          {amount}
-        </span>
-      </GridItem>
-      <GridItem 
-        className={(thisCategory?.id !== UNCATEGORIZED) ?
-            ""
-          : "italic gray-777" }
-        data-qa="history-category"   
-      >
-        {thisCategory?.name}
-      </GridItem>
-      <GridItem>
-        {format(new Date(datetime), 'EEE')},&nbsp; 
-        {new Date(datetime).getMonth() + 1}/                  
-        {new Date(datetime).getDate()}
-      </GridItem>
-      <GridItem className="text-right">
-        <AccordionButton onClick={handleAccordionToggle} borderRadius={4}>
+        <GridItem
+          data-qa="history-amount"
+          sx={{ whiteSpace: 'nowrap' }}   
+        >
+          <span className="dollar inline-block">$</span>
+          <span className="inline-block">
+            {amount}
+          </span>
+        </GridItem>
+        <GridItem 
+          className={(thisCategory?.id !== UNCATEGORIZED) ?
+              ""
+            : "italic gray-777" }
+          data-qa="history-category"   
+        >
+          {thisCategory?.name}
+        </GridItem>
+        <GridItem>
+          {format(new Date(datetime), 'EEE')},&nbsp; 
+          {new Date(datetime).getMonth() + 1}/                  
+          {new Date(datetime).getDate()}
+        </GridItem>
+        <GridItem sx={{
+          width: '44px',
+          display: 'grid',
+          placeContent: 'center',
+        }}>
           <EditIcon />
-        </AccordionButton>
-      </GridItem>
-    </Grid>
+        </GridItem>
+      </Grid>
+    </AccordionButton>
   );
 }

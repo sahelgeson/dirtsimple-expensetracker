@@ -10,28 +10,34 @@ import {
 } from 'interfaces';
 import { UNCATEGORIZED } from 'lib/constants';
 
-import { AccordionButton, GridItem, Grid } from '@chakra-ui/react';
+import { AccordionButton, Box, GridItem, Grid } from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
 
-interface IProps {
+export const HistoryListing = ({ 
+  categoryId, 
+  setAccordionIndex, 
+  amount, 
+  datetime, 
+  handleClose, 
+  isSaved, 
+}: {
   categoryId: CategoryId;
   setAccordionIndex: React.Dispatch<React.SetStateAction<number>>;
   amount: Dollar;
   datetime: Datetime;
-}
-
-export const HistoryListing = (props: IProps): JSX.Element => {
-  const { categoryId, setAccordionIndex, amount, datetime } = props;
+  handleClose: () => void;
+  isSaved: boolean;
+}): JSX.Element => {
   const { allCategories } = useGlobalState();
 
   const thisCategory = allCategories.filter((category: ICategory) => {
     return ( category.id === categoryId );
   }).pop(); /* just want the object inside */
   
-
   const handleAccordionToggle = () => {
     setAccordionIndex((prev: number) => {
-      // TODO enforce typing on this
+      // TODO enforce typing on these
+      if (prev !== -1) { handleClose(); }
       return (prev === -1) ? 0 : -1;
     }); 
   }
@@ -43,6 +49,11 @@ export const HistoryListing = (props: IProps): JSX.Element => {
       textAlign={'initial'} 
       pl={4}
       pr={0}
+      sx={{
+        ...(isSaved && {
+          background: 'green.100',
+        })
+      }}
     >
       <Grid
         templateColumns="0.5fr 1.5fr min-content min-content"
@@ -76,8 +87,19 @@ export const HistoryListing = (props: IProps): JSX.Element => {
           width: '44px',
           display: 'grid',
           placeContent: 'center',
+          position: 'relative',
         }}>
           <EditIcon />
+          {isSaved && (
+            <Box sx={{
+              position: 'absolute',
+              right: '0.5rem',
+              top: '-0.5rem', 
+              fontSize: '1rem',
+            }}>
+              *
+            </Box>
+          )}
         </GridItem>
       </Grid>
     </AccordionButton>

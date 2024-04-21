@@ -6,9 +6,21 @@ import { HistoryEditFormAmount } from './HistoryEditFormAmount';
 import { HistoryEditFormCategory } from './HistoryEditFormCategory';
 import { HistoryEditFormDatetime } from './HistoryEditFormDatetime';
 import { DeleteButton } from './DeleteButton';
-import { IExpense, CategoryId, Datetime, Dollar } from 'interfaces';
+import { IExpense, CategoryId, Datetime, Dollar, Uuid } from 'interfaces';
 
-interface IProps {
+export const HistoryEditForm = ({ 
+  thisExpense, 
+  handleClose, 
+  amount, 
+  categoryId, 
+  datetime, 
+  setAmount, 
+  setCategoryId, 
+  setDatetime, 
+  isSaved, 
+  setIsSaved,
+  updateBuffer,
+}: {
   thisExpense: IExpense;
   handleClose: (isSaved: boolean) => void;
   amount: Dollar;
@@ -17,13 +29,12 @@ interface IProps {
   setAmount: React.Dispatch<React.SetStateAction<Dollar>>;
   setCategoryId: React.Dispatch<React.SetStateAction<CategoryId>>;
   setDatetime: React.Dispatch<React.SetStateAction<Datetime>>;
-}
-
-export const HistoryEditForm = (props: IProps): JSX.Element => {
+  isSaved: boolean;
+  setIsSaved: React.Dispatch<React.SetStateAction<boolean>>;
+  updateBuffer: ({ id, amount, categoryId }: { id: Uuid, amount?: Dollar, categoryId?: CategoryId }) => void;
+}): JSX.Element => {
   const { allCategories, updateExpense, deleteExpense } = useGlobalState();
-  const { thisExpense, handleClose, amount, categoryId, datetime, setAmount, setCategoryId, setDatetime } = props;
 
-  const [isSaved, setIsSaved] = useState(false);
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -87,15 +98,24 @@ export const HistoryEditForm = (props: IProps): JSX.Element => {
     e.preventDefault();
     if (!amount) { return false; } 
     const id = thisExpense.id;
+    const parsedAmount = parseStoredAmount(amount);
 
     const editedExpense = {
       id,     
       datetime,
-      amount: parseStoredAmount(amount),
+      amount: parsedAmount,
       categoryId,
     }
 
     updateExpense(editedExpense);
+    // update buffered expenses on save, don't changes to datetime (don't want exps moving around onscreen)
+    if (parsedAmount !== thisExpense.amount) {
+      updateBuffer({ id, amount: parsedAmount })
+    }
+    if (categoryId !== thisExpense.categoryId) {
+      updateBuffer({ id, categoryId })
+    }
+
     setIsSaved(true);
     return;    
   }  

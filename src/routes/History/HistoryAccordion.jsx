@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import cuid from 'cuid';
 import { 
   Accordion, 
@@ -10,12 +9,11 @@ import {
 } from '@chakra-ui/react';
 import { HistoryEditForm } from './HistoryEditForm';
 import { HistoryListing } from './HistoryListing';
-import { NUM_OF_RECENT_EXPENSES } from 'lib/constants';
 
 //export type IAccordionIndex = -1 | 0;
 
 export const HistoryAccordion = (props) => {
-  const { expense } = props;
+  const { expense, updateBuffer } = props;
 
   const [accordionIndex, setAccordionIndex] = useState(-1);  // -1 closes accordion, 0 opens it
 
@@ -25,9 +23,10 @@ export const HistoryAccordion = (props) => {
   const [amount, setAmount] = useState(expense.amount);
   const [categoryId, setCategoryId] = useState(expense.categoryId);
   const [datetime, setDatetime] = useState(expense.datetime);
+  const [isSaved, setIsSaved] = useState(false);
   const [keyToRefresh, setKeyToRefresh] = useState();
 
-  const handleClose = (isSaved) => {    
+  const handleClose = () => { 
     if (!isSaved) {
       // reset values in HistoryListing
       setAmount(expense.amount);
@@ -43,13 +42,15 @@ export const HistoryAccordion = (props) => {
     <Accordion allowToggle width="100%" index={accordionIndex}>
       <AccordionItem 
         border="1px solid transparent"
-        width="100%"    /* TODO should add active/recently edited state to this */
+        width="100%"
       >
         <HistoryListing
           categoryId={categoryId}
           setAccordionIndex={setAccordionIndex}
           amount={amount}
           datetime={datetime}
+          handleClose={handleClose}
+          isSaved={isSaved}
         />
 
         <AccordionPanel>
@@ -60,9 +61,12 @@ export const HistoryAccordion = (props) => {
             setAmount={setAmount}
             setCategoryId={setCategoryId}
             setDatetime={setDatetime}
+            isSaved={isSaved}
+            setIsSaved={setIsSaved}
             amount={amount}
             categoryId={categoryId}
             datetime={datetime}
+            updateBuffer={updateBuffer}
           />
         </AccordionPanel>
       </AccordionItem>

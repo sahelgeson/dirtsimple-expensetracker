@@ -33,6 +33,7 @@ export const DailyTotal = ({ total, thisDay }: { total: number, thisDay: Date })
         mt: 0,
         width: 'auto',
         display: 'block',
+        bg: 'green.200'
       }}
     >
       <Grid 
@@ -40,7 +41,7 @@ export const DailyTotal = ({ total, thisDay }: { total: number, thisDay: Date })
         templateColumns={`${clampedCentering} 1fr`}
       >
         <GridItem textAlign="right">
-          <Badge colorScheme='green' fontSize={18} borderRadius={8} px={1}>
+          <Badge colorScheme='' fontSize={18} borderRadius={8} px={1}>
             <Flex alignItems={'center'}>
               <Text as="span" className="dollar">$</Text>
               <Text as="span" sx={{ fontWeight: 'bold' }}>{total}</Text>

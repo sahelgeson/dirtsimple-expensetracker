@@ -11,7 +11,7 @@ import {
 import { UNCATEGORIZED } from 'lib/constants';
 
 import { AccordionButton, Box, GridItem, Grid } from '@chakra-ui/react';
-import { EditIcon } from '@chakra-ui/icons';
+import { EditIcon, NotAllowedIcon } from '@chakra-ui/icons';
 
 export const HistoryListing = ({ 
   categoryId, 
@@ -20,6 +20,7 @@ export const HistoryListing = ({
   datetime, 
   handleClose, 
   isSaved, 
+  isDeleted,
 }: {
   categoryId: CategoryId;
   setAccordionIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -27,6 +28,7 @@ export const HistoryListing = ({
   datetime: Datetime;
   handleClose: () => void;
   isSaved: boolean;
+  isDeleted: boolean;
 }): JSX.Element => {
   const { allCategories } = useGlobalState();
 
@@ -35,6 +37,8 @@ export const HistoryListing = ({
   }).pop(); /* just want the object inside */
   
   const handleAccordionToggle = () => {
+    if (isDeleted) return;
+
     setAccordionIndex((prev: number) => {
       // TODO enforce typing on these
       if (prev !== -1) { handleClose(); }
@@ -52,6 +56,9 @@ export const HistoryListing = ({
       sx={{
         ...(isSaved && {
           background: 'green.100',
+        }),
+        ...(isDeleted && {
+          background: 'red.100!important',
         })
       }}
     >
@@ -89,7 +96,7 @@ export const HistoryListing = ({
           placeContent: 'center',
           position: 'relative',
         }}>
-          <EditIcon />
+          {isDeleted ? <NotAllowedIcon /> : <EditIcon />}
           {isSaved && (
             <Box sx={{
               position: 'absolute',

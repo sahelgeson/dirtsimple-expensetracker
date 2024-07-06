@@ -24,6 +24,7 @@ export const HistoryAccordion = (props) => {
   const [categoryId, setCategoryId] = useState(expense.categoryId);
   const [datetime, setDatetime] = useState(expense.datetime);
   const [isSaved, setIsSaved] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
   const [keyToRefresh, setKeyToRefresh] = useState();
 
   const handleClose = () => { 
@@ -51,6 +52,7 @@ export const HistoryAccordion = (props) => {
           datetime={datetime}
           handleClose={handleClose}
           isSaved={isSaved}
+          isDeleted={isDeleted}
         />
 
         <AccordionPanel>
@@ -63,6 +65,7 @@ export const HistoryAccordion = (props) => {
             setDatetime={setDatetime}
             isSaved={isSaved}
             setIsSaved={setIsSaved}
+            setIsDeleted={setIsDeleted}
             amount={amount}
             categoryId={categoryId}
             datetime={datetime}

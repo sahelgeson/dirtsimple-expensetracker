@@ -19,6 +19,7 @@ export const HistoryEditForm = ({
   setDatetime, 
   isSaved, 
   setIsSaved,
+  setIsDeleted,
   updateBuffer,
 }: {
   thisExpense: IExpense;
@@ -31,6 +32,7 @@ export const HistoryEditForm = ({
   setDatetime: React.Dispatch<React.SetStateAction<Datetime>>;
   isSaved: boolean;
   setIsSaved: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsDeleted: React.Dispatch<React.SetStateAction<boolean>>;
   updateBuffer: ({ id, amount, categoryId }: { id: Uuid, amount?: Dollar, categoryId?: CategoryId }) => void;
 }): JSX.Element => {
   const { allCategories, updateExpense, deleteExpense } = useGlobalState();
@@ -91,7 +93,9 @@ export const HistoryEditForm = ({
 
   const deleteThisExpense = () => {
     deleteExpense(thisExpense);
+    setIsDeleted(true);
     closeModal();
+    handleClose(true);
   }
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {

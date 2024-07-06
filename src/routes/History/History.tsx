@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import { endOfDay, eachDayOfInterval, isBefore } from 'date-fns';
 import { HistoryAccordion } from './HistoryAccordion';
 import { DailyTotal } from './DailyTotal';
@@ -98,6 +98,14 @@ export const History = () => {
                   outlineColor='gray.200'
                   mb={8}   
                 >
+                  {thisDaysExpenses.length === 0 && (
+                    <Box textAlign='center' py={2}>
+                      <Text color='gray.500'>
+                        No expenses 
+                      </Text>
+                      
+                    </Box>
+                  )}
                   {thisDaysExpenses.map((expense) => {
                     /* each item has to have it's own <Accordion> otherwise there are serious performance issues.
                         This means can't limit to only one open at a time without some hacky workaround */                 

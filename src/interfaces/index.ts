@@ -13,6 +13,7 @@ export type CategoryId = Uuid;
 export interface ICategory {
   id: CategoryId;
   name: string;
+  order: number;
 }
 
 // normally you would want to deal with Cents but I'm only ever going to let

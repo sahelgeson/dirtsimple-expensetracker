@@ -1,9 +1,8 @@
 import { ICategory } from 'interfaces';
 import cuid from 'cuid';
-import { UNCATEGORIZED } from 'lib/constants';
 
 export const DefaultCategoriesNames = [
-  'Food',
+  'Grocery',
   'Bars/Restaurants',
   'Alcohol',
   'Home',
@@ -16,32 +15,10 @@ export const DefaultCategoriesNames = [
   'Other',
 ];
 
-export const DefaultCategories: ICategory[] = DefaultCategoriesNames.map((name: string) => {
+export const DefaultCategories: ICategory[] = DefaultCategoriesNames.map((name: string, i: number) => {
   return {
     id: cuid(),
     name,
+    order: i,
   };
 });
-
-export const getDefaultCategories = (DefaultCategoriesNames: string[]): ICategory[] => {
-  const categories: ICategory[] = DefaultCategoriesNames.map((name: string) => {
-    return {
-      id: cuid(),
-      name,
-    };
-  });
-
-  /* special case if user deletes a category that is already used by one or more expenses 
-      this category is only system level and should not show up in any category options
-      (users should not be able to delete, rename or view it on the options page), but 
-      should be editable on the expense level (e.g. change an 'Uncategorized' expense to the
-      'Food' category)
-  */
-  const uncategorized = {
-    id: UNCATEGORIZED,
-    name: UNCATEGORIZED
-  }
-  
-  categories.push(uncategorized);
-  return categories;
-}

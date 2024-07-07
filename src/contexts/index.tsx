@@ -1,6 +1,6 @@
 import React, { useState, useContext, createContext, useCallback, useMemo, useEffect, ReactNode } from 'react';
 import { compareAsc } from 'date-fns';
-import { addUncategorizedToCategories, removeLegacyNullUncategorized } from 'helpers/CreateUncategorizedCategory';
+import { addUncategorizedToCategories, removeLegacyNullUncategorized, ensureUncategorizedCategoryIsLast } from 'helpers/Uncategorized';
 import { parseStoredAmount } from 'helpers';
 import { ICategory, IExpense, CategoryId, Uuid } from 'interfaces';
 import { DefaultCategories } from 'contexts/DefaultCategories';
@@ -45,6 +45,7 @@ interface IGlobalContext {
   addCategory: (newCategory: ICategory) => void;
   renameCategory: (renamedCategoryId: Uuid, newCategoryName: string) => void;
   deleteCategory: (deletedCategoryId: Uuid) => void;
+  reorderCategories: (reorderedCategories: ICategory[]) => void;
   dedupeCategories: (originalCategoryId: Uuid, renamedCategoryId: Uuid) => void;
   savingsPercentRateGoal: number | undefined;
   setSavingsPercentRateGoal: (rate: number) => void;
@@ -159,7 +160,7 @@ export const AppProvider: React.FC = (props: IProps) => {
   useEffect(() => {
     let savedState: ISavedState | undefined = undefined;
     try { 
-      const serializedState = localStorage.getItem('state') ?? '';
+      const serializedState = localStorage.getItem('state') ?? 'false';
       // TODO change tests so they always to manually import data instead
       savedState = JSON.parse(serializedState, parseState);
     } catch (err) { 
@@ -172,11 +173,25 @@ export const AppProvider: React.FC = (props: IProps) => {
 
     if (savedState) {
       const { allExpenses, categories, filteredOutCategoriesIds, monthlyBudgetLimit, savingsPercentRateGoal } = savedState;
+      const migrateLocalStorageCategories = () => {
+        let migratedCategories = addUncategorizedToCategories(categories);
+        migratedCategories = removeLegacyNullUncategorized(migratedCategories)
+        migratedCategories = migratedCategories.map((category: ICategory, index: number) => {
+          if (!category?.order) {
+            category.order = index;
+          }
+          return category;
+        });
 
-      const allCategories = removeLegacyNullUncategorized(addUncategorizedToCategories(categories)); // TODO: decouple keys from state variables
-      
+        migratedCategories = migratedCategories.sort((a: ICategory, b: ICategory) => a.order - b.order);
+        
+        return migratedCategories;
+      } 
+
+      const allCategories = migrateLocalStorageCategories(); // TODO: decouple keys from state variables
+
       // the Uncategorized category originally had id === null, this covers legacy
-      const allExpensesFixNull: IExpense[] = allExpenses.map((expense: IExpense) => {
+      const allExpensesFixLegacyNull: IExpense[] = allExpenses.map((expense: IExpense) => {
         if (expense.categoryId === null || expense.categoryId === 'null') {
           expense.categoryId = UNCATEGORIZED;
         }
@@ -184,7 +199,7 @@ export const AppProvider: React.FC = (props: IProps) => {
       });
 
       // only setState if serializedState exists
-      setAllExpensesUnfiltered(allExpensesFixNull);
+      setAllExpensesUnfiltered(allExpensesFixLegacyNull);
       setAllCategories(allCategories); // TODO: decouple keys from state variables
       setFilteredOutCategoriesIds(filteredOutCategoriesIds || []);
       setMonthlyBudgetLimit(monthlyBudgetLimit);
@@ -203,9 +218,9 @@ export const AppProvider: React.FC = (props: IProps) => {
         savingsPercentRateGoal,
       }
       const serializedState = JSON.stringify(state);
-      if (process.env.REACT_APP_TESTING !== 'development') {    // don't save test data to localStorage
+      //if (process.env.REACT_APP_TESTING !== 'development') {    // don't save test data to localStorage
         localStorage.setItem('state', serializedState);
-      }
+      //}
     } catch (err) { console.error(err); }
   }, [allExpensesUnfiltered, allCategories, filteredOutCategoriesIds, monthlyBudgetLimit, savingsPercentRateGoal]);
 
@@ -235,10 +250,15 @@ export const AppProvider: React.FC = (props: IProps) => {
     setAllExpensesUnfiltered((prev: IExpense[]) => ([  newExpense, ...prev ]));
   }, []);
 
-  const addCategory = useCallback((newCategory: ICategory) => {
-    // TODO should this check if category with same name already exists? See functions below
-    // logic for "No new category will be added" message should be in here
-    setAllCategories((prev: ICategory[]) => ([ ...prev, newCategory ]));
+  const addCategory = useCallback((addedCategory: ICategory) => {
+    // logic to prevent adding a category with the same name is at calling site(s)
+    setAllCategories((prev: ICategory[]) => {
+      const order = prev.length;
+      const newCategory = { ...addedCategory, order };
+      const categories = [ ...prev, newCategory ];
+      console.log({ categories })
+      return ensureUncategorizedCategoryIsLast(categories);
+    });
   }, []);
 
   const filterOutCategory = useCallback((categoryToFilterOut: CategoryId) => {
@@ -264,6 +284,11 @@ export const AppProvider: React.FC = (props: IProps) => {
       }); 
       return updatedCategories;
     });
+  }, []);
+
+  const reorderCategories = useCallback((reorderedCategories: ICategory[]) => {
+    // actual reordering is done at calling site, this just saves the changes
+    setAllCategories(reorderedCategories);
   }, []);
 
   /* if a user renames a category to have the same name as an already existing category
@@ -362,6 +387,7 @@ export const AppProvider: React.FC = (props: IProps) => {
     addCategory,
     renameCategory,
     deleteCategory,
+    reorderCategories,
     dedupeCategories,
     savingsPercentRateGoal,
     setSavingsPercentRateGoal,

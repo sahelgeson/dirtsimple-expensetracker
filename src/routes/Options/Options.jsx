@@ -9,7 +9,7 @@ import {
 import { OptionsAddCategory } from './OptionsAddCategory';
 import { OptionsDeleteCategory } from './OptionsDeleteCategory';
 import { OptionsRenameCategory } from './OptionsRenameCategory.jsx';
-import { OptionsViewAllCategories } from './OptionsViewAllCategories';
+import { OptionsReorderCategories } from './OptionsReorderCategories';
 import { OptionsSavingsRate } from './OptionsSavingsRate';
 import { ExportData } from './ExportData';
 import { ImportData } from './ImportData';
@@ -57,11 +57,11 @@ export const Options = () => {
 
         <AccordionItem>
           <OptionsAccordionButton>
-            View all categories
+            Reorder categories
           </OptionsAccordionButton>  
 
           <AccordionPanel>
-            <OptionsViewAllCategories />
+            <OptionsReorderCategories />
           </AccordionPanel>
         </AccordionItem>
 

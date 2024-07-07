@@ -2862,67 +2862,83 @@ export const test_state = {
   "categories": [
     {
       "id": "ckyj6www7000m3t5c89p5wzzx",
-      "name": "Grocery"
+      "name": "Grocery",
+      "order": 0,
     },
     {
       "id": "ckyj6www7000n3t5c7xexiz21",
-      "name": "Bars/Restaurants"
+      "name": "Bars/Restaurants",
+      "order": 1,
     },
     {
       "id": "ckyj6www7000o3t5czh1t5rjo",
-      "name": "Alcohol"
+      "name": "Alcohol",
+      "order": 2,
     },
     {
       "id": "ckyj6www7000p3t5c2p976q9a",
-      "name": "Home"
+      "name": "Home",
+      "order": 3,
     },
     {
       "id": "ckyj6www7000q3t5cra77vr8o",
-      "name": "Medicine/Health"
+      "name": "Medicine/Health",
+      "order": 4,
     },
     {
       "id": "ckyj6www7000r3t5c7qzr7wo2",
-      "name": "Clothes"
+      "name": "Clothes",
+      "order": 5,
     },
     {
       "id": "ckyj6www7000s3t5c88fzr9ae",
-      "name": "Charity"
+      "name": "Charity",
+      "order": 6,
     },
     {
       "id": "ckyj6www7000t3t5cqizacy0h",
-      "name": "Movies"
+      "name": "Movies",
+      "order": 7,
     },
     {
       "id": "ckyj6www7000u3t5c1b9ha222",
-      "name": "Books"
+      "name": "Books",
+      "order": 8,
     },
     {
       "id": "ckyj6www7000v3t5cajc88b3x",
-      "name": "Transportation"
+      "name": "Transportation",
+      "order": 9,
     },
     {
       "id": "ckyj6www7000w3t5cqzlwevil",
-      "name": "Other"
+      "name": "Other",
+      "order": 10,
     },
     {
       "id": "null", // leave this legacy in here
-      "name": "Uncategorized"
+      "name": "Uncategorized",
+      "order": 11,
     },
     {
       "id": "ckyn04ep0000m3t5ce9cxisv6",
-      "name": "FF - Fast Food"
+      "name": "FF - Fast Food",
+      "order": 12,
     },
     {
       "id": "ckyn0gtxg000z3t5cfol5xzf3",
-      "name": "Protein"
+      "name": "Protein",
+      "order": 13,
     },
     {
       "id": "ckyn0ja5i00173t5cwv337rwb",
-      "name": "Coffee"
+      "name": "Coffee",
+      "order": 14,
     },
     {
       "id": "cl2vc4o28000e3t5dooru8a71",
-      "name": "Games"
+      "name": "Games",
+      "order": 15,
     }
   ]
 }

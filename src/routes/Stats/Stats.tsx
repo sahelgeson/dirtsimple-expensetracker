@@ -87,7 +87,6 @@ export const Stats = (): JSX.Element => {
         </HStack>
       </ButtonGroup>
  
- {/* TODO xkcd style this better with grid in components below */}
       <ListHeader>
         <span>Category</span>
         <span className="text-right">Amt change</span>

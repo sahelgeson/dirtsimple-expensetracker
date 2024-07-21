@@ -41,7 +41,7 @@ export const TotalStats = ({
 
   return (
     <Accordion allowToggle>
-      <AccordionItem>
+      <AccordionItem sx={{ borderWidth: '2px 0 2px!important', borderColor: 'gray.400' }}>
         <AccordionButton sx={{ all: 'unset', width: '100%', '&:hover': { background: 'unset' } }}>
           <Box 
             sx={{

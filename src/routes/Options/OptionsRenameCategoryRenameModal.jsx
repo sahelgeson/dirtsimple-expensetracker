@@ -8,35 +8,47 @@ interface {
   isOpen: boolean;
   closeModal: () => void;
   handleRenameSubmit: () => void;
+  children: React.ReactNode;
 }
 */
 
-export const OptionsRenameCategoryRenameModal = (props) => {
+export const OptionsRenameCategoryRenameModal = ({
+  isOpen,
+  closeModal,
+  handleRenameSubmit,
+  children,
+}) => {
   return (
       <ReactModal
-        isOpen={props.isOpen}
-        onRequestClose={props.closeModal}
+        isOpen={isOpen}
+        onRequestClose={closeModal}
         style={ReactModalStyles}
         contentLabel="Renaming Modal"
       >
-        {props.children}
-        <div className="pvl">
-          <button 
-            type="button"
-            className="btn btn--red capitalize phm pvm mrxs left"
-            onClick={(event) => props.handleRenameSubmit(event, { isOkayFromModal: true })}   
-            data-qa="options-rename-modal-yes-button"
-          >
-            Yes, Rename
-          </button>
-          <button 
-            type="button"
-            className="btn btn--outline capitalize phm pvm mrxs right"
-            onClick={props.closeModal}
-          >
-            No, Cancel
-          </button>
-        </div>
+        {children}
+
+        <Flex mt={4}>
+          <Box>
+            <Button 
+              colorScheme='red'
+              size='lg'
+              onClick={(event) => handleRenameSubmit(event, { isOkayFromModal: true })}   
+              data-qa="options-rename-modal-yes-button"
+            >
+              Yes, Rename
+            </Button>
+          </Box>
+          <Spacer />
+          <Box>
+            <Button 
+              colorScheme='gray'
+              size='lg'
+              onClick={closeModal}
+            >
+              No, Cancel
+            </Button>
+          </Box>
+        </Flex>
       </ReactModal>
   );
 }

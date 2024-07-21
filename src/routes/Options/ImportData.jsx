@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react';
+import { Button, Flex, Box, Spacer } from '@chakra-ui/react';
 import ReactModal from 'react-modal';
 import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
 
@@ -86,20 +87,29 @@ export const ImportData = () => {
         contentLabel="Import Modal"
       >
         <div>Importing this file will completely replace all existing data. Data added since last export will be lost. This can't be undone.</div>
-        <div className="pvl">
-          <button 
-            className="btn btn--red capitalize phm pvm mrxs left"
-            onClick={submitData}
-          >
-            Yes, Import
-          </button>
-          <button 
-            className="btn btn--outline capitalize phm pvm mrxs right"
-            onClick={closeModal}
-          >
-            No, Cancel
-          </button>
-        </div>
+      
+        <Flex mt={4}>
+          <Box>
+            <Button 
+              colorScheme='red'
+              size='lg'
+              onClick={submitData}
+            >
+              Yes, Import
+            </Button>
+          </Box>
+          <Spacer />
+          <Box>
+            <Button 
+              colorScheme='gray'
+              size='lg'
+              onClick={closeModal}
+            >
+              No, Cancel
+            </Button>
+          </Box>
+        </Flex>
+      
       </ReactModal>
     </>
   );

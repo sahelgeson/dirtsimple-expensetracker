@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { ListItemGrid } from './styles';
 import { useGlobalState } from 'contexts';
-import { Button, ButtonGroup, HStack, Tabs, TabList, Tab } from '@chakra-ui/react'
+import { Box, Button, ButtonGroup, HStack, Tabs, TabList, Tab } from '@chakra-ui/react'
 import { CategoryFilter } from './CategoryFilter';
 import { CategoryStats } from './CategoryStats';
 import { TotalStats } from './TotalStats';
 import { WEEKLY, MONTHLY, timePeriodData } from './context';
 import { useStatsState, MainTimeScales } from './context';
 import { useTimeFrameExpenses } from '../../hooks';
-
+/* TODO xkcd come back to this
 const ListHeader = styled.h4`
   ${ListItemGrid}
   color: #777;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
 `;
+*/
 
 const buttonHoverStyles = { 
   bg: 'blue.50',
@@ -87,11 +87,18 @@ export const Stats = (): JSX.Element => {
         </HStack>
       </ButtonGroup>
  
-      <ListHeader>
+      <Box 
+        sx={{
+          py: 3,
+          width: '100%',
+          alignItems: 'center',
+          ...ListItemGrid,
+        }}
+      >
         <span>Category</span>
         <span className="text-right">Amt change</span>
         <span className="text-right">Total</span>
-      </ListHeader>
+      </Box>
 
       <TotalStats 
         selectedPastPeriod={selectedPastPeriod} 

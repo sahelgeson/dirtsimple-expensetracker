@@ -1,9 +1,9 @@
-import styled from 'styled-components';
 import { 
   Accordion,
   AccordionButton,
   AccordionItem,
   AccordionPanel,
+  Box,
 } from '@chakra-ui/react';
 import { ListItemGrid } from './styles';
 import { CategoryChart } from './CategoryChart';
@@ -11,13 +11,6 @@ import { formatUsd } from 'helpers';
 import { getTotalAndDifference } from './helpers';
 import { ICategory, IExpense } from 'interfaces';
 import { timePeriodData } from './context';
-
-const ListItem = styled.li`
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  width: 100%;
-  ${ListItemGrid}
-`;
 
 export const CategoryStats = ({
   category,
@@ -54,14 +47,21 @@ export const CategoryStats = ({
     <Accordion allowToggle>
       <AccordionItem borderTop={0}>
         <AccordionButton sx={{ all: 'unset', width: '100%', '&:hover': { background: 'unset' } }}>
-          <ListItem>
+          <Box 
+            sx={{
+              py: 3,
+              width: '100%',
+              alignItems: 'center',
+              ...ListItemGrid,
+            }}
+          >
             <span>{category.name}</span>
 
             <span className="text-right italic">
               <span className={isPositiveDifference ? `bad`: `good`}>{formatDifference}</span>
             </span>
             <span className="text-right">{formatUsd(total, { noPrefix: true })}</span>
-          </ListItem>
+          </Box>
         </AccordionButton>
 
         <AccordionPanel px={0}>

@@ -8,14 +8,6 @@ import { TotalStats } from './TotalStats';
 import { WEEKLY, MONTHLY, timePeriodData } from './context';
 import { useStatsState, MainTimeScales } from './context';
 import { useTimeFrameExpenses } from '../../hooks';
-/* TODO xkcd come back to this
-const ListHeader = styled.h4`
-  ${ListItemGrid}
-  color: #777;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-`;
-*/
 
 const buttonHoverStyles = { 
   bg: 'blue.50',

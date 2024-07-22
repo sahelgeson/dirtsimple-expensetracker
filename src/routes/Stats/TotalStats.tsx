@@ -13,16 +13,6 @@ import { getTotalAndDifference } from './helpers';
 import { IExpense } from 'interfaces';
 import { timePeriodData } from './context';
 
-/* TODO: change this setup and structure of HistoryListing page,
-// all the li's should be the outermost html element and Total should be in the list
-const TotalItem = styled.li`
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  width: 100%;
-  ${ListItemGrid}
-  align-items: center;
-`;
-*/
 export const TotalStats = ({
   selectedPastPeriod,
   timeFrameExpenses,

@@ -69,7 +69,6 @@ export const History = () => {
       }, today);
       const lastDayShown = lastExpenseDay ?? today; 
       const interval = { start: lastDayShown, end: today };
-      console.log({ interval })
       setAllDays(eachDayOfInterval(interval).reverse());
     }
   }, [displayExpensesBuffer]);

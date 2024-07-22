@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactModal from 'react-modal';
 import ReactModalStyles from "../../components/modals/ReactModalStyles.js";
+import { Button, Flex, Box, Spacer } from '@chakra-ui/react';
 
 /*
 interface {

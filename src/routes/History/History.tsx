@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Spinner, Text } from '@chakra-ui/react';
 import { endOfDay, eachDayOfInterval, isBefore } from 'date-fns';
 import { HistoryAccordion } from './HistoryAccordion';
 import { DailyTotal } from './DailyTotal';
@@ -121,6 +121,8 @@ export const History = () => {
               )}
             )}
 
+          {/* allDays.length will never equal 0 if displayExpensesBuffer.length > 0 */}
+          {allDays?.length ? (
             <Box 
               my={4}
               color="gray.500"
@@ -129,6 +131,11 @@ export const History = () => {
               {/* TODO think about adding View More functionality */}
               Showing {NUM_OF_RECENT_EXPENSES} most recent expenses.
             </Box>
+          ) : (
+            <Box textAlign={'center'} mt={8}>
+              <Spinner color="gray.200" />
+            </Box>
+          )}
           </div>
         )}
     </div>
